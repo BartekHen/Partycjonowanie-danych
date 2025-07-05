@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL &#8212; BazyDanych 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" />
+    <link rel="next" title="8. Analiza i Implementacja Bazy Danych" href="../rozdzial_4.html" />
+    <link rel="prev" title="6. Kontrola i konserwacja baz danych" href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="kopie-zapasowe-i-odzyskiwanie-danych-w-postgresql">
+<h1><span class="section-number">7. </span>Kopie zapasowe i odzyskiwanie danych w PostgreSQL<a class="headerlink" href="#kopie-zapasowe-i-odzyskiwanie-danych-w-postgresql" title="Link to this heading">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Autorzy<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Miłosz Śmieja Szymon Piskorz Mateusz Wasilewicz</p>
+</dd>
+</dl>
+<section id="wprowadzenie">
+<h2><span class="section-number">7.1. </span>Wprowadzenie<a class="headerlink" href="#wprowadzenie" title="Link to this heading">¶</a></h2>
+<p>System zarządzania bazą danych PostgreSQL oferuje kompleksowy zestaw narzędzi i mechanizmów służących do tworzenia kopii zapasowych oraz odzyskiwania danych. Skuteczne zarządzanie kopiami zapasowymi stanowi fundament bezpieczeństwa danych i ciągłości działania systemów bazodanowych.</p>
+<p>PostgreSQL dostarcza zarówno mechanizmy wbudowane, jak i możliwość integracji z zewnętrznymi narzędziami automatyzacji.</p>
+</section>
+<section id="mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-calego-systemu-postgresql">
+<h2><span class="section-number">7.2. </span>Mechanizmy wbudowane do tworzenia kopii zapasowych całego systemu PostgreSQL<a class="headerlink" href="#mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-calego-systemu-postgresql" title="Link to this heading">¶</a></h2>
+<p>PostgreSQL oferuje kilka mechanizmów tworzenia kopii zapasowych na poziomie całego systemu, które zapewniają kompleksową ochronę wszystkich baz danych w klastrze.</p>
+<section id="pg-basebackup">
+<h3><span class="section-number">7.2.1. </span>pg_basebackup<a class="headerlink" href="#pg-basebackup" title="Link to this heading">¶</a></h3>
+<p><strong>pg_basebackup</strong> stanowi podstawowe narzędzie do tworzenia fizycznych kopii zapasowych całego klastra PostgreSQL.</p>
+<p>Kluczowe cechy:</p>
+<ul class="simple">
+<li><p>Działa w trybie online - możliwość wykonywania kopii zapasowych bez zatrzymywania działania serwera</p></li>
+<li><p>Tworzy dokładną kopię wszystkich plików danych</p></li>
+<li><p>Zawiera pliki konfiguracyjne, dzienniki transakcji oraz wszystkie bazy danych w klastrze</p></li>
+</ul>
+</section>
+<section id="continuous-archiving-point-in-time-recovery">
+<h3><span class="section-number">7.2.2. </span>Continuous Archiving (Point-in-Time Recovery)<a class="headerlink" href="#continuous-archiving-point-in-time-recovery" title="Link to this heading">¶</a></h3>
+<p><strong>Continuous Archiving</strong> reprezentuje zaawansowany mechanizm tworzenia ciągłych kopii zapasowych poprzez archiwizację dzienników WAL (Write-Ahead Logging).</p>
+<p>Zalety:</p>
+<ul class="simple">
+<li><p>Umożliwia odtworzenie stanu bazy danych w dowolnym momencie czasowym</p></li>
+<li><p>Szczególnie wartościowe w środowiskach produkcyjnych wymagających minimalnej utraty danych</p></li>
+<li><p>Zapewnia wysoką granularność odzyskiwania danych</p></li>
+</ul>
+</section>
+<section id="streaming-replication">
+<h3><span class="section-number">7.2.3. </span>Streaming Replication<a class="headerlink" href="#streaming-replication" title="Link to this heading">¶</a></h3>
+<p><strong>Streaming Replication</strong> może służyć jako mechanizm kopii zapasowych poprzez utrzymywanie synchronicznych lub asynchronicznych replik głównej bazy danych.</p>
+<p>Funkcjonalności:</p>
+<ul class="simple">
+<li><p>Repliki funkcjonują jako kopie zapasowe w czasie rzeczywistym</p></li>
+<li><p>Oferuje możliwość szybkiego przełączenia w przypadku awarii systemu głównego</p></li>
+<li><p>Wspiera zarówno tryb synchroniczny, jak i asynchroniczny</p></li>
+</ul>
+</section>
+<section id="file-system-level-backup">
+<h3><span class="section-number">7.2.4. </span>File System Level Backup<a class="headerlink" href="#file-system-level-backup" title="Link to this heading">¶</a></h3>
+<p><strong>File System Level Backup</strong> polega na tworzeniu kopii zapasowych na poziomie systemu plików.</p>
+<p>Wymagania:</p>
+<ul class="simple">
+<li><p>Zatrzymanie serwera PostgreSQL lub zapewnienie spójności</p></li>
+<li><p>Wykorzystanie mechanizmów snapshot systemu plików:</p>
+<ul>
+<li><p>LVM snapshots</p></li>
+<li><p>ZFS snapshots</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-poszczegolnych-baz-danych">
+<h2><span class="section-number">7.3. </span>Mechanizmy wbudowane do tworzenia kopii zapasowych poszczególnych baz danych<a class="headerlink" href="#mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-poszczegolnych-baz-danych" title="Link to this heading">¶</a></h2>
+<p>PostgreSQL dostarcza precyzyjne narzędzia umożliwiające tworzenie kopii zapasowych pojedynczych baz danych lub ich wybranych elementów.</p>
+<section id="pg-dump">
+<h3><span class="section-number">7.3.1. </span>pg_dump<a class="headerlink" href="#pg-dump" title="Link to this heading">¶</a></h3>
+<p><strong>pg_dump</strong> stanowi najczęściej wykorzystywane narzędzie do tworzenia logicznych kopii zapasowych pojedynczych baz danych.</p>
+<p>Charakterystyka:</p>
+<ul class="simple">
+<li><p>Tworzy skrypt SQL zawierający wszystkie polecenia niezbędne do odtworzenia struktury bazy danych oraz jej danych</p></li>
+<li><p>Oferuje liczne opcje konfiguracji:</p>
+<ul>
+<li><p>Możliwość wyboru formatu wyjściowego</p></li>
+<li><p>Filtrowanie obiektów</p></li>
+<li><p>Kontrola nad poziomem szczegółowości kopii zapasowej</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="pg-dumpall">
+<h3><span class="section-number">7.3.2. </span>pg_dumpall<a class="headerlink" href="#pg-dumpall" title="Link to this heading">¶</a></h3>
+<p><strong>pg_dumpall</strong> rozszerza funkcjonalność <code class="docutils literal notranslate"><span class="pre">pg_dump</span></code> o możliwość tworzenia kopii zapasowych wszystkich baz danych w klastrze.</p>
+<p>Dodatkowe funkcje:</p>
+<ul class="simple">
+<li><p>Backup obiektów globalnych:</p>
+<ul>
+<li><p>Role użytkowników</p></li>
+<li><p>Tablespaces</p></li>
+<li><p>Ustawienia konfiguracyjne na poziomie klastra</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="copy-command">
+<h3><span class="section-number">7.3.3. </span>COPY command<a class="headerlink" href="#copy-command" title="Link to this heading">¶</a></h3>
+<p><strong>COPY command</strong> umożliwia eksport danych z poszczególnych tabel do plików w różnych formatach.</p>
+<p>Obsługiwane formaty:</p>
+<ul class="simple">
+<li><p>CSV</p></li>
+<li><p>Text</p></li>
+<li><p>Binary</p></li>
+</ul>
+<p>Zastosowania:</p>
+<ul class="simple">
+<li><p>Tworzenie selektywnych kopii zapasowych dużych tabel</p></li>
+<li><p>Migracje danych</p></li>
+</ul>
+</section>
+<section id="pg-dump-z-opcjami-selektywnymi">
+<h3><span class="section-number">7.3.4. </span>pg_dump z opcjami selektywnymi<a class="headerlink" href="#pg-dump-z-opcjami-selektywnymi" title="Link to this heading">¶</a></h3>
+<p><strong>pg_dump z opcjami selektywnymi</strong> pozwala na tworzenie kopii zapasowych wybranych obiektów bazy danych.</p>
+<p>Możliwości filtrowania:</p>
+<ul class="simple">
+<li><p>Konkretne tabele</p></li>
+<li><p>Schematy</p></li>
+<li><p>Sekwencje</p></li>
+</ul>
+<p>Funkcjonalność ta jest nieoceniona w scenariuszach wymagających granularnej kontroli nad procesem tworzenia kopii zapasowych.</p>
+</section>
+</section>
+<section id="odzyskiwanie-usunietych-lub-uszkodzonych-danych">
+<h2><span class="section-number">7.4. </span>Odzyskiwanie usuniętych lub uszkodzonych danych<a class="headerlink" href="#odzyskiwanie-usunietych-lub-uszkodzonych-danych" title="Link to this heading">¶</a></h2>
+<p>PostgreSQL oferuje różnorodne mechanizmy odzyskiwania danych w zależności od rodzaju i zakresu uszkodzeń.</p>
+<section id="odzyskiwanie-z-kopii-logicznych">
+<h3><span class="section-number">7.4.1. </span>Odzyskiwanie z kopii logicznych<a class="headerlink" href="#odzyskiwanie-z-kopii-logicznych" title="Link to this heading">¶</a></h3>
+<p><strong>Odzyskiwanie z kopii logicznych</strong> wykonanych przy użyciu <code class="docutils literal notranslate"><span class="pre">pg_dump</span></code> realizowane jest poprzez <code class="docutils literal notranslate"><span class="pre">psql</span></code> lub <code class="docutils literal notranslate"><span class="pre">pg_restore</span></code>.</p>
+<p>Proces odzyskiwania:</p>
+<ul class="simple">
+<li><p>Wykonanie skryptów SQL</p></li>
+<li><p>Przywrócenie plików dump w odpowiednim formacie</p></li>
+</ul>
+<p>Zaawansowane opcje pg_restore:</p>
+<ul class="simple">
+<li><p>Selektywne przywracanie obiektów</p></li>
+<li><p>Równoległe przetwarzanie</p></li>
+<li><p>Kontrola nad kolejnością przywracania</p></li>
+</ul>
+</section>
+<section id="point-in-time-recovery-pitr">
+<h3><span class="section-number">7.4.2. </span>Point-in-Time Recovery (PITR)<a class="headerlink" href="#point-in-time-recovery-pitr" title="Link to this heading">¶</a></h3>
+<p><strong>Point-in-Time Recovery (PITR)</strong> umożliwia przywrócenie bazy danych do konkretnego momentu w czasie.</p>
+<p>Wykorzystywane komponenty:</p>
+<ul class="simple">
+<li><p>Kombinacja kopii bazowej</p></li>
+<li><p>Archiwalne dzienniki WAL</p></li>
+</ul>
+<p>Zastosowania:</p>
+<ul class="simple">
+<li><p>Cofnięcie zmian do momentu poprzedzającego wystąpienie błędu</p></li>
+<li><p>Odzyskiwanie po uszkodzeniu danych</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Informacja</p>
+<p>PITR jest szczególnie wartościowy w przypadkach, gdy konieczne jest cofnięcie zmian do momentu poprzedzającego wystąpienie błędu lub uszkodzenia.</p>
+</div>
+</section>
+<section id="odzyskiwanie-tabel-z-tablespaces">
+<h3><span class="section-number">7.4.3. </span>Odzyskiwanie tabel z tablespaces<a class="headerlink" href="#odzyskiwanie-tabel-z-tablespaces" title="Link to this heading">¶</a></h3>
+<p><strong>Odzyskiwanie tabel z tablespaces</strong> może wymagać specjalnych procedur w przypadku uszkodzenia przestrzeni tabel.</p>
+<p>Możliwości PostgreSQL:</p>
+<ul class="simple">
+<li><p>Odtworzenie tablespaces</p></li>
+<li><p>Przeniesienie tabel między różnymi lokalizacjami</p></li>
+<li><p>Odzyskiwanie danych nawet w przypadku częściowego uszkodzenia systemu plików</p></li>
+</ul>
+</section>
+<section id="transaction-log-replay">
+<h3><span class="section-number">7.4.4. </span>Transaction log replay<a class="headerlink" href="#transaction-log-replay" title="Link to this heading">¶</a></h3>
+<p><strong>Transaction log replay</strong> wykorzystuje dzienniki WAL do odtworzenia zmian wprowadzonych po utworzeniu kopii zapasowej.</p>
+<p>Charakterystyka:</p>
+<ul class="simple">
+<li><p>Automatycznie wykorzystywany podczas standardowych procedur odzyskiwania</p></li>
+<li><p>Możliwość ręcznej kontroli w szczególnych sytuacjach</p></li>
+</ul>
+</section>
+<section id="odzyskiwanie-na-poziomie-klastra">
+<h3><span class="section-number">7.4.5. </span>Odzyskiwanie na poziomie klastra<a class="headerlink" href="#odzyskiwanie-na-poziomie-klastra" title="Link to this heading">¶</a></h3>
+<p><strong>Odzyskiwanie na poziomie klastra</strong> przy wykorzystaniu <code class="docutils literal notranslate"><span class="pre">pg_basebackup</span></code> wymaga przywrócenia wszystkich plików klastra oraz odpowiedniej konfiguracji parametrów recovery.</p>
+<p>Zakres procesu:</p>
+<ul class="simple">
+<li><p>Odtworzenie całego środowiska PostgreSQL</p></li>
+<li><p>Konfiguracja ról i uprawnień</p></li>
+<li><p>Przywrócenie ustawień systemowych</p></li>
+</ul>
+</section>
+</section>
+<section id="dedykowane-oprogramowanie-i-skrypty-zewnetrzne-do-automatyzacji">
+<h2><span class="section-number">7.5. </span>Dedykowane oprogramowanie i skrypty zewnętrzne do automatyzacji<a class="headerlink" href="#dedykowane-oprogramowanie-i-skrypty-zewnetrzne-do-automatyzacji" title="Link to this heading">¶</a></h2>
+<p>Automatyzacja procesów tworzenia kopii zapasowych stanowi kluczowy element profesjonalnego zarządzania bazami danych PostgreSQL.</p>
+<section id="pgbackrest">
+<h3><span class="section-number">7.5.1. </span>pgBackRest<a class="headerlink" href="#pgbackrest" title="Link to this heading">¶</a></h3>
+<p><strong>pgBackRest</strong> reprezentuje kompleksowe rozwiązanie do zarządzania kopiami zapasowymi PostgreSQL.</p>
+<p>Zaawansowane funkcje:</p>
+<ul class="simple">
+<li><p>Incremental i differential backups</p></li>
+<li><p>Kompresja danych</p></li>
+<li><p>Szyfrowanie</p></li>
+<li><p>Weryfikacja integralności kopii</p></li>
+<li><p>Możliwość przechowywania kopii w chmurze</p></li>
+<li><p>Automatyzacja procesów zarządzania kopiami zapasowymi</p></li>
+<li><p>Uproszczone procedury odzyskiwania</p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Ważne</p>
+<p>pgBackRest automatyzuje wiele procesów związanych z zarządzaniem kopiami zapasowymi i znacznie upraszcza procedury odzyskiwania.</p>
+</div>
+</section>
+<section id="barman-backup-and-recovery-manager">
+<h3><span class="section-number">7.5.2. </span>Barman (Backup and Recovery Manager)<a class="headerlink" href="#barman-backup-and-recovery-manager" title="Link to this heading">¶</a></h3>
+<p><strong>Barman</strong> stanowi dedykowane narzędzie stworzone przez 2ndQuadrant do zarządzania kopiami zapasowymi PostgreSQL w środowiskach enterprise.</p>
+<p>Kluczowe funkcjonalności:</p>
+<ul class="simple">
+<li><p>Centralne zarządzanie kopiami zapasowymi wielu serwerów PostgreSQL</p></li>
+<li><p>Monitoring procesów backup</p></li>
+<li><p>Automatyczne testowanie procedur recovery</p></li>
+<li><p>Integracja z narzędziami monitorowania</p></li>
+</ul>
+</section>
+<section id="wal-e-i-wal-g">
+<h3><span class="section-number">7.5.3. </span>WAL-E i WAL-G<a class="headerlink" href="#wal-e-i-wal-g" title="Link to this heading">¶</a></h3>
+<p><strong>WAL-E i WAL-G</strong> specjalizują się w archiwizacji dzienników WAL w środowiskach chmurowych.</p>
+<p>Oferowane funkcje:</p>
+<ul class="simple">
+<li><p>Efektywna kompresja</p></li>
+<li><p>Szyfrowanie danych</p></li>
+<li><p>Przechowywanie kopii zapasowych w serwisach chmurowych:</p>
+<ul>
+<li><p>Amazon S3</p></li>
+<li><p>Google Cloud Storage</p></li>
+<li><p>Azure Blob Storage</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="skrypty-shell-i-cron-jobs">
+<h3><span class="section-number">7.5.4. </span>Skrypty shell i cron jobs<a class="headerlink" href="#skrypty-shell-i-cron-jobs" title="Link to this heading">¶</a></h3>
+<p><strong>Skrypty shell i cron jobs</strong> stanowią tradycyjne podejście do automatyzacji kopii zapasowych.</p>
+<p>Możliwości automatyzacji:</p>
+<ul class="simple">
+<li><p>Wykonywanie <code class="docutils literal notranslate"><span class="pre">pg_dump</span></code> i <code class="docutils literal notranslate"><span class="pre">pg_basebackup</span></code></p></li>
+<li><p>Zarządzanie cyklem życia kopii zapasowych</p></li>
+<li><p>Rotacja i czyszczenie starych kopii</p></li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">Wskazówka</p>
+<p>Właściwie napisane skrypty mogą automatyzować wykonywanie pg_dump, pg_basebackup oraz zarządzanie cyklem życia kopii zapasowych, w tym rotację i czyszczenie starych kopii.</p>
+</div>
+</section>
+<section id="narzedzia-automatyzacji-infrastruktury">
+<h3><span class="section-number">7.5.5. </span>Narzędzia automatyzacji infrastruktury<a class="headerlink" href="#narzedzia-automatyzacji-infrastruktury" title="Link to this heading">¶</a></h3>
+<p><strong>Ansible, Puppet, Chef</strong> jako narzędzia automatyzacji infrastruktury mogą być wykorzystywane do zarządzania konfiguracją procesów backup na większą skalę.</p>
+<p>Korzyści:</p>
+<ul class="simple">
+<li><p>Standaryzacja procedur backup w środowiskach wieloserwerowych</p></li>
+<li><p>Zapewnienie konsystentności konfiguracji</p></li>
+<li><p>Skalowalne zarządzanie infrastrukturą</p></li>
+</ul>
+</section>
+<section id="monitoring-i-alertowanie">
+<h3><span class="section-number">7.5.6. </span>Monitoring i alertowanie<a class="headerlink" href="#monitoring-i-alertowanie" title="Link to this heading">¶</a></h3>
+<p><strong>Prometheus i Grafana</strong> w połączeniu z <code class="docutils literal notranslate"><span class="pre">postgres_exporter</span></code> umożliwiają monitoring procesów backup oraz alertowanie w przypadku niepowodzeń.</p>
+<p>Zakres monitorowania:</p>
+<ul class="simple">
+<li><p>Śledzenie czasu wykonywania kopii</p></li>
+<li><p>Monitorowanie rozmiaru kopii zapasowych</p></li>
+<li><p>Wskaźnik sukcesu procesów backup</p></li>
+<li><p>Alertowanie w czasie rzeczywistym</p></li>
+</ul>
+</section>
+</section>
+<section id="podsumowanie">
+<h2><span class="section-number">7.6. </span>Podsumowanie<a class="headerlink" href="#podsumowanie" title="Link to this heading">¶</a></h2>
+<p>Skuteczne zarządzanie kopiami zapasowymi w PostgreSQL wymaga kombinacji mechanizmów wbudowanych oraz zewnętrznych narzędzi automatyzacji. Wybór odpowiedniej strategii backup zależy od specyficznych wymagań organizacji, w tym:</p>
+<ul class="simple">
+<li><p><strong>RTO (Recovery Time Objective)</strong> - maksymalny akceptowalny czas odzyskiwania</p></li>
+<li><p><strong>RPO (Recovery Point Objective)</strong> - maksymalna akceptowalna utrata danych</p></li>
+<li><p>Dostępne zasoby</p></li>
+<li><p>Złożoność środowiska</p></li>
+</ul>
+<section id="kluczowe-wnioski">
+<h3><span class="section-number">7.6.1. </span>Kluczowe wnioski<a class="headerlink" href="#kluczowe-wnioski" title="Link to this heading">¶</a></h3>
+<p><strong>Mechanizmy wbudowane</strong> PostgreSQL, takie jak <code class="docutils literal notranslate"><span class="pre">pg_dump</span></code>, <code class="docutils literal notranslate"><span class="pre">pg_basebackup</span></code> czy PITR, oferują solidne podstawy dla większości scenariuszy backup i recovery.</p>
+<p><strong>W środowiskach produkcyjnych</strong> o wysokich wymaganiach dotyczących dostępności i niezawodności, integracja z dedykowanymi narzędziami takimi jak pgBackRest czy Barman staje się niezbędna.</p>
+</section>
+<section id="najwazniejsze-zalecenia">
+<h3><span class="section-number">7.6.2. </span>Najważniejsze zalecenia<a class="headerlink" href="#najwazniejsze-zalecenia" title="Link to this heading">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Ostrzeżenie</p>
+<p>Kluczowym elementem każdej strategii backup jest regularne testowanie procedur odzyskiwania danych. Kopie zapasowe mają wartość tylko wtedy, gdy można z nich skutecznie odzyskać dane w sytuacji kryzysowej.</p>
+</div>
+<p><strong>Kompleksowa strategia backup</strong> powinna obejmować:</p>
+<ol class="arabic simple">
+<li><p>Tworzenie kopii zapasowych</p></li>
+<li><p>Regularne testy restore</p></li>
+<li><p>Dokumentację procedur</p></li>
+<li><p>Szkolenie personelu odpowiedzialnego za zarządzanie bazami danych</p></li>
+</ol>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">BazyDanych</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Spis Treści</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_1.html">1. Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Wydajnosc-Skalowanie-i-Replikacja/index.html">2. Wydajność, skalowanie i replikacja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html">3. Sprzęt dla baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Bezpieczenstwo/index.html">5. Bezpieczeństwo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html">6. Kontrola i konserwacja baz danych</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wprowadzenie">7.1. Wprowadzenie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-calego-systemu-postgresql">7.2. Mechanizmy wbudowane do tworzenia kopii zapasowych całego systemu PostgreSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-poszczegolnych-baz-danych">7.3. Mechanizmy wbudowane do tworzenia kopii zapasowych poszczególnych baz danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#odzyskiwanie-usunietych-lub-uszkodzonych-danych">7.4. Odzyskiwanie usuniętych lub uszkodzonych danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dedykowane-oprogramowanie-i-skrypty-zewnetrzne-do-automatyzacji">7.5. Dedykowane oprogramowanie i skrypty zewnętrzne do automatyzacji</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podsumowanie">7.6. Podsumowanie</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_4.html">8. Analiza i Implementacja Bazy Danych</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html" title="poprzedni rozdział"><span class="section-number">6. </span>Kontrola i konserwacja baz danych</a></li>
+      <li>Next: <a href="../rozdzial_4.html" title="następny rozdział"><span class="section-number">8. </span>Analiza i Implementacja Bazy Danych</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bartosz Potoczny.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,490 @@
+\relax 
+\ProvideDocumentCommand \xpg@aux {mm}{}
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand*\HyPL@Entry[1]{}
+\catcode `"\active 
+\HyPL@Entry{0<</S/D>>}
+\@writefile{toc}{\xpg@aux {}{polish}}
+\HyPL@Entry{2<</S/r>>}
+\HyPL@Entry{6<</S/D>>}
+\newlabel{index::doc}{{}{1}{}{section*.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {1}Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki}{3}{chapter.1}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{rozdzial_1:partycjonowanie-danych-w-postgresql-analiza-typy-zastosowania-i-dobre-praktyki}{{1}{3}{Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki}{chapter.1}{}}
+\newlabel{rozdzial_1::doc}{{1}{3}{Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki}{chapter.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.1}Streszczenie}{3}{section.1.1}\protected@file@percent }
+\newlabel{rozdzial_1:streszczenie}{{1.1}{3}{Streszczenie}{section.1.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.2}1. Wprowadzenie}{3}{section.1.2}\protected@file@percent }
+\newlabel{rozdzial_1:wprowadzenie}{{1.2}{3}{1. Wprowadzenie}{section.1.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.3}2. Definicja i cel partycjonowania}{3}{section.1.3}\protected@file@percent }
+\newlabel{rozdzial_1:definicja-i-cel-partycjonowania}{{1.3}{3}{2. Definicja i cel partycjonowania}{section.1.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.4}3. Modele i typy partycjonowania w PostgreSQL}{4}{section.1.4}\protected@file@percent }
+\newlabel{rozdzial_1:modele-i-typy-partycjonowania-w-postgresql}{{1.4}{4}{3. Modele i typy partycjonowania w PostgreSQL}{section.1.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.5}4. Implementacja partycjonowania w praktyce}{5}{section.1.5}\protected@file@percent }
+\newlabel{rozdzial_1:implementacja-partycjonowania-w-praktyce}{{1.5}{5}{4. Implementacja partycjonowania w praktyce}{section.1.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.6}5. Monitorowanie i administracja}{6}{section.1.6}\protected@file@percent }
+\newlabel{rozdzial_1:monitorowanie-i-administracja}{{1.6}{6}{5. Monitorowanie i administracja}{section.1.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.7}6. Typowe scenariusze zastosowań}{7}{section.1.7}\protected@file@percent }
+\newlabel{rozdzial_1:typowe-scenariusze-zastosowan}{{1.7}{7}{6. Typowe scenariusze zastosowań}{section.1.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.8}7. Dobre praktyki projektowania partycji}{7}{section.1.8}\protected@file@percent }
+\newlabel{rozdzial_1:dobre-praktyki-projektowania-partycji}{{1.8}{7}{7. Dobre praktyki projektowania partycji}{section.1.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.9}8. Ograniczenia i potencjalne problemy}{7}{section.1.9}\protected@file@percent }
+\newlabel{rozdzial_1:ograniczenia-i-potencjalne-problemy}{{1.9}{7}{8. Ograniczenia i potencjalne problemy}{section.1.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.10}9. Podsumowanie i wnioski}{7}{section.1.10}\protected@file@percent }
+\newlabel{rozdzial_1:podsumowanie-i-wnioski}{{1.10}{7}{9. Podsumowanie i wnioski}{section.1.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.11}10. Krótkie porównanie partycjonowania w PostgreSQL i innych systemach bazodanowych}{8}{section.1.11}\protected@file@percent }
+\newlabel{rozdzial_1:krotkie-porownanie-partycjonowania-w-postgresql-i-innych-systemach-bazodanowych}{{1.11}{8}{10. Krótkie porównanie partycjonowania w PostgreSQL i innych systemach bazodanowych}{section.1.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.12}11. Przykład migracji niepartyconowanej tabeli na partycjonowaną}{8}{section.1.12}\protected@file@percent }
+\newlabel{rozdzial_1:przyklad-migracji-niepartyconowanej-tabeli-na-partycjonowana}{{1.12}{8}{11. Przykład migracji niepartyconowanej tabeli na partycjonowaną}{section.1.12}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {1.13}12. Bibliografia}{9}{section.1.13}\protected@file@percent }
+\newlabel{rozdzial_1:bibliografia}{{1.13}{9}{12. Bibliografia}{section.1.13}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {2}Wydajność, skalowanie i replikacja}{11}{chapter.2}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:wydajnosc-skalowanie-i-replikacja}{{2}{11}{Wydajność, skalowanie i replikacja}{chapter.2}{}}
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index::doc}{{2}{11}{Wydajność, skalowanie i replikacja}{chapter.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.1}Wstęp}{11}{section.2.1}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:wstep}{{2.1}{11}{Wstęp}{section.2.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.2}Buforowanie oraz zarządzanie połączeniami}{11}{section.2.2}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:buforowanie-oraz-zarzadzanie-polaczeniami}{{2.2}{11}{Buforowanie oraz zarządzanie połączeniami}{section.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.1}Buforowanie połączeń:}{11}{subsection.2.2.1}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:buforowanie-polaczen}{{2.2.1}{11}{Buforowanie połączeń:}{subsection.2.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2.2}Zarządzanie połączeniami:}{12}{subsection.2.2.2}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:zarzadzanie-polaczeniami}{{2.2.2}{12}{Zarządzanie połączeniami:}{subsection.2.2.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.3}Wydajność}{12}{section.2.3}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:wydajnosc}{{2.3}{12}{Wydajność}{section.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.1}Klastry oraz indeksy}{12}{subsection.2.3.1}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:klastry-oraz-indeksy}{{2.3.1}{12}{Klastry oraz indeksy}{subsection.2.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.2}1. Współbieżność w bazach danych}{12}{subsection.2.3.2}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:wspolbieznosc-w-bazach-danych}{{2.3.2}{12}{1. Współbieżność w bazach danych}{subsection.2.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.3}2. Przepustowość bazy danych}{13}{subsection.2.3.3}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:przepustowosc-bazy-danych}{{2.3.3}{13}{2. Przepustowość bazy danych}{subsection.2.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.4}3. Responsywność bazy danych}{13}{subsection.2.3.4}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:responsywnosc-bazy-danych}{{2.3.4}{13}{3. Responsywność bazy danych}{subsection.2.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.5}4. Zapytania N+1}{13}{subsection.2.3.5}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:zapytania-n-1}{{2.3.5}{13}{4. Zapytania N+1}{subsection.2.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.6}5. Błędy w bazach danych}{14}{subsection.2.3.6}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:bledy-w-bazach-danych}{{2.3.6}{14}{5. Błędy w bazach danych}{subsection.2.3.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.7}6. Zużycie dostępnych zasobów}{14}{subsection.2.3.7}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:zuzycie-dostepnych-zasobow}{{2.3.7}{14}{6. Zużycie dostępnych zasobów}{subsection.2.3.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.8}Prostota rozbudowy:}{14}{subsection.2.3.8}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:prostota-rozbudowy}{{2.3.8}{14}{Prostota rozbudowy:}{subsection.2.3.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.9}Analityka czasu rzeczywistego:}{15}{subsection.2.3.9}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:analityka-czasu-rzeczywistego}{{2.3.9}{15}{Analityka czasu rzeczywistego:}{subsection.2.3.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.10}Dostępność w chmurze:}{15}{subsection.2.3.10}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:dostepnosc-w-chmurze}{{2.3.10}{15}{Dostępność w chmurze:}{subsection.2.3.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3.11}Unikanie wąskich gardeł:}{15}{subsection.2.3.11}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:unikanie-waskich-gardel}{{2.3.11}{15}{Unikanie wąskich gardeł:}{subsection.2.3.11}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.4}Skalowanie}{15}{section.2.4}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:skalowanie}{{2.4}{15}{Skalowanie}{section.2.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.5}Replikacja}{15}{section.2.5}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:replikacja}{{2.5}{15}{Replikacja}{section.2.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.1}Mechanizmy replikacji}{16}{subsection.2.5.1}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:mechanizmy-replikacji}{{2.5.1}{16}{Mechanizmy replikacji}{subsection.2.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.2}Rodzaje mechanizmów replikacji}{16}{subsection.2.5.2}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:rodzaje-mechanizmow-replikacji}{{2.5.2}{16}{Rodzaje mechanizmów replikacji}{subsection.2.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5.3}Zalety i Wady replikacji}{16}{subsection.2.5.3}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:zalety-i-wady-replikacji}{{2.5.3}{16}{Zalety i Wady replikacji}{subsection.2.5.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.6}Kontrola dostępu i limity systemowe}{17}{section.2.6}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:kontrola-dostepu-i-limity-systemowe}{{2.6}{17}{Kontrola dostępu i limity systemowe}{section.2.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.7}Testowanie wydajności sprzętu na poziomie OS}{17}{section.2.7}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:testowanie-wydajnosci-sprzetu-na-poziomie-os}{{2.7}{17}{Testowanie wydajności sprzętu na poziomie OS}{section.2.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.8}Podsumowanie}{18}{section.2.8}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:podsumowanie}{{2.8}{18}{Podsumowanie}{section.2.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {2.9}Bibliografia}{18}{section.2.9}\protected@file@percent }
+\newlabel{Wydajnosc-Skalowanie-i-Replikacja/index:bibliografia}{{2.9}{18}{Bibliografia}{section.2.9}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {3}Sprzęt dla baz danych}{19}{chapter.3}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:sprzet-dla-baz-danych}{{3}{19}{Sprzęt dla baz danych}{chapter.3}{}}
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych::doc}{{3}{19}{Sprzęt dla baz danych}{chapter.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.1}Wstęp}{19}{section.3.1}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:wstep}{{3.1}{19}{Wstęp}{section.3.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.2}Sprzęt dla bazy danych PostgreSQL}{19}{section.3.2}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:sprzet-dla-bazy-danych-postgresql}{{3.2}{19}{Sprzęt dla bazy danych PostgreSQL}{section.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.1}Procesor}{19}{subsection.3.2.1}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:procesor}{{3.2.1}{19}{Procesor}{subsection.3.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.2}Pamięć operacyjna}{19}{subsection.3.2.2}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:pamiec-operacyjna}{{3.2.2}{19}{Pamięć operacyjna}{subsection.3.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.3}Przestrzeń dyskowa}{19}{subsection.3.2.3}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:przestrzen-dyskowa}{{3.2.3}{19}{Przestrzeń dyskowa}{subsection.3.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.4}Sieć internetowa}{20}{subsection.3.2.4}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:siec-internetowa}{{3.2.4}{20}{Sieć internetowa}{subsection.3.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.5}Zasilanie}{20}{subsection.3.2.5}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:zasilanie}{{3.2.5}{20}{Zasilanie}{subsection.3.2.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2.6}Chłodzenie}{20}{subsection.3.2.6}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:chlodzenie}{{3.2.6}{20}{Chłodzenie}{subsection.3.2.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.3}Sprzęt dla bazy danych SQLite}{20}{section.3.3}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:sprzet-dla-bazy-danych-sqlite}{{3.3}{20}{Sprzęt dla bazy danych SQLite}{section.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.1}Procesor}{20}{subsection.3.3.1}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id1}{{3.3.1}{20}{Procesor}{subsection.3.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.2}Pamięć operacyjna}{20}{subsection.3.3.2}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id2}{{3.3.2}{20}{Pamięć operacyjna}{subsection.3.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.3}Przestrzeń dyskowa}{20}{subsection.3.3.3}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id3}{{3.3.3}{20}{Przestrzeń dyskowa}{subsection.3.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.4}Sieć internetowa}{20}{subsection.3.3.4}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id4}{{3.3.4}{20}{Sieć internetowa}{subsection.3.3.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.5}Zasilanie}{21}{subsection.3.3.5}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id5}{{3.3.5}{21}{Zasilanie}{subsection.3.3.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3.6}Chłodzenie}{21}{subsection.3.3.6}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id6}{{3.3.6}{21}{Chłodzenie}{subsection.3.3.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3.4}Podsumowanie}{21}{section.3.4}\protected@file@percent }
+\newlabel{Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:podsumowanie}{{3.4}{21}{Podsumowanie}{section.3.4}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {4}Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych}{23}{chapter.4}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:sprawozdanie-konfiguracja-i-zarzadzanie-baza-danych}{{4}{23}{Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych}{chapter.4}{}}
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych::doc}{{4}{23}{Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych}{chapter.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.1}1. Konfiguracja bazy danych}{23}{section.4.1}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:konfiguracja-bazy-danych}{{4.1}{23}{1. Konfiguracja bazy danych}{section.4.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.2}2. Lokalizacja i struktura katalogów}{23}{section.4.2}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:lokalizacja-i-struktura-katalogow}{{4.2}{23}{2. Lokalizacja i struktura katalogów}{section.4.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.3}3. Katalog danych}{24}{section.4.3}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:katalog-danych}{{4.3}{24}{3. Katalog danych}{section.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.4}4. Podział konfiguracji na podpliki}{24}{section.4.4}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:podzial-konfiguracji-na-podpliki}{{4.4}{24}{4. Podział konfiguracji na podpliki}{section.4.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.5}5. Katalog Konfiguracyjny}{24}{section.4.5}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:katalog-konfiguracyjny}{{4.5}{24}{5. Katalog Konfiguracyjny}{section.4.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.6}6. Katalog logów i struktura katalogów w PostgreSQL}{25}{section.4.6}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:katalog-logow-i-struktura-katalogow-w-postgresql}{{4.6}{25}{6. Katalog logów i struktura katalogów w PostgreSQL}{section.4.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.7}7. Przechowywanie i lokalizacja plików konfiguracyjnych}{25}{section.4.7}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:przechowywanie-i-lokalizacja-plikow-konfiguracyjnych}{{4.7}{25}{7. Przechowywanie i lokalizacja plików konfiguracyjnych}{section.4.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.8}8. Podstawowe parametry konfiguracyjne}{25}{section.4.8}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:podstawowe-parametry-konfiguracyjne}{{4.8}{25}{8. Podstawowe parametry konfiguracyjne}{section.4.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.9}9. Wstęp teoretyczny}{26}{section.4.9}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:wstep-teoretyczny}{{4.9}{26}{9. Wstęp teoretyczny}{section.4.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.1}9.1 Klasyfikacja systemów zarządzania bazą danych}{26}{subsection.4.9.1}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:klasyfikacja-systemow-zarzadzania-baza-danych}{{4.9.1}{26}{9.1 Klasyfikacja systemów zarządzania bazą danych}{subsection.4.9.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.2}9.2 SQLite}{26}{subsection.4.9.2}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:sqlite}{{4.9.2}{26}{9.2 SQLite}{subsection.4.9.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.3}9.3 PostgreSQL}{27}{subsection.4.9.3}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:postgresql}{{4.9.3}{27}{9.3 PostgreSQL}{subsection.4.9.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.9.4}9.4 Cel użycia obu systemów}{27}{subsection.4.9.4}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:cel-uzycia-obu-systemow}{{4.9.4}{27}{9.4 Cel użycia obu systemów}{subsection.4.9.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.10}10. Zarządzanie konfiguracją w PostgreSQL}{27}{section.4.10}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:zarzadzanie-konfiguracja-w-postgresql}{{4.10}{27}{10. Zarządzanie konfiguracją w PostgreSQL}{section.4.10}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10.1}10.1 Pliki konfiguracyjne}{27}{subsection.4.10.1}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:pliki-konfiguracyjne}{{4.10.1}{27}{10.1 Pliki konfiguracyjne}{subsection.4.10.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10.2}10.2 Przykładowe kluczowe parametry \sphinxstyleliteralintitle {\sphinxupquote {postgresql.conf}}}{28}{subsection.4.10.2}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:przykladowe-kluczowe-parametry-postgresql-conf}{{4.10.2}{28}{10.2 Przykładowe kluczowe parametry \sphinxstyleliteralintitle {\sphinxupquote {postgresql.conf}}}{subsection.4.10.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10.3}10.3 Sposoby zmiany konfiguracji}{28}{subsection.4.10.3}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:sposoby-zmiany-konfiguracji}{{4.10.3}{28}{10.3 Sposoby zmiany konfiguracji}{subsection.4.10.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10.4}10.4 Sprawdzanie konfiguracji}{28}{subsection.4.10.4}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:sprawdzanie-konfiguracji}{{4.10.4}{28}{10.4 Sprawdzanie konfiguracji}{subsection.4.10.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10.5}10.5 Narzędzia pomocnicze}{29}{subsection.4.10.5}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:narzedzia-pomocnicze}{{4.10.5}{29}{10.5 Narzędzia pomocnicze}{subsection.4.10.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.10.6}10.6 Kontrola dostępu i mechanizmy uwierzytelniania}{29}{subsection.4.10.6}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:kontrola-dostepu-i-mechanizmy-uwierzytelniania}{{4.10.6}{29}{10.6 Kontrola dostępu i mechanizmy uwierzytelniania}{subsection.4.10.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.11}11. Planowanie}{29}{section.4.11}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:planowanie}{{4.11}{29}{11. Planowanie}{section.4.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11.1}11.1 Co to jest planowanie zapytań?}{29}{subsection.4.11.1}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:co-to-jest-planowanie-zapytan}{{4.11.1}{29}{11.1 Co to jest planowanie zapytań?}{subsection.4.11.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11.2}11.2 Mechanizm planowania w PostgreSQL}{30}{subsection.4.11.2}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:mechanizm-planowania-w-postgresql}{{4.11.2}{30}{11.2 Mechanizm planowania w PostgreSQL}{subsection.4.11.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11.3}11.3 Statystyki i ich aktualizacja}{30}{subsection.4.11.3}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:statystyki-i-ich-aktualizacja}{{4.11.3}{30}{11.3 Statystyki i ich aktualizacja}{subsection.4.11.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11.4}11.4 Typy planów wykonania}{30}{subsection.4.11.4}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:typy-planow-wykonania}{{4.11.4}{30}{11.4 Typy planów wykonania}{subsection.4.11.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11.5}11.5 Jak sprawdzić plan zapytania?}{30}{subsection.4.11.5}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:jak-sprawdzic-plan-zapytania}{{4.11.5}{30}{11.5 Jak sprawdzić plan zapytania?}{subsection.4.11.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.11.6}11.6 Parametry planowania i optymalizacji}{30}{subsection.4.11.6}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:parametry-planowania-i-optymalizacji}{{4.11.6}{30}{11.6 Parametry planowania i optymalizacji}{subsection.4.11.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.12}12. Tabele – rozmiar, planowanie i monitorowanie}{31}{section.4.12}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:tabele-rozmiar-planowanie-i-monitorowanie}{{4.12}{31}{12. Tabele – rozmiar, planowanie i monitorowanie}{section.4.12}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12.1}12.1 Rozmiar tabeli}{31}{subsection.4.12.1}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-tabeli}{{4.12.1}{31}{12.1 Rozmiar tabeli}{subsection.4.12.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12.2}12.2 Planowanie rozmiaru i jego kontrola}{31}{subsection.4.12.2}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:planowanie-rozmiaru-i-jego-kontrola}{{4.12.2}{31}{12.2 Planowanie rozmiaru i jego kontrola}{subsection.4.12.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12.3}12.3 Monitorowanie rozmiaru tabel}{31}{subsection.4.12.3}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:monitorowanie-rozmiaru-tabel}{{4.12.3}{31}{12.3 Monitorowanie rozmiaru tabel}{subsection.4.12.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12.4}12.4 Planowanie na poziomie tabel}{31}{subsection.4.12.4}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:planowanie-na-poziomie-tabel}{{4.12.4}{31}{12.4 Planowanie na poziomie tabel}{subsection.4.12.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12.5}12.5 Monitorowanie stanu tabel}{31}{subsection.4.12.5}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:monitorowanie-stanu-tabel}{{4.12.5}{31}{12.5 Monitorowanie stanu tabel}{subsection.4.12.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.12.6}12.6 Konserwacja i optymalizacja tabel}{32}{subsection.4.12.6}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:konserwacja-i-optymalizacja-tabel}{{4.12.6}{32}{12.6 Konserwacja i optymalizacja tabel}{subsection.4.12.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.13}13. Rozmiar pojedynczych tabel, rozmiar wszystkich tabel, indeksów tabeli}{32}{section.4.13}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-pojedynczych-tabel-rozmiar-wszystkich-tabel-indeksow-tabeli}{{4.13}{32}{13. Rozmiar pojedynczych tabel, rozmiar wszystkich tabel, indeksów tabeli}{section.4.13}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.13.1}13.1 Rozmiar pojedynczej tabeli}{32}{subsection.4.13.1}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-pojedynczej-tabeli}{{4.13.1}{32}{13.1 Rozmiar pojedynczej tabeli}{subsection.4.13.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.13.2}13.2 Rozmiar wszystkich tabel w bazie}{32}{subsection.4.13.2}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-wszystkich-tabel-w-bazie}{{4.13.2}{32}{13.2 Rozmiar wszystkich tabel w bazie}{subsection.4.13.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.13.3}13.3 Rozmiar indeksów tabeli}{32}{subsection.4.13.3}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-indeksow-tabeli}{{4.13.3}{32}{13.3 Rozmiar indeksów tabeli}{subsection.4.13.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.13.4}13.4 Znaczenie rozmiarów}{33}{subsection.4.13.4}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:znaczenie-rozmiarow}{{4.13.4}{33}{13.4 Znaczenie rozmiarów}{subsection.4.13.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.14}14. Rozmiar}{33}{section.4.14}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar}{{4.14}{33}{14. Rozmiar}{section.4.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.14.1}14.1 Rodzaje rozmiarów w PostgreSQL}{33}{subsection.4.14.1}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:rodzaje-rozmiarow-w-postgresql}{{4.14.1}{33}{14.1 Rodzaje rozmiarów w PostgreSQL}{subsection.4.14.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.14.2}14.2 Monitorowanie i kontrola rozmiaru}{33}{subsection.4.14.2}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:monitorowanie-i-kontrola-rozmiaru}{{4.14.2}{33}{14.2 Monitorowanie i kontrola rozmiaru}{subsection.4.14.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.14.3}14.3 Optymalizacja rozmiaru}{33}{subsection.4.14.3}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:optymalizacja-rozmiaru}{{4.14.3}{33}{14.3 Optymalizacja rozmiaru}{subsection.4.14.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.14.4}14.4 Znaczenie zarządzania rozmiarem}{34}{subsection.4.14.4}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:znaczenie-zarzadzania-rozmiarem}{{4.14.4}{34}{14.4 Znaczenie zarządzania rozmiarem}{subsection.4.14.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.15}Podsumowanie}{34}{section.4.15}\protected@file@percent }
+\newlabel{Konfiguracja_baz_danych/Konfiguracja_baz_danych:podsumowanie}{{4.15}{34}{Podsumowanie}{section.4.15}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {5}Bezpieczeństwo}{35}{chapter.5}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{Bezpieczenstwo/index:bezpieczenstwo}{{5}{35}{Bezpieczeństwo}{chapter.5}{}}
+\newlabel{Bezpieczenstwo/index::doc}{{5}{35}{Bezpieczeństwo}{chapter.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.1}1. pg\_hba.conf — opis pliku konfiguracyjnego PostgreSQL}{35}{section.5.1}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:pg-hba-conf-opis-pliku-konfiguracyjnego-postgresql}{{5.1}{35}{1. pg\_hba.conf — opis pliku konfiguracyjnego PostgreSQL}{section.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.1}Format pliku}{35}{subsection.5.1.1}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:format-pliku}{{5.1.1}{35}{Format pliku}{subsection.5.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.2}Znaczenie Elementów}{35}{subsection.5.1.2}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:znaczenie-elementow}{{5.1.2}{35}{Znaczenie Elementów}{subsection.5.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.3}Typy połączeń}{35}{subsection.5.1.3}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:typy-polaczen}{{5.1.3}{35}{Typy połączeń}{subsection.5.1.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.4}Metody uwierzytelniania}{36}{subsection.5.1.4}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:metody-uwierzytelniania}{{5.1.4}{36}{Metody uwierzytelniania}{subsection.5.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.5}Przykładowy wpis}{36}{subsection.5.1.5}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:przykladowy-wpis}{{5.1.5}{36}{Przykładowy wpis}{subsection.5.1.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1.6}Zmiany i przeładowanie}{36}{subsection.5.1.6}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:zmiany-i-przeladowanie}{{5.1.6}{36}{Zmiany i przeładowanie}{subsection.5.1.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.2}2. Uprawnienia użytkownika}{36}{section.5.2}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:uprawnienia-uzytkownika}{{5.2}{36}{2. Uprawnienia użytkownika}{section.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.1}Poziom systemowy}{37}{subsection.5.2.1}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:poziom-systemowy}{{5.2.1}{37}{Poziom systemowy}{subsection.5.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.2}Poziom bazy danych}{37}{subsection.5.2.2}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:poziom-bazy-danych}{{5.2.2}{37}{Poziom bazy danych}{subsection.5.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.3}Poziom schematu}{37}{subsection.5.2.3}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:poziom-schematu}{{5.2.3}{37}{Poziom schematu}{subsection.5.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.4}Poziom tabeli}{37}{subsection.5.2.4}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:poziom-tabeli}{{5.2.4}{37}{Poziom tabeli}{subsection.5.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2.5}Przykład}{37}{subsection.5.2.5}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:przyklad}{{5.2.5}{37}{Przykład}{subsection.5.2.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.3}3. Zarządzanie użytkownikami a dane wprowadzone}{37}{section.5.3}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:zarzadzanie-uzytkownikami-a-dane-wprowadzone}{{5.3}{37}{3. Zarządzanie użytkownikami a dane wprowadzone}{section.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.1}Tworzenie i modyfikacja użytkowników}{38}{subsection.5.3.1}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:tworzenie-i-modyfikacja-uzytkownikow}{{5.3.1}{38}{Tworzenie i modyfikacja użytkowników}{subsection.5.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.2}Usuwanie użytkowników}{38}{subsection.5.3.2}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:usuwanie-uzytkownikow}{{5.3.2}{38}{Usuwanie użytkowników}{subsection.5.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.3}Usunięcie użytkownika, a dane które posiadał}{38}{subsection.5.3.3}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:usuniecie-uzytkownika-a-dane-ktore-posiadal}{{5.3.3}{38}{Usunięcie użytkownika, a dane które posiadał}{subsection.5.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3.4}Usunięcie użytkowników, a obietky}{38}{subsection.5.3.4}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:usuniecie-uzytkownikow-a-obietky}{{5.3.4}{38}{Usunięcie użytkowników, a obietky}{subsection.5.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.4}4. Zabezpieczenie połączenia przez SSL/TLS}{38}{section.5.4}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:zabezpieczenie-polaczenia-przez-ssl-tls}{{5.4}{38}{4. Zabezpieczenie połączenia przez SSL/TLS}{section.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.1}Konfiguracja SSL/TLS w PostgreSQL}{38}{subsection.5.4.1}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:konfiguracja-ssl-tls-w-postgresql}{{5.4.1}{38}{Konfiguracja SSL/TLS w PostgreSQL}{subsection.5.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4.2}Monitorowanie i testowanie SSL/TLS}{39}{subsection.5.4.2}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:monitorowanie-i-testowanie-ssl-tls}{{5.4.2}{39}{Monitorowanie i testowanie SSL/TLS}{subsection.5.4.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.5}5. Szyfrowanie danych}{39}{section.5.5}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:szyfrowanie-danych}{{5.5}{39}{5. Szyfrowanie danych}{section.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.1}Szyfrowanie transmisji}{39}{subsection.5.5.1}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:szyfrowanie-transmisji}{{5.5.1}{39}{Szyfrowanie transmisji}{subsection.5.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.2}Szyfrowanie całego dysku}{40}{subsection.5.5.2}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:szyfrowanie-calego-dysku}{{5.5.2}{40}{Szyfrowanie całego dysku}{subsection.5.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.3}Szyfrowanie na poziomie kolumn z użyciem pgcrypto}{40}{subsection.5.5.3}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:szyfrowanie-na-poziomie-kolumn-z-uzyciem-pgcrypto}{{5.5.3}{40}{Szyfrowanie na poziomie kolumn z użyciem pgcrypto}{subsection.5.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.4}Szyfrowanie na poziomie aplikacji}{40}{subsection.5.5.4}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:szyfrowanie-na-poziomie-aplikacji}{{5.5.4}{40}{Szyfrowanie na poziomie aplikacji}{subsection.5.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5.5}Zarządzanie kluczami szyfrującymi}{40}{subsection.5.5.5}\protected@file@percent }
+\newlabel{Bezpieczenstwo/index:zarzadzanie-kluczami-szyfrujacymi}{{5.5.5}{40}{Zarządzanie kluczami szyfrującymi}{subsection.5.5.5}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {6}Kontrola i konserwacja baz danych}{43}{chapter.6}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:kontrola-i-konserwacja-baz-danych}{{6}{43}{Kontrola i konserwacja baz danych}{chapter.6}{}}
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja::doc}{{6}{43}{Kontrola i konserwacja baz danych}{chapter.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.1}Wprowadzenie}{43}{section.6.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:wprowadzenie}{{6.1}{43}{Wprowadzenie}{section.6.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.2}Podział konserwacji baz danych}{43}{section.6.2}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:podzial-konserwacji-baz-danych}{{6.2}{43}{Podział konserwacji baz danych}{section.6.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.1}Konserwacja fizyczna}{43}{subsection.6.2.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:konserwacja-fizyczna}{{6.2.1}{43}{Konserwacja fizyczna}{subsection.6.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2.2}Konserwacja programowa}{44}{subsection.6.2.2}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:konserwacja-programowa}{{6.2.2}{44}{Konserwacja programowa}{subsection.6.2.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.3}Różnice konserwacyjne w zależności od rodzaju bazy danych}{44}{section.6.3}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:roznice-konserwacyjne-w-zaleznosci-od-rodzaju-bazy-danych}{{6.3}{44}{Różnice konserwacyjne w zależności od rodzaju bazy danych}{section.6.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.1}PostgreSQL}{44}{subsection.6.3.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:postgresql}{{6.3.1}{44}{PostgreSQL}{subsection.6.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.2}MySQL}{44}{subsection.6.3.2}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:mysql}{{6.3.2}{44}{MySQL}{subsection.6.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.3}SQLite (np. LightSQL)}{45}{subsection.6.3.3}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:sqlite-np-lightsql}{{6.3.3}{45}{SQLite (np. LightSQL)}{subsection.6.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3.4}Microsoft SQL Server}{45}{subsection.6.3.4}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:microsoft-sql-server}{{6.3.4}{45}{Microsoft SQL Server}{subsection.6.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.4}Planowanie konserwacji bazy danych}{45}{section.6.4}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:planowanie-konserwacji-bazy-danych}{{6.4}{45}{Planowanie konserwacji bazy danych}{section.6.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.5}Uruchamianie, zatrzymywanie i restartowanie serwera bazy danych}{46}{section.6.5}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:uruchamianie-zatrzymywanie-i-restartowanie-serwera-bazy-danych}{{6.5}{46}{Uruchamianie, zatrzymywanie i restartowanie serwera bazy danych}{section.6.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.1}Uruchamianie}{46}{subsection.6.5.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:uruchamianie}{{6.5.1}{46}{Uruchamianie}{subsection.6.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.2}Zatrzymywanie}{46}{subsection.6.5.2}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:zatrzymywanie}{{6.5.2}{46}{Zatrzymywanie}{subsection.6.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5.3}Restartowanie}{46}{subsection.6.5.3}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:restartowanie}{{6.5.3}{46}{Restartowanie}{subsection.6.5.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.6}Zarządzanie połączeniami użytkowników}{47}{section.6.6}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:zarzadzanie-polaczeniami-uzytkownikow}{{6.6}{47}{Zarządzanie połączeniami użytkowników}{section.6.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.1}Ograniczanie użytkowników}{47}{subsection.6.6.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:ograniczanie-uzytkownikow}{{6.6.1}{47}{Ograniczanie użytkowników}{subsection.6.6.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.2}Ręczne rozłączanie użytkowników}{47}{subsection.6.6.2}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:reczne-rozlaczanie-uzytkownikow}{{6.6.2}{47}{Ręczne rozłączanie użytkowników}{subsection.6.6.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.3}Automatyczne rozłączanie użytkowników}{47}{subsection.6.6.3}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:automatyczne-rozlaczanie-uzytkownikow}{{6.6.3}{47}{Automatyczne rozłączanie użytkowników}{subsection.6.6.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.6.4}Zapobieganie nowym połączeniom}{48}{subsection.6.6.4}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:zapobieganie-nowym-polaczeniom}{{6.6.4}{48}{Zapobieganie nowym połączeniom}{subsection.6.6.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.7}Proces VACUUM}{48}{section.6.7}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:proces-vacuum}{{6.7}{48}{Proces VACUUM}{section.6.7}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.7.1}Autovacuum}{48}{subsection.6.7.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:autovacuum}{{6.7.1}{48}{Autovacuum}{subsection.6.7.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.8}Schemat bazy danych}{49}{section.6.8}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:schemat-bazy-danych}{{6.8}{49}{Schemat bazy danych}{section.6.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.8.1}Czym jest schemat bazy danych?}{49}{subsection.6.8.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:czym-jest-schemat-bazy-danych}{{6.8.1}{49}{Czym jest schemat bazy danych?}{subsection.6.8.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.8.2}Rola schematu w konserwacji bazy danych}{49}{subsection.6.8.2}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:rola-schematu-w-konserwacji-bazy-danych}{{6.8.2}{49}{Rola schematu w konserwacji bazy danych}{subsection.6.8.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.8.3}Różnice w implementacji schematu w różnych systemach}{50}{subsection.6.8.3}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:roznice-w-implementacji-schematu-w-roznych-systemach}{{6.8.3}{50}{Różnice w implementacji schematu w różnych systemach}{subsection.6.8.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.9}Transakcje}{50}{section.6.9}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:transakcje}{{6.9}{50}{Transakcje}{section.6.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.9.1}Czym jest transakcja?}{50}{subsection.6.9.1}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:czym-jest-transakcja}{{6.9.1}{50}{Czym jest transakcja?}{subsection.6.9.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.9.2}Zasady ACID}{50}{subsection.6.9.2}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:zasady-acid}{{6.9.2}{50}{Zasady ACID}{subsection.6.9.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.9.3}Rola transakcji w kontroli i konserwacji}{50}{subsection.6.9.3}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:rola-transakcji-w-kontroli-i-konserwacji}{{6.9.3}{50}{Rola transakcji w kontroli i konserwacji}{subsection.6.9.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.9.4}Różnice w implementacji transakcji w różnych systemach}{51}{subsection.6.9.4}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:roznice-w-implementacji-transakcji-w-roznych-systemach}{{6.9.4}{51}{Różnice w implementacji transakcji w różnych systemach}{subsection.6.9.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6.10}Literatura}{51}{section.6.10}\protected@file@percent }
+\newlabel{Kontrola_i_konserwacja/kontrola_i_konserwacja:literatura}{{6.10}{51}{Literatura}{section.6.10}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {7}Kopie zapasowe i odzyskiwanie danych w PostgreSQL}{53}{chapter.7}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:kopie-zapasowe-i-odzyskiwanie-danych-w-postgresql}{{7}{53}{Kopie zapasowe i odzyskiwanie danych w PostgreSQL}{chapter.7}{}}
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych::doc}{{7}{53}{Kopie zapasowe i odzyskiwanie danych w PostgreSQL}{chapter.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.1}Wprowadzenie}{53}{section.7.1}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:wprowadzenie}{{7.1}{53}{Wprowadzenie}{section.7.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.2}Mechanizmy wbudowane do tworzenia kopii zapasowych całego systemu PostgreSQL}{53}{section.7.2}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-calego-systemu-postgresql}{{7.2}{53}{Mechanizmy wbudowane do tworzenia kopii zapasowych całego systemu PostgreSQL}{section.7.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.1}pg\_basebackup}{53}{subsection.7.2.1}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-basebackup}{{7.2.1}{53}{pg\_basebackup}{subsection.7.2.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.2}Continuous Archiving (Point\sphinxhyphen {}in\sphinxhyphen {}Time Recovery)}{54}{subsection.7.2.2}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:continuous-archiving-point-in-time-recovery}{{7.2.2}{54}{Continuous Archiving (Point\sphinxhyphen {}in\sphinxhyphen {}Time Recovery)}{subsection.7.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.3}Streaming Replication}{54}{subsection.7.2.3}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:streaming-replication}{{7.2.3}{54}{Streaming Replication}{subsection.7.2.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2.4}File System Level Backup}{54}{subsection.7.2.4}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:file-system-level-backup}{{7.2.4}{54}{File System Level Backup}{subsection.7.2.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.3}Mechanizmy wbudowane do tworzenia kopii zapasowych poszczególnych baz danych}{54}{section.7.3}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-poszczegolnych-baz-danych}{{7.3}{54}{Mechanizmy wbudowane do tworzenia kopii zapasowych poszczególnych baz danych}{section.7.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.1}pg\_dump}{54}{subsection.7.3.1}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-dump}{{7.3.1}{54}{pg\_dump}{subsection.7.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.2}pg\_dumpall}{55}{subsection.7.3.2}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-dumpall}{{7.3.2}{55}{pg\_dumpall}{subsection.7.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.3}COPY command}{55}{subsection.7.3.3}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:copy-command}{{7.3.3}{55}{COPY command}{subsection.7.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3.4}pg\_dump z opcjami selektywnymi}{55}{subsection.7.3.4}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-dump-z-opcjami-selektywnymi}{{7.3.4}{55}{pg\_dump z opcjami selektywnymi}{subsection.7.3.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.4}Odzyskiwanie usuniętych lub uszkodzonych danych}{55}{section.7.4}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-usunietych-lub-uszkodzonych-danych}{{7.4}{55}{Odzyskiwanie usuniętych lub uszkodzonych danych}{section.7.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4.1}Odzyskiwanie z kopii logicznych}{56}{subsection.7.4.1}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-z-kopii-logicznych}{{7.4.1}{56}{Odzyskiwanie z kopii logicznych}{subsection.7.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4.2}Point\sphinxhyphen {}in\sphinxhyphen {}Time Recovery (PITR)}{56}{subsection.7.4.2}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:point-in-time-recovery-pitr}{{7.4.2}{56}{Point\sphinxhyphen {}in\sphinxhyphen {}Time Recovery (PITR)}{subsection.7.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4.3}Odzyskiwanie tabel z tablespaces}{56}{subsection.7.4.3}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-tabel-z-tablespaces}{{7.4.3}{56}{Odzyskiwanie tabel z tablespaces}{subsection.7.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4.4}Transaction log replay}{56}{subsection.7.4.4}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:transaction-log-replay}{{7.4.4}{56}{Transaction log replay}{subsection.7.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.4.5}Odzyskiwanie na poziomie klastra}{57}{subsection.7.4.5}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-na-poziomie-klastra}{{7.4.5}{57}{Odzyskiwanie na poziomie klastra}{subsection.7.4.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.5}Dedykowane oprogramowanie i skrypty zewnętrzne do automatyzacji}{57}{section.7.5}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:dedykowane-oprogramowanie-i-skrypty-zewnetrzne-do-automatyzacji}{{7.5}{57}{Dedykowane oprogramowanie i skrypty zewnętrzne do automatyzacji}{section.7.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5.1}pgBackRest}{57}{subsection.7.5.1}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pgbackrest}{{7.5.1}{57}{pgBackRest}{subsection.7.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5.2}Barman (Backup and Recovery Manager)}{57}{subsection.7.5.2}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:barman-backup-and-recovery-manager}{{7.5.2}{57}{Barman (Backup and Recovery Manager)}{subsection.7.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5.3}WAL\sphinxhyphen {}E i WAL\sphinxhyphen {}G}{58}{subsection.7.5.3}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:wal-e-i-wal-g}{{7.5.3}{58}{WAL\sphinxhyphen {}E i WAL\sphinxhyphen {}G}{subsection.7.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5.4}Skrypty shell i cron jobs}{58}{subsection.7.5.4}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:skrypty-shell-i-cron-jobs}{{7.5.4}{58}{Skrypty shell i cron jobs}{subsection.7.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5.5}Narzędzia automatyzacji infrastruktury}{58}{subsection.7.5.5}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:narzedzia-automatyzacji-infrastruktury}{{7.5.5}{58}{Narzędzia automatyzacji infrastruktury}{subsection.7.5.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.5.6}Monitoring i alertowanie}{58}{subsection.7.5.6}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:monitoring-i-alertowanie}{{7.5.6}{58}{Monitoring i alertowanie}{subsection.7.5.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7.6}Podsumowanie}{59}{section.7.6}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:podsumowanie}{{7.6}{59}{Podsumowanie}{section.7.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.6.1}Kluczowe wnioski}{59}{subsection.7.6.1}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:kluczowe-wnioski}{{7.6.1}{59}{Kluczowe wnioski}{subsection.7.6.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.6.2}Najważniejsze zalecenia}{59}{subsection.7.6.2}\protected@file@percent }
+\newlabel{Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:najwazniejsze-zalecenia}{{7.6.2}{59}{Najważniejsze zalecenia}{subsection.7.6.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {8}Projekt i Implementacja Bazy Danych}{61}{chapter.8}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{rozdzial_3:projekt-i-implementacja-bazy-danych}{{8}{61}{Projekt i Implementacja Bazy Danych}{chapter.8}{}}
+\newlabel{rozdzial_3:rozdzial-3}{{8}{61}{Projekt i Implementacja Bazy Danych}{chapter.8}{}}
+\newlabel{rozdzial_3::doc}{{8}{61}{Projekt i Implementacja Bazy Danych}{chapter.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.1}Model Koncepcyjny}{61}{section.8.1}\protected@file@percent }
+\newlabel{rozdzial_3:model-koncepcyjny}{{8.1}{61}{Model Koncepcyjny}{section.8.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.2}Model Logiczny}{61}{section.8.2}\protected@file@percent }
+\newlabel{rozdzial_3:model-logiczny}{{8.2}{61}{Model Logiczny}{section.8.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.3}Model Fizyczny (Schemat SQL)}{61}{section.8.3}\protected@file@percent }
+\newlabel{rozdzial_3:model-fizyczny-schemat-sql}{{8.3}{61}{Model Fizyczny (Schemat SQL)}{section.8.3}{}}
+\@writefile{lol}{\contentsline {literalblock}{\numberline {1}{\ignorespaces \xpg@aux {}{polish}Fizyczny schemat bazy danych dla PostgreSQL}}{61}{literalblock.8.1}\protected@file@percent }
+\newlabel{rozdzial_3:schema-postgres-sql}{{1}{61}{\xpg@aux {\xpg@current@opts }{\languagename }\sphinxLiteralBlockLabel Fizyczny schemat bazy danych dla PostgreSQL}{literalblock.8.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces \xpg@aux {}{polish}\sphinxstylestrong {Rysunek 1: Model koncepcyjny.} Widoczne są główne encje: Klient, Zamówienie, Produkt, Kategoria, Dostawca oraz Pozycje Zamówienia, a także powiązania między nimi, takie jak „składa”, „zawiera” czy „dostarcza”.}}{62}{figure.8.1}\protected@file@percent }
+\newlabel{rozdzial_3:id1}{{1}{62}{\xpg@aux {\xpg@current@opts }{\languagename }\sphinxstylestrong {Rysunek 1: Model koncepcyjny.} Widoczne są główne encje: Klient, Zamówienie, Produkt, Kategoria, Dostawca oraz Pozycje Zamówienia, a także powiązania między nimi, takie jak „składa”, „zawiera” czy „dostarcza”}{figure.8.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces \xpg@aux {}{polish}\sphinxstylestrong {Rysunek 2: Model logiczny.} Szczegółowo przedstawia strukturę każdej tabeli, w tym nazwy pól, ich typy generyczne oraz powiązania zrealizowane za pomocą kluczy obcych.}}{63}{figure.8.2}\protected@file@percent }
+\newlabel{rozdzial_3:id2}{{2}{63}{\xpg@aux {\xpg@current@opts }{\languagename }\sphinxstylestrong {Rysunek 2: Model logiczny.} Szczegółowo przedstawia strukturę każdej tabeli, w tym nazwy pól, ich typy generyczne oraz powiązania zrealizowane za pomocą kluczy obcych}{figure.8.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.4}Opis Tabel}{64}{section.8.4}\protected@file@percent }
+\newlabel{rozdzial_3:opis-tabel}{{8.4}{64}{Opis Tabel}{section.8.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4.1}Klienci}{64}{subsection.8.4.1}\protected@file@percent }
+\newlabel{rozdzial_3:klienci}{{8.4.1}{64}{Klienci}{subsection.8.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4.2}Kategorie}{64}{subsection.8.4.2}\protected@file@percent }
+\newlabel{rozdzial_3:kategorie}{{8.4.2}{64}{Kategorie}{subsection.8.4.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4.3}Dostawcy}{65}{subsection.8.4.3}\protected@file@percent }
+\newlabel{rozdzial_3:dostawcy}{{8.4.3}{65}{Dostawcy}{subsection.8.4.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4.4}Produkty}{65}{subsection.8.4.4}\protected@file@percent }
+\newlabel{rozdzial_3:produkty}{{8.4.4}{65}{Produkty}{subsection.8.4.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4.5}Zamowienia}{65}{subsection.8.4.5}\protected@file@percent }
+\newlabel{rozdzial_3:zamowienia}{{8.4.5}{65}{Zamowienia}{subsection.8.4.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.4.6}PozycjeZamowienia}{65}{subsection.8.4.6}\protected@file@percent }
+\newlabel{rozdzial_3:pozycjezamowienia}{{8.4.6}{65}{PozycjeZamowienia}{subsection.8.4.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {8.5}Kod Źródłowy Generatora Bazy Danych}{65}{section.8.5}\protected@file@percent }
+\newlabel{rozdzial_3:kod-zrodlowy-generatora-bazy-danych}{{8.5}{65}{Kod Źródłowy Generatora Bazy Danych}{section.8.5}{}}
+\@writefile{lol}{\contentsline {literalblock}{\numberline {2}{\ignorespaces \xpg@aux {}{polish}generator\_bazy\_danych.py}}{66}{literalblock.8.2}\protected@file@percent }
+\newlabel{rozdzial_3:generator-bazy-danych-py}{{2}{66}{\xpg@aux {\xpg@current@opts }{\languagename }\sphinxLiteralBlockLabel generator\_bazy\_danych.py}{literalblock.8.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {9}Analiza i Implementacja Bazy Danych}{73}{chapter.9}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{rozdzial_4:analiza-i-implementacja-bazy-danych}{{9}{73}{Analiza i Implementacja Bazy Danych}{chapter.9}{}}
+\newlabel{rozdzial_4:rozdzial-4}{{9}{73}{Analiza i Implementacja Bazy Danych}{chapter.9}{}}
+\newlabel{rozdzial_4::doc}{{9}{73}{Analiza i Implementacja Bazy Danych}{chapter.9}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9.1}Analiza Struktury i Normalizacja}{73}{section.9.1}\protected@file@percent }
+\newlabel{rozdzial_4:analiza-struktury-i-normalizacja}{{9.1}{73}{Analiza Struktury i Normalizacja}{section.9.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1.1}Pierwsza Postać Normalna (1NF)}{73}{subsection.9.1.1}\protected@file@percent }
+\newlabel{rozdzial_4:pierwsza-postac-normalna-1nf}{{9.1.1}{73}{Pierwsza Postać Normalna (1NF)}{subsection.9.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1.2}Druga Postać Normalna (2NF)}{73}{subsection.9.1.2}\protected@file@percent }
+\newlabel{rozdzial_4:druga-postac-normalna-2nf}{{9.1.2}{73}{Druga Postać Normalna (2NF)}{subsection.9.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1.3}Trzecia Postać Normalna (3NF)}{73}{subsection.9.1.3}\protected@file@percent }
+\newlabel{rozdzial_4:trzecia-postac-normalna-3nf}{{9.1.3}{73}{Trzecia Postać Normalna (3NF)}{subsection.9.1.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9.2}Skrypty SQL i Generowanie Danych}{74}{section.9.2}\protected@file@percent }
+\newlabel{rozdzial_4:skrypty-sql-i-generowanie-danych}{{9.2}{74}{Skrypty SQL i Generowanie Danych}{section.9.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2.1}Implementacja w SQLite}{74}{subsection.9.2.1}\protected@file@percent }
+\newlabel{rozdzial_4:implementacja-w-sqlite}{{9.2.1}{74}{Implementacja w SQLite}{subsection.9.2.1}{}}
+\@writefile{lol}{\contentsline {literalblock}{\numberline {1}{\ignorespaces \xpg@aux {}{polish}Schemat bazy danych dla SQLite}}{74}{literalblock.9.1}\protected@file@percent }
+\newlabel{rozdzial_4:id1}{{1}{74}{\xpg@aux {\xpg@current@opts }{\languagename }\sphinxLiteralBlockLabel Schemat bazy danych dla SQLite}{literalblock.9.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2.2}Implementacja w PostgreSQL}{74}{subsection.9.2.2}\protected@file@percent }
+\newlabel{rozdzial_4:implementacja-w-postgresql}{{9.2.2}{74}{Implementacja w PostgreSQL}{subsection.9.2.2}{}}
+\@writefile{lol}{\contentsline {literalblock}{\numberline {2}{\ignorespaces \xpg@aux {}{polish}Schemat bazy danych dla PostgreSQL}}{74}{literalblock.9.2}\protected@file@percent }
+\newlabel{rozdzial_4:id2}{{2}{74}{\xpg@aux {\xpg@current@opts }{\languagename }\sphinxLiteralBlockLabel Schemat bazy danych dla PostgreSQL}{literalblock.9.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {9.3}Przykładowe Zapytania i Optymalizacja}{75}{section.9.3}\protected@file@percent }
+\newlabel{rozdzial_4:przykladowe-zapytania-i-optymalizacja}{{9.3}{75}{Przykładowe Zapytania i Optymalizacja}{section.9.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3.1}Zapytanie 1: Suma wartości zamówień dla każdego klienta}{75}{subsection.9.3.1}\protected@file@percent }
+\newlabel{rozdzial_4:zapytanie-1-suma-wartosci-zamowien-dla-kazdego-klienta}{{9.3.1}{75}{Zapytanie 1: Suma wartości zamówień dla każdego klienta}{subsection.9.3.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3.2}Zapytanie 2: Znalezienie 5 najpopularniejszych produktów}{75}{subsection.9.3.2}\protected@file@percent }
+\newlabel{rozdzial_4:zapytanie-2-znalezienie-5-najpopularniejszych-produktow}{{9.3.2}{75}{Zapytanie 2: Znalezienie 5 najpopularniejszych produktów}{subsection.9.3.2}{}}
+\@writefile{toc}{\contentsline {chapter}{\numberline {10}Struktura Repozytoriów Projektowych}{77}{chapter.10}\protected@file@percent }
+\@writefile{lof}{\addvspace {10\p@ }}
+\@writefile{lot}{\addvspace {10\p@ }}
+\newlabel{rozdzial_5:struktura-repozytoriow-projektowych}{{10}{77}{Struktura Repozytoriów Projektowych}{chapter.10}{}}
+\newlabel{rozdzial_5:rozdzial-5}{{10}{77}{Struktura Repozytoriów Projektowych}{chapter.10}{}}
+\newlabel{rozdzial_5::doc}{{10}{77}{Struktura Repozytoriów Projektowych}{chapter.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10.1}Projekt został zrealizowany w oparciu o rozproszony system kontroli wersji Git, a platforma GitHub posłużyła jako centralne miejsce do przechowywania kodu, koordynacji prac oraz integracji poszczególnych części sprawozdania. Poniżej przedstawiono kompletną listę repozytoriów wykorzystanych w projekcie.}{77}{section.10.1}\protected@file@percent }
+\newlabel{rozdzial_5:projekt-zostal-zrealizowany-w-oparciu-o-rozproszony-system-kontroli-wersji-git-a-platforma-github-posluzyla-jako-centralne-miejsce-do-przechowywania-kodu-koordynacji-prac-oraz-integracji-poszczegolnych-czesci-sprawozdania-ponizej-przedstawiono-kompletna-liste-repozytoriow-wykorzystanych-w-projekcie}{{10.1}{77}{Projekt został zrealizowany w oparciu o rozproszony system kontroli wersji Git, a platforma GitHub posłużyła jako centralne miejsce do przechowywania kodu, koordynacji prac oraz integracji poszczególnych części sprawozdania. Poniżej przedstawiono kompletną listę repozytoriów wykorzystanych w projekcie}{section.10.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {10.2}Repozytoria z Opracowaniami Tematycznymi}{77}{section.10.2}\protected@file@percent }
+\newlabel{rozdzial_5:repozytoria-z-opracowaniami-tematycznymi}{{10.2}{77}{Repozytoria z Opracowaniami Tematycznymi}{section.10.2}{}}
+\gdef \@abspage@last{83}

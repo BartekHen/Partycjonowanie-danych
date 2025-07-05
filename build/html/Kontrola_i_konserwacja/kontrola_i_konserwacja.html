@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6. Kontrola i konserwacja baz danych &#8212; BazyDanych 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" />
+    <link rel="next" title="7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL" href="../Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html" />
+    <link rel="prev" title="5. Bezpieczeństwo" href="../Bezpieczenstwo/index.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="kontrola-i-konserwacja-baz-danych">
+<h1><span class="section-number">6. </span>Kontrola i konserwacja baz danych<a class="headerlink" href="#kontrola-i-konserwacja-baz-danych" title="Link to this heading">¶</a></h1>
+<section id="wprowadzenie">
+<h2><span class="section-number">6.1. </span>Wprowadzenie<a class="headerlink" href="#wprowadzenie" title="Link to this heading">¶</a></h2>
+<p>Autor: Bartłomiej Czyż</p>
+<p>Systemy baz danych są niezwykle ważnym elementem infrastruktury informatycznej współczesnych organizacji. Umożliwiają przechowywanie, zarządzanie i analizę danych w sposób bezpieczny oraz wydajny. Aby zapewnić ich niezawodność, integralność i wysoką dostępność, konieczne jest prowadzenie regularnych działań z zakresu kontroli i konserwacji. Działania te można podzielić na część fizyczną oraz część programową, a sposób ich przeprowadzania różni się w zależności od rodzaju i architektury używanej bazy danych.</p>
+</section>
+<section id="podzial-konserwacji-baz-danych">
+<h2><span class="section-number">6.2. </span>Podział konserwacji baz danych<a class="headerlink" href="#podzial-konserwacji-baz-danych" title="Link to this heading">¶</a></h2>
+<p>Autor: Bartłomiej Czyż</p>
+<section id="konserwacja-fizyczna">
+<h3><span class="section-number">6.2.1. </span>Konserwacja fizyczna<a class="headerlink" href="#konserwacja-fizyczna" title="Link to this heading">¶</a></h3>
+<p>Konserwacja fizyczna obejmuje wszystkie działania związane z infrastrukturą sprzętową i zasobami systemowymi, na których działa baza danych. Do najważniejszych elementów tej konserwacji należą:</p>
+<ul class="simple">
+<li><p>Monitorowanie stanu dysków twardych – pozostała przestrzeń na dyskach, zużycie dysków oraz fragmentacja danych,</p></li>
+<li><p>Zabezpieczenie fizyczne serwerów – kontrola dostępu, ochrona przeciwpożarowa, klimatyzacja,</p></li>
+<li><p>Zasilanie awaryjne (UPS) - zabezpieczenie bazy przed skutkami nagłego zaniku zasilania,</p></li>
+<li><p>Monitoring stanu sieci – wydajność i stabilność połączenia między bazą a klientami,</p></li>
+<li><p>Tworzenie kopii zapasowych na nośnikach fizycznych – np. dyskach zewnętrznych czy taśmach LTO.</p></li>
+</ul>
+</section>
+<section id="konserwacja-programowa">
+<h3><span class="section-number">6.2.2. </span>Konserwacja programowa<a class="headerlink" href="#konserwacja-programowa" title="Link to this heading">¶</a></h3>
+<p>Konserwacja programowa odnosi się do czynności wykonywanych na poziomie oprogramowania i logiki działania systemu bazy danych. Obejmuje:</p>
+<ul class="simple">
+<li><p>Zarządzanie użytkownikami i ich uprawnieniami,</p></li>
+<li><p>Optymalizację zapytań SQL,</p></li>
+<li><p>Aktualizację oprogramowania bazodanowego (np. MySQL, PostgreSQL),</p></li>
+<li><p>Defragmentację indeksów,</p></li>
+<li><p>Weryfikację integralności danych i naprawę uszkodzonych rekordów,</p></li>
+<li><p>Automatyczne zadania konserwacyjne (cron, schedulery),</p></li>
+<li><p>Reduplikację i redundancję - konfiguracja serwerów zapasowych.</p></li>
+</ul>
+</section>
+</section>
+<section id="roznice-konserwacyjne-w-zaleznosci-od-rodzaju-bazy-danych">
+<h2><span class="section-number">6.3. </span>Różnice konserwacyjne w zależności od rodzaju bazy danych<a class="headerlink" href="#roznice-konserwacyjne-w-zaleznosci-od-rodzaju-bazy-danych" title="Link to this heading">¶</a></h2>
+<p>Autor: Bartłomiej Czyż</p>
+<section id="postgresql">
+<h3><span class="section-number">6.3.1. </span>PostgreSQL<a class="headerlink" href="#postgresql" title="Link to this heading">¶</a></h3>
+<p>PostgreSQL to zaawansowany system RDBMS, znany z silnego wsparcia dla różnych typów danych i transakcyjności.</p>
+<ol class="arabic">
+<li><p>Fizyczna konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Złożona struktura katalogów danych (base, pg_wal, pg_tblspc) – wymaga regularnego monitoringu,</p></li>
+<li><p>Możliwość wykorzystania narzędzia pg_basebackup do tworzenia pełnych kopii fizycznych.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Programowa konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Automatyczne zadania VACUUM, ANALYZE – zapewniają odzyskiwanie przestrzeni po usunięciu rekordów,</p></li>
+<li><p>Możliwość używania pg_repack do defragmentacji bez przestojów,</p></li>
+<li><p>Silne wsparcie dla replikacji strumieniowej i klastrów wysokiej dostępności (HA).</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="mysql">
+<h3><span class="section-number">6.3.2. </span>MySQL<a class="headerlink" href="#mysql" title="Link to this heading">¶</a></h3>
+<p>MySQL jest obecnie jedną z najpopularniejszych relacyjnych baz danych, szeroko stosowana w aplikacjach webowych.</p>
+<ol class="arabic">
+<li><p>Fizyczna konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Wymaga monitorowania plików .ibd (w przypadku silknika InnoDB), które mogą znacznie rosnąć,</p></li>
+<li><p>Backup danych realizowany poprzez mysqldump lub system replikacji binlogów.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Programowa konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Regularne sprawdzanie indeksów (ANALYZE TABLE, OPTIMIZE TABLE),</p></li>
+<li><p>Używanie narzędzi typu mysqlcheck do weryfikacji i naprawy tabel,</p></li>
+<li><p>Konfiguracja pliku my.cnf w celu dostosowania do wymagań aplikacji.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="sqlite-np-lightsql">
+<h3><span class="section-number">6.3.3. </span>SQLite (np. LightSQL)<a class="headerlink" href="#sqlite-np-lightsql" title="Link to this heading">¶</a></h3>
+<p>SQLite, używana w aplikacjach mobilnych i desktopowych, różni się znacznie od serwerowych baz danych.</p>
+<ol class="arabic">
+<li><p>Fizyczna konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Brak klasycznego serwera – baza to pojedynczy plik .db,</p></li>
+<li><p>Konieczność regularnego kopiowania pliku bazy danych jako backup.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Programowa konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Użycie polecenia VACUUM do defragmentacji i zmniejszenia rozmiaru pliku,</p></li>
+<li><p>Ograniczone możliwości równoczesnego dostępu – wymaga uwagi w aplikacjach wielowątkowych,</p></li>
+<li><p>Nie wymaga osobnych usług do zarządzania – działa bezpośrednio w aplikacji.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</section>
+<section id="microsoft-sql-server">
+<h3><span class="section-number">6.3.4. </span>Microsoft SQL Server<a class="headerlink" href="#microsoft-sql-server" title="Link to this heading">¶</a></h3>
+<p>System korporacyjny, szeroko wykorzystywany w dużych organizacjach.</p>
+<ol class="arabic">
+<li><p>Fizyczna konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Obsługuje macierze RAID i pamięci masowe SAN,</p></li>
+<li><p>Regularne kopie pełne, różnicowe i dzienniki transakcyjne.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Programowa konserwacja:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Zaawansowany SQL Server Agent – możliwość harmonogramowania zadań,</p></li>
+<li><p>Narzędzia do monitorowania stanu instancji (SQL Profiler, Database Tuning Advisor),</p></li>
+<li><p>Wsparcie dla Always On Availability Groups dla wysokiej dostępności.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+</section>
+</section>
+<section id="planowanie-konserwacji-bazy-danych">
+<h2><span class="section-number">6.4. </span>Planowanie konserwacji bazy danych<a class="headerlink" href="#planowanie-konserwacji-bazy-danych" title="Link to this heading">¶</a></h2>
+<p>Autor: Piotr Mikołajczyk</p>
+<p>Konserwację bazy danych należy przeprowadzać regularnie, np. co tydzień lub co miesiąc. Nie powinna mieć miejsca w godzinach szczytu. Przeprowadzenie konserwacji może również okazać się koniecznie po wykryciu błędu lub wystąpieniu awarii.</p>
+<p>Konserwacja może obejmować m.in. zmianę parametrów konfiguracji bazy, przeprowadzenie procesu VACUUM, zmianę uprawnien użytkowników, aktualizacje systemowe i wykonanie backupów lub przywrócenie danych.</p>
+<p>Działanie te muszą zostać przeprowadzone w czasie, gdy mamy pewność, że żaden klient nie będzie podłączony, nie będą przeprowadzane żadne transakcje. Użytkownicy powinni być uprzednio poinformowani o czasie przeprowadzenia konserwacji. Mimo to, należy wcześniej sprawdzić, czy nie ma aktywnych sesji.</p>
+</section>
+<section id="uruchamianie-zatrzymywanie-i-restartowanie-serwera-bazy-danych">
+<h2><span class="section-number">6.5. </span>Uruchamianie, zatrzymywanie i restartowanie serwera bazy danych<a class="headerlink" href="#uruchamianie-zatrzymywanie-i-restartowanie-serwera-bazy-danych" title="Link to this heading">¶</a></h2>
+<p>Autor: Piotr Mikołajczyk</p>
+<p>Działania, takie jak aktualizacja oprogramowania, instalacja rozszerzeń, wprowadzenie pewnych zmian w plikach konfiguracyjnych, migracja danych, wykonanie backupów bazy, wymagają zrestartowania, zatrzymania bądź ponownego uruchomienia serwera bazy danych.</p>
+<section id="uruchamianie">
+<h3><span class="section-number">6.5.1. </span>Uruchamianie<a class="headerlink" href="#uruchamianie" title="Link to this heading">¶</a></h3>
+<p>Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>start<span class="w"> </span>postgresql
+</pre></div>
+</div>
+<p>Windows CMD:</p>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>net start postgresql-x64-15
+</pre></div>
+</div>
+<p>Windows PowerShell</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Start-Service</span> <span class="n">-Name</span> <span class="n">postgresql-x64</span><span class="p">-</span><span class="n">15</span>
+</pre></div>
+</div>
+</section>
+<section id="zatrzymywanie">
+<h3><span class="section-number">6.5.2. </span>Zatrzymywanie<a class="headerlink" href="#zatrzymywanie" title="Link to this heading">¶</a></h3>
+<p>Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>stop<span class="w"> </span>postgresql
+</pre></div>
+</div>
+<p>Windows CMD:</p>
+<div class="highlight-batch notranslate"><div class="highlight"><pre><span></span>net stop postgresql-x64-15
+</pre></div>
+</div>
+<p>Windows PowerShell</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Stop-Service</span> <span class="n">-Name</span> <span class="n">postgresql-x64</span><span class="p">-</span><span class="n">15</span>
+</pre></div>
+</div>
+</section>
+<section id="restartowanie">
+<h3><span class="section-number">6.5.3. </span>Restartowanie<a class="headerlink" href="#restartowanie" title="Link to this heading">¶</a></h3>
+<p>Linux:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>systemctl<span class="w"> </span>restart<span class="w"> </span>postgresql
+</pre></div>
+</div>
+<p>W CMD nie istnieje osobne polecenie restartowania. Należy zatrzymać serwer, a następnie uruchomić go ponownie.</p>
+<p>Windows PowerShell</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nb">Restart-Service</span> <span class="n">-Name</span> <span class="n">postgresql-x64</span><span class="p">-</span><span class="n">15</span>
+</pre></div>
+</div>
+<p>Polecenia CMD mogą zostać również użyte w PowerShell.</p>
+</section>
+</section>
+<section id="zarzadzanie-polaczeniami-uzytkownikow">
+<h2><span class="section-number">6.6. </span>Zarządzanie połączeniami użytkowników<a class="headerlink" href="#zarzadzanie-polaczeniami-uzytkownikow" title="Link to this heading">¶</a></h2>
+<p>Autor: Piotr Mikołajczyk</p>
+<p>Oprócz sytuacji, gdy trzeba zamknąć dostęp do bazy danych na czas konserwacji, połączenia użytkowników należy ograniczyć także wtedy, gdy sesja użytkownika została zawieszona lub zbyt wiele połączeń skutkuje nadmiernym zużyciem pamięci i mocy obliczeniowej, uniemożliwiając nawiązywanie nowych połączeń i spowolniając działanie serwera.</p>
+<section id="ograniczanie-uzytkownikow">
+<h3><span class="section-number">6.6.1. </span>Ograniczanie użytkowników<a class="headerlink" href="#ograniczanie-uzytkownikow" title="Link to this heading">¶</a></h3>
+<p>Istnieje kilka sposobów ograniczenia dostępu użytkownika:</p>
+<ul>
+<li><p>Odebranie użytkownikowi prawa dostępu do bazy:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">REVOKE</span><span class="w"> </span><span class="k">CONNECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">baza</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">user</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>Limit liczby jednoczesnych połączeń:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">CONNECTION</span><span class="w"> </span><span class="k">LIMIT</span><span class="w"> </span><span class="mi">3</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="reczne-rozlaczanie-uzytkownikow">
+<h3><span class="section-number">6.6.2. </span>Ręczne rozłączanie użytkowników<a class="headerlink" href="#reczne-rozlaczanie-uzytkownikow" title="Link to this heading">¶</a></h3>
+<p>Według nazwy danego użytkownika:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_terminate_backend</span><span class="p">(</span><span class="n">pid</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_stat_activity</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">usename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;user&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Według PID (np. 12340):</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_terminate_backend</span><span class="p">(</span><span class="mi">12340</span><span class="p">);</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="automatyczne-rozlaczanie-uzytkownikow">
+<h3><span class="section-number">6.6.3. </span>Automatyczne rozłączanie użytkowników<a class="headerlink" href="#automatyczne-rozlaczanie-uzytkownikow" title="Link to this heading">¶</a></h3>
+<p>Sesja użytkownika lub jego zapytania mogą zostać rozłączone automatycznie, jeśli wprowadzimy pewne ograniczenia czasowe:</p>
+<ul>
+<li><p>Rozłączenie sesji po przekroczeniu limitu czasu bezczynności podczas zapytania:</p>
+<blockquote>
+<div><ul>
+<li><p>dla bieżącej sesji:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">SET</span><span class="w"> </span><span class="n">idle_in_transaction_session_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;5min&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p>dla danego użytkownika:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">idle_in_transaction_session_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;5min&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>Limit czasu zapytania:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">statement_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;30s&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+</ul>
+</section>
+<section id="zapobieganie-nowym-polaczeniom">
+<h3><span class="section-number">6.6.4. </span>Zapobieganie nowym połączeniom<a class="headerlink" href="#zapobieganie-nowym-polaczeniom" title="Link to this heading">¶</a></h3>
+<p>Zablokowanie logowania konkretnego użytkownika:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">NOLOGIN</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Odblokowanie:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="k">user</span><span class="w"> </span><span class="n">LOGIN</span><span class="p">;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Blokowanie nowych połączeń do bazy danych:</p>
+<blockquote>
+<div><div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">REVOKE</span><span class="w"> </span><span class="k">CONNECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">baza</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="k">PUBLIC</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>PUBLIC oznacza wszystkich użytkowników. Nadal połączeni użytkownicy nie są rozłączani.</p>
+</div></blockquote>
+</section>
+</section>
+<section id="proces-vacuum">
+<h2><span class="section-number">6.7. </span>Proces VACUUM<a class="headerlink" href="#proces-vacuum" title="Link to this heading">¶</a></h2>
+<p>Autor: Piotr Mikołajczyk</p>
+<p>DELETE nie usuwa rekordów z tabeli, jedynie oznacza je jako martwe. Podobnie UPDATE pozostawia stare wersje zaktualizowanych krotek.</p>
+<p>Proces VACUUM przeszukuje tabele i indeksy, szukając martwych wierszy, które można fizycznie usunąć lub oznaczyć do nadpisania.</p>
+<p>Może zostać przeprowadzony na kilka sposobów:</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">VACUUM</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Usuwa martwe krotki, ale nie odzyskuje miejsca z dysku, a jedynie udostępnia je dla przyszłych danych,</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">VACUUM</span><span class="w"> </span><span class="k">FULL</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Kompaktuje tabelę do nowego pliku, zwalnia miejsce w pamięci,</p>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="k">VACUUM</span><span class="w"> </span><span class="k">ANALYZE</span>
+</pre></div>
+</div>
+<p>Usuwa martwe krotki i przeprowadza aktualizację statystyk, nie odzyskuje miejsca.</p>
+<section id="autovacuum">
+<h3><span class="section-number">6.7.1. </span>Autovacuum<a class="headerlink" href="#autovacuum" title="Link to this heading">¶</a></h3>
+<p>Autovacuum działa w tle, automatycznie wykonując VACUUM na odpowiednich tabelach. Dzięki niemu nie trzeba ręcznie uruchamiać VACUUM po każdej modyfikacji tabeli. Autovacuum posiada wiele parametrów, od których zależy kiedy wykonany zostanie proces, między innymi:</p>
+<ul class="simple">
+<li><p>autovacuum - parametr logiczny, decyduje, czy serwer będzie uruchamiał launcher procesu autovacuum,</p></li>
+<li><p>autovacuum_max_workers - liczba całkowita, określa maksymalną ilość procesów autovacuum mogących działać w tym samym czasie, domyślnie 3,</p></li>
+<li><p>autovacuum_vacuum_threshold - liczba całkowita, określa ile wierszy w jednej tabeli musi zostać usunięte lub zmienione, aby wywołano VACUUM, domyślnie 50,</p></li>
+<li><p>autovacuum_vacuum_scale_factor - liczba zmiennoprzecinkowa, jaki procent tabeli musi zostać zmieniony aby wywołano VACUUM, domyślna wartość to 0.2 (20%).</p></li>
+</ul>
+<p>Analogiczne parametry warunkują również wywołanie ANALYZE, na przykład autovacuum_analyze_threshold.</p>
+<p>Próg uruchamiania VACUUM ustala się wzorem:</p>
+<blockquote>
+<div><p>autovacuum_vacuum_threshold + autovacuum_vacuum_scale_factor * liczba_wierszy</p>
+</div></blockquote>
+<p>Podobnie dla ANALYZE:</p>
+<blockquote>
+<div><p>autovacuum_analyze_threshold + autovacuum_analyze_scale_factor * liczba_wierszy</p>
+</div></blockquote>
+</section>
+</section>
+<section id="schemat-bazy-danych">
+<h2><span class="section-number">6.8. </span>Schemat bazy danych<a class="headerlink" href="#schemat-bazy-danych" title="Link to this heading">¶</a></h2>
+<p>Autor: Bartłomiej Czyż</p>
+<section id="czym-jest-schemat-bazy-danych">
+<h3><span class="section-number">6.8.1. </span>Czym jest schemat bazy danych?<a class="headerlink" href="#czym-jest-schemat-bazy-danych" title="Link to this heading">¶</a></h3>
+<p>Schemat bazy danych to logiczna struktura opisująca organizację danych, typy danych, relacje między tabelami, ograniczenia integralności, procedury składowane, widoki i inne obiekty. Innymi słowy, schemat jest „szkieletem” bazy danych.</p>
+<p>Przykładowe elementy schematu:</p>
+<ul class="simple">
+<li><p>Tabele (np. users, orders),</p></li>
+<li><p>Typy danych (np. INT, VARCHAR, DATE),</p></li>
+<li><p>Klucze główne i obce,</p></li>
+<li><p>Indeksy,</p></li>
+<li><p>Widoki (VIEW),</p></li>
+<li><p>Procedury i funkcje (STORED PROCEDURES),</p></li>
+<li><p>Ograniczenia (CHECK, NOT NULL, UNIQUE).</p></li>
+</ul>
+</section>
+<section id="rola-schematu-w-konserwacji-bazy-danych">
+<h3><span class="section-number">6.8.2. </span>Rola schematu w konserwacji bazy danych<a class="headerlink" href="#rola-schematu-w-konserwacji-bazy-danych" title="Link to this heading">¶</a></h3>
+<p>Schemat ma kluczowe znaczenie dla utrzymania spójności i integralności danych, dlatego jego kontrola i konserwacja obejmuje m.in.:</p>
+<ul class="simple">
+<li><p>Dokumentację schematu - niezbędna przy aktualizacjach i migracjach,</p></li>
+<li><p>Weryfikację integralności relacji - sprawdzenie czy klucze obce i reguły są respektowane,</p></li>
+<li><p>Normalizację - kontrola nad nadmiarem danych i poprawnością logiczną,</p></li>
+<li><p>Aktualizacje schematu - np. dodawanie nowych kolumn, zmiana typu danych,</p></li>
+<li><p>Kontrola zgodności - wersjonowanie schematu (np. za pomocą narzędzi typu Liquibase, Flyway),</p></li>
+<li><p>Zabezpieczenia schematów - nadawanie uprawnień tylko zaufanym użytkownikom.</p></li>
+</ul>
+<p>Przykład konserwacji:</p>
+<p>W PostgreSQL można analizować i optymalizować strukturę przy pomocy pgAdmin oraz narzędzi takich jak pg_dump –schema-only.</p>
+</section>
+<section id="roznice-w-implementacji-schematu-w-roznych-systemach">
+<h3><span class="section-number">6.8.3. </span>Różnice w implementacji schematu w różnych systemach<a class="headerlink" href="#roznice-w-implementacji-schematu-w-roznych-systemach" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>MySQL - obsługuje wiele schematów w jednej bazie; ograniczone typy kolumn w starszych wersjach,</p></li>
+<li><p>PostgreSQL - bardzo elastyczny system schematów - możliwość teorzenia przestrzeni nazw,</p></li>
+<li><p>SQLite - pojedynczy schemat, uproszczony system typów,</p></li>
+<li><p>SQL Server - schemat jako logiczna przestrzeń obiektów, np. dbo, hr, finance.</p></li>
+</ul>
+</section>
+</section>
+<section id="transakcje">
+<h2><span class="section-number">6.9. </span>Transakcje<a class="headerlink" href="#transakcje" title="Link to this heading">¶</a></h2>
+<p>Autor: Bartłomiej Czyż</p>
+<section id="czym-jest-transakcja">
+<h3><span class="section-number">6.9.1. </span>Czym jest transakcja?<a class="headerlink" href="#czym-jest-transakcja" title="Link to this heading">¶</a></h3>
+<p>Transakcja to zbiór operacji na bazie danych, które są traktowane jako jedna, nierozdzielna całość. Albo wykonują się wszystkie operacje, albo żadna - zasada atomiczności. Transakcje są podstawą do zachowania spójności danych, szczególnie w środowiskach wieloużytkownikowych.</p>
+</section>
+<section id="zasady-acid">
+<h3><span class="section-number">6.9.2. </span>Zasady ACID<a class="headerlink" href="#zasady-acid" title="Link to this heading">¶</a></h3>
+<p>Transakcje w bazach danych opierają się na czterech podstawowych zasadach, znanych jako ACID:</p>
+<ul class="simple">
+<li><p>A - Atomicity (Atomowość) - operacje wchodzące w skład transakcji są niepodzielne - wszystkie muszą się powieść, lub wszystkie są wycofywane,</p></li>
+<li><p>C - Consistency (Spójność) - transakcje przekształcają dane ze stanu spójnego w stan spójny,</p></li>
+<li><p>I - Isolation (Izolacja) - równoczesne transakcje nie wpływają na siebie nawzajem,</p></li>
+<li><p>D - Durability (Trwałość) - po zatwierdzeniu transakcji dane są trwale zapisane, nawet w przypadku awarii.</p></li>
+</ul>
+</section>
+<section id="rola-transakcji-w-kontroli-i-konserwacji">
+<h3><span class="section-number">6.9.3. </span>Rola transakcji w kontroli i konserwacji<a class="headerlink" href="#rola-transakcji-w-kontroli-i-konserwacji" title="Link to this heading">¶</a></h3>
+<p>Transakcje mają ogromne znaczenie dla bezpieczeństwa danych, dlatego są nieodłącznym elementem procesów konserwacyjnych. Ich zastosowanie obejmuje:</p>
+<ul class="simple">
+<li><p>Zabezpieczenie operacji aktualizacji - np. przy masowych zmianach danych,</p></li>
+<li><p>Replikacja i synchronizacja danych - transakcje zapewniają spójność między główną bazą, a replikami,</p></li>
+<li><p>Zarządzanie błędami - w przypadku błędu można wykonać ROLLBACK i przywrócić stan bazy,</p></li>
+<li><p>Tworzenie backupów spójnych z punktu w czasie - snapshoty danych często wymagają wsparcia transakcyjnego,</p></li>
+<li><p>Ochrona przed uszkodzeniami logicznymi - np. przez niekompletne aktualizacje.</p></li>
+</ul>
+</section>
+<section id="roznice-w-implementacji-transakcji-w-roznych-systemach">
+<h3><span class="section-number">6.9.4. </span>Różnice w implementacji transakcji w różnych systemach<a class="headerlink" href="#roznice-w-implementacji-transakcji-w-roznych-systemach" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>MySQL - w pełni wspierane w silniku InnoDB; START TRANSACTION, COMMIT, ROLLBACK,</p></li>
+<li><p>PostgreSQL - silne wsparcie ACID, zaawansowana izolacja (REPEATABLE READ, SERIALIZABLE),</p></li>
+<li><p>SQLite - transakcje działają w trybie plikowym; BEGIN, COMMIT i ROLLBACK są wspierane,</p></li>
+<li><p>SQL Server - zaawansowany mechanizm transakcji z kontrolą poziomów izolacji, także eksplicytny SAVEPOINT.</p></li>
+</ul>
+</section>
+</section>
+<section id="literatura">
+<h2><span class="section-number">6.10. </span>Literatura<a class="headerlink" href="#literatura" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.postgresql.org/docs/current/index.html">Oficjalna dokumentacja PostgreSQL</a></p></li>
+<li><p>Riggs S., Krosing H., PostgreSQL. Receptury dla administratora, Helion 2011</p></li>
+<li><p>Matthew N., Stones R., Beginning Databases with PostgreSQL. From Novice to Professional, Apress 2006</p></li>
+<li><p>Juba S., Vannahme A., Volkov A., Learning PostgreSQL, Packt Publishing 2015</p></li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">BazyDanych</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Spis Treści</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_1.html">1. Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Wydajnosc-Skalowanie-i-Replikacja/index.html">2. Wydajność, skalowanie i replikacja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html">3. Sprzęt dla baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Bezpieczenstwo/index.html">5. Bezpieczeństwo</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Kontrola i konserwacja baz danych</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wprowadzenie">6.1. Wprowadzenie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podzial-konserwacji-baz-danych">6.2. Podział konserwacji baz danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#roznice-konserwacyjne-w-zaleznosci-od-rodzaju-bazy-danych">6.3. Różnice konserwacyjne w zależności od rodzaju bazy danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#planowanie-konserwacji-bazy-danych">6.4. Planowanie konserwacji bazy danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uruchamianie-zatrzymywanie-i-restartowanie-serwera-bazy-danych">6.5. Uruchamianie, zatrzymywanie i restartowanie serwera bazy danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zarzadzanie-polaczeniami-uzytkownikow">6.6. Zarządzanie połączeniami użytkowników</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#proces-vacuum">6.7. Proces VACUUM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#schemat-bazy-danych">6.8. Schemat bazy danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#transakcje">6.9. Transakcje</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#literatura">6.10. Literatura</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html">7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_4.html">8. Analiza i Implementacja Bazy Danych</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../Bezpieczenstwo/index.html" title="poprzedni rozdział"><span class="section-number">5. </span>Bezpieczeństwo</a></li>
+      <li>Next: <a href="../Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html" title="następny rozdział"><span class="section-number">7. </span>Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bartosz Potoczny.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Kontrola_i_konserwacja/kontrola_i_konserwacja.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych &#8212; BazyDanych 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" />
+    <link rel="next" title="5. Bezpieczeństwo" href="../Bezpieczenstwo/index.html" />
+    <link rel="prev" title="3. Sprzęt dla baz danych" href="../Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="sprawozdanie-konfiguracja-i-zarzadzanie-baza-danych">
+<h1><span class="section-number">4. </span>Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych<a class="headerlink" href="#sprawozdanie-konfiguracja-i-zarzadzanie-baza-danych" title="Link to this heading">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Authors<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>Piotr Domagała</p></li>
+<li><p>Piotr Kotuła</p></li>
+<li><p>Dawid Pasikowski</p></li>
+</ul>
+</dd>
+</dl>
+<section id="konfiguracja-bazy-danych">
+<h2><span class="section-number">4.1. </span>1. Konfiguracja bazy danych<a class="headerlink" href="#konfiguracja-bazy-danych" title="Link to this heading">¶</a></h2>
+<p>Wprowadzenie do tematu konfiguracji bazy danych obejmuje podstawowe informacje na temat zarządzania i dostosowywania ustawień baz danych w systemach informatycznych. Konfiguracja ta jest kluczowa dla zapewnienia bezpieczeństwa, wydajności oraz stabilności działania aplikacji korzystających z bazy danych. Obejmuje m.in. określenie parametrów połączenia, zarządzanie użytkownikami, uprawnieniami oraz optymalizację działania systemu bazodanowego.</p>
+</section>
+<section id="lokalizacja-i-struktura-katalogow">
+<h2><span class="section-number">4.2. </span>2. Lokalizacja i struktura katalogów<a class="headerlink" href="#lokalizacja-i-struktura-katalogow" title="Link to this heading">¶</a></h2>
+<p>Każda baza danych przechowuje swoje pliki w określonych lokalizacjach systemowych, zależnie od używanego silnika. Przykładowe lokalizacje:</p>
+<ul class="simple">
+<li><p><strong>PostgreSQL</strong>: <code class="docutils literal notranslate"><span class="pre">/var/lib/pgsql/data</span></code></p></li>
+<li><p><strong>MySQL</strong>: <code class="docutils literal notranslate"><span class="pre">/var/lib/mysql</span></code></p></li>
+<li><p><strong>SQL Server</strong>: <code class="docutils literal notranslate"><span class="pre">C:\Program</span> <span class="pre">Files\Microsoft</span> <span class="pre">SQL</span> <span class="pre">Server</span></code></p></li>
+</ul>
+<p>Struktura katalogów obejmuje katalog główny bazy danych oraz podkatalogi na pliki danych, logi, kopie zapasowe i pliki konfiguracyjne.</p>
+<p><strong>Przykład</strong>: W dużych środowiskach produkcyjnych często stosuje się osobne dyski do przechowywania plików danych i logów transakcyjnych. Takie rozwiązanie pozwala na zwiększenie wydajności operacji zapisu oraz minimalizowanie ryzyka utraty danych.</p>
+<p><strong>Dobra praktyka</strong>: Zaleca się, aby katalogi z danymi i logami były regularnie monitorowane pod kątem dostępnego miejsca na dysku. Przepełnienie któregoś z nich może doprowadzić do zatrzymania pracy bazy danych.</p>
+</section>
+<section id="katalog-danych">
+<h2><span class="section-number">4.3. </span>3. Katalog danych<a class="headerlink" href="#katalog-danych" title="Link to this heading">¶</a></h2>
+<p>Jest to miejsce, gdzie fizycznie przechowywane są wszystkie pliki związane z bazą danych, takie jak:</p>
+<ul class="simple">
+<li><p>Pliki tabel i indeksów</p></li>
+<li><p>Dzienniki transakcji</p></li>
+<li><p>Pliki tymczasowe</p></li>
+</ul>
+<p><strong>Przykładowo</strong>: W PostgreSQL katalog danych to <code class="docutils literal notranslate"><span class="pre">/var/lib/pgsql/data</span></code>, gdzie znajdują się zarówno pliki z danymi, jak i główny plik konfiguracyjny <code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code>.</p>
+<p><strong>Wskazówka</strong>: Dostęp do katalogu danych powinien być ograniczony tylko do uprawnionych użytkowników systemu, co zwiększa bezpieczeństwo i zapobiega przypadkowym lub celowym modyfikacjom plików bazy.</p>
+</section>
+<section id="podzial-konfiguracji-na-podpliki">
+<h2><span class="section-number">4.4. </span>4. Podział konfiguracji na podpliki<a class="headerlink" href="#podzial-konfiguracji-na-podpliki" title="Link to this heading">¶</a></h2>
+<p>Konfiguracja systemu bazodanowego może być rozbita na kilka mniejszych, wyspecjalizowanych plików, np.:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code> – główne ustawienia serwera</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code> – reguły autoryzacji i dostępu</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_ident.conf</span></code> – mapowanie użytkowników systemowych na użytkowników PostgreSQL</p></li>
+</ul>
+<p><strong>Przykład</strong>: Jeśli administrator chce zmienić jedynie sposób autoryzacji użytkowników, edytuje tylko plik <code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code>, bez ryzyka wprowadzenia niezamierzonych zmian w innych częściach konfiguracji.</p>
+<p><strong>Dobra praktyka</strong>: Rozdzielenie konfiguracji na podpliki ułatwia zarządzanie, pozwala szybciej lokalizować błędy i minimalizuje ryzyko konfliktów podczas aktualizacji lub wdrażania zmian.</p>
+</section>
+<section id="katalog-konfiguracyjny">
+<h2><span class="section-number">4.5. </span>5. Katalog Konfiguracyjny<a class="headerlink" href="#katalog-konfiguracyjny" title="Link to this heading">¶</a></h2>
+<p>To miejsce przechowywania wszystkich plików konfiguracyjnych bazy danych, takich jak główny plik konfiguracyjny, pliki z ustawieniami użytkowników, uprawnień czy harmonogramów zadań.</p>
+<p>Typowe lokalizacje to:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/etc</span></code> (np. <code class="docutils literal notranslate"><span class="pre">my.cnf</span></code> dla MySQL)</p></li>
+<li><p>Katalog danych bazy (np. <code class="docutils literal notranslate"><span class="pre">/var/lib/pgsql/data</span></code> dla PostgreSQL)</p></li>
+</ul>
+<p><strong>Przykład</strong>: W przypadku awarii systemu administrator może szybko przywrócić działanie bazy, kopiując wcześniej zapisane pliki konfiguracyjne z katalogu konfiguracyjnego.</p>
+<p><strong>Wskazówka</strong>: Regularne wykonywanie kopii zapasowych katalogu konfiguracyjnego jest kluczowe – utrata tych plików może uniemożliwić uruchomienie bazy danych lub spowodować utratę ważnych ustawień systemowych.</p>
+</section>
+<section id="katalog-logow-i-struktura-katalogow-w-postgresql">
+<h2><span class="section-number">4.6. </span>6. Katalog logów i struktura katalogów w PostgreSQL<a class="headerlink" href="#katalog-logow-i-struktura-katalogow-w-postgresql" title="Link to this heading">¶</a></h2>
+<p><strong>Katalog logów</strong>
+PostgreSQL zapisuje logi w różnych lokalizacjach, zależnie od systemu operacyjnego:</p>
+<ul class="simple">
+<li><p>Na Debianie/Ubuntu: <code class="docutils literal notranslate"><span class="pre">/var/log/postgresql</span></code></p></li>
+<li><p>Na Red Hat/CentOS: <code class="docutils literal notranslate"><span class="pre">/var/lib/pgsql/&lt;wersja&gt;/data/pg_log</span></code></p></li>
+</ul>
+<p>&gt; Uwaga: Aby zapisywać logi do pliku, należy upewnić się, że opcja <code class="docutils literal notranslate"><span class="pre">logging_collector</span></code> jest włączona w pliku <code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code>.</p>
+<p><strong>Struktura katalogów PostgreSQL</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">base</span><span class="o">/</span>         <span class="c1"># dane użytkownika – jedna podkatalog dla każdej bazy danych</span>
+<span class="k">global</span><span class="o">/</span>       <span class="c1"># dane wspólne dla wszystkich baz (np. użytkownicy)</span>
+<span class="n">pg_wal</span><span class="o">/</span>       <span class="c1"># pliki WAL (Write-Ahead Logging)</span>
+<span class="n">pg_stat</span><span class="o">/</span>      <span class="c1"># statystyki działania serwera</span>
+<span class="n">pg_log</span><span class="o">/</span>       <span class="c1"># logi (jeśli skonfigurowane)</span>
+<span class="n">pg_tblspc</span><span class="o">/</span>    <span class="c1"># dowiązania do tablespace’ów</span>
+<span class="n">pg_twophase</span><span class="o">/</span>  <span class="c1"># dane dla transakcji dwufazowych</span>
+<span class="n">postgresql</span><span class="o">.</span><span class="n">conf</span>  <span class="c1"># główny plik konfiguracyjny</span>
+<span class="n">pg_hba</span><span class="o">.</span><span class="n">conf</span>      <span class="c1"># kontrola dostępu</span>
+<span class="n">pg_ident</span><span class="o">.</span><span class="n">conf</span>    <span class="c1"># mapowanie użytkowników systemowych na bazodanowych</span>
+</pre></div>
+</div>
+</section>
+<section id="przechowywanie-i-lokalizacja-plikow-konfiguracyjnych">
+<h2><span class="section-number">4.7. </span>7. Przechowywanie i lokalizacja plików konfiguracyjnych<a class="headerlink" href="#przechowywanie-i-lokalizacja-plikow-konfiguracyjnych" title="Link to this heading">¶</a></h2>
+<p>Główne pliki konfiguracyjne:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code> – konfiguracja instancji PostgreSQL (parametry wydajności, logowania, lokalizacji itd.)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code> – kontrola dostępu (adresy IP, użytkownicy, metody autoryzacji)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_ident.conf</span></code> – mapowanie użytkowników systemowych na użytkowników bazodanowych</p></li>
+</ul>
+</section>
+<section id="podstawowe-parametry-konfiguracyjne">
+<h2><span class="section-number">4.8. </span>8. Podstawowe parametry konfiguracyjne<a class="headerlink" href="#podstawowe-parametry-konfiguracyjne" title="Link to this heading">¶</a></h2>
+<p><strong>Słuchanie połączeń:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">listen_addresses</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span>
+<span class="n">port</span> <span class="o">=</span> <span class="mi">5432</span>
+</pre></div>
+</div>
+<p><strong>Pamięć i wydajność:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shared_buffers</span> <span class="o">=</span> <span class="mi">512</span><span class="n">MB</span>         <span class="c1"># pamięć współdzielona</span>
+<span class="n">work_mem</span> <span class="o">=</span> <span class="mi">4</span><span class="n">MB</span>                 <span class="c1"># pamięć na operacje sortowania/złączeń</span>
+<span class="n">maintenance_work_mem</span> <span class="o">=</span> <span class="mi">64</span><span class="n">MB</span>    <span class="c1"># dla operacji VACUUM, CREATE INDEX</span>
+</pre></div>
+</div>
+<p><strong>Autovacuum:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">autovacuum</span> <span class="o">=</span> <span class="n">on</span>
+<span class="n">autovacuum_naptime</span> <span class="o">=</span> <span class="mi">1</span><span class="nb">min</span>
+</pre></div>
+</div>
+<p><strong>Konfiguracja pliku</strong> <code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># TYPE  DATABASE  USER  ADDRESS         METHOD</span>
+<span class="n">local</span>   <span class="nb">all</span>       <span class="nb">all</span>   <span class="n">md5</span>
+<span class="n">host</span>    <span class="nb">all</span>       <span class="nb">all</span>   <span class="mf">192.168.0.0</span><span class="o">/</span><span class="mi">24</span>  <span class="n">md5</span>
+</pre></div>
+</div>
+<p><strong>Konfiguracja pliku</strong> <code class="docutils literal notranslate"><span class="pre">pg_ident.conf</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># MAPNAME      SYSTEM-USERNAME   PG-USERNAME</span>
+<span class="n">local_users</span>  <span class="n">ubuntu</span>            <span class="n">postgres</span>
+<span class="n">local_users</span>  <span class="n">jan_kowalski</span>      <span class="n">janek_db</span>
+</pre></div>
+</div>
+<p>Można użyć tej mapy w pliku <code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">local</span>   <span class="nb">all</span>     <span class="nb">all</span>     <span class="n">peer</span> <span class="nb">map</span><span class="o">=</span><span class="n">local_users</span>
+</pre></div>
+</div>
+</section>
+<section id="wstep-teoretyczny">
+<h2><span class="section-number">4.9. </span>9. Wstęp teoretyczny<a class="headerlink" href="#wstep-teoretyczny" title="Link to this heading">¶</a></h2>
+<p>Systemy zarządzania bazą danych (DBMS – <em>Database Management System</em>) umożliwiają tworzenie, modyfikowanie i zarządzanie danymi. Ułatwiają organizację danych, zapewniają integralność, bezpieczeństwo oraz możliwość jednoczesnego dostępu wielu użytkowników.</p>
+<section id="klasyfikacja-systemow-zarzadzania-baza-danych">
+<h3><span class="section-number">4.9.1. </span>9.1 Klasyfikacja systemów zarządzania bazą danych<a class="headerlink" href="#klasyfikacja-systemow-zarzadzania-baza-danych" title="Link to this heading">¶</a></h3>
+<p>Systemy DBMS można klasyfikować według:</p>
+<ul class="simple">
+<li><p><strong>Architektura działania:</strong>
+- <em>Klient-serwer</em> – system działa jako niezależna usługa (np. PostgreSQL).
+- <em>Osadzony (embedded)</em> – baza danych jest integralną częścią aplikacji (np. SQLite).</p></li>
+<li><p><strong>Rodzaj danych i funkcjonalność:</strong>
+- <em>Relacyjne (RDBMS)</em> – oparte na tabelach, kluczach i SQL.
+- <em>Nierelacyjne (NoSQL)</em> – oparte na dokumentach, modelu klucz-wartość lub grafach.</p></li>
+</ul>
+<p>Oba systemy – <strong>SQLite</strong> oraz <strong>PostgreSQL</strong> – należą do relacyjnych baz danych, lecz różnią się architekturą, wydajnością, konfiguracją i przeznaczeniem.</p>
+</section>
+<section id="sqlite">
+<h3><span class="section-number">4.9.2. </span>9.2 SQLite<a class="headerlink" href="#sqlite" title="Link to this heading">¶</a></h3>
+<p>SQLite to lekka, bezserwerowa baza danych typu embedded, gdzie cała baza znajduje się w jednym pliku. Dzięki temu jest bardzo wygodna przy tworzeniu aplikacji lokalnych, mobilnych oraz projektów prototypowych.</p>
+<p><strong>Cechy SQLite:</strong></p>
+<ul class="simple">
+<li><p>Brak osobnego procesu serwera – baza działa w kontekście aplikacji.</p></li>
+<li><p>Niskie wymagania systemowe – brak potrzeby instalacji i konfiguracji.</p></li>
+<li><p>Baza przechowywana jako pojedynczy plik (<em>.sqlite</em> lub <em>.db</em>).</p></li>
+<li><p>Pełna obsługa SQL (z pewnymi ograniczeniami) – wspiera standard SQL-92.</p></li>
+<li><p>Ograniczona skalowalność przy wielu użytkownikach.</p></li>
+</ul>
+<p><strong>Zastosowanie:</strong></p>
+<ul class="simple">
+<li><p>Aplikacje desktopowe (np. Firefox, VS Code).</p></li>
+<li><p>Aplikacje mobilne (Android, iOS).</p></li>
+<li><p>Małe i średnie systemy bazodanowe.</p></li>
+</ul>
+</section>
+<section id="postgresql">
+<h3><span class="section-number">4.9.3. </span>9.3 PostgreSQL<a class="headerlink" href="#postgresql" title="Link to this heading">¶</a></h3>
+<p>PostgreSQL to zaawansowany system relacyjnej bazy danych typu klient-serwer, rozwijany jako projekt open-source. Zapewnia pełne wsparcie dla SQL oraz liczne rozszerzenia (np. typy przestrzenne, JSON).</p>
+<p><strong>Cechy PostgreSQL:</strong></p>
+<ul class="simple">
+<li><p>Architektura klient-serwer – działa jako oddzielny proces.</p></li>
+<li><p>Wysoka skalowalność i niezawodność – obsługuje wielu użytkowników, złożone zapytania, replikację.</p></li>
+<li><p>Obsługa transakcji, MVCC, indeksowania oraz zarządzania uprawnieniami.</p></li>
+<li><p>Rozszerzalność – możliwość definiowania własnych typów danych, funkcji i procedur.</p></li>
+</ul>
+<p><strong>Konfiguracja:</strong>
+Plikami konfiguracyjnymi są:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code> – ustawienia ogólne (port, ścieżki, pamięć, logi).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code> – reguły autoryzacji.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_ident.conf</span></code> – mapowanie użytkowników systemowych na bazodanowych.</p></li>
+</ul>
+<p><strong>Zastosowanie:</strong></p>
+<ul class="simple">
+<li><p>Systemy biznesowe, bankowe, analityczne.</p></li>
+<li><p>Aplikacje webowe i serwery aplikacyjne.</p></li>
+<li><p>Środowiska o wysokich wymaganiach bezpieczeństwa i kontroli dostępu.</p></li>
+</ul>
+</section>
+<section id="cel-uzycia-obu-systemow">
+<h3><span class="section-number">4.9.4. </span>9.4 Cel użycia obu systemów<a class="headerlink" href="#cel-uzycia-obu-systemow" title="Link to this heading">¶</a></h3>
+<p>W ramach zajęć wykorzystano zarówno <strong>SQLite</strong> (dla szybkiego startu i analizy zapytań bez instalacji serwera), jak i <strong>PostgreSQL</strong> (dla nauki konfiguracji, zarządzania użytkownikami, uprawnieniami oraz obsługi złożonych operacji).</p>
+</section>
+</section>
+<section id="zarzadzanie-konfiguracja-w-postgresql">
+<h2><span class="section-number">4.10. </span>10. Zarządzanie konfiguracją w PostgreSQL<a class="headerlink" href="#zarzadzanie-konfiguracja-w-postgresql" title="Link to this heading">¶</a></h2>
+<p>PostgreSQL oferuje rozbudowany i elastyczny mechanizm konfiguracji, umożliwiający precyzyjne dostosowanie działania bazy danych do potrzeb użytkownika oraz środowiska (lokalnego, deweloperskiego, testowego czy produkcyjnego).</p>
+<section id="pliki-konfiguracyjne">
+<h3><span class="section-number">4.10.1. </span>10.1 Pliki konfiguracyjne<a class="headerlink" href="#pliki-konfiguracyjne" title="Link to this heading">¶</a></h3>
+<p>Główne pliki konfiguracyjne PostgreSQL:</p>
+<ul class="simple">
+<li><p><strong>postgresql.conf</strong> – ustawienia dotyczące pamięci, sieci, logowania, autovacuum, planowania zapytań.</p></li>
+<li><p><strong>pg_hba.conf</strong> – definiuje metody uwierzytelniania i dostęp z określonych adresów.</p></li>
+<li><p><strong>pg_ident.conf</strong> – mapowanie nazw użytkowników systemowych na użytkowników PostgreSQL.</p></li>
+</ul>
+<p>Pliki te zazwyczaj znajdują się w katalogu danych (np. <code class="docutils literal notranslate"><span class="pre">/var/lib/postgresql/15/main/</span></code> lub <code class="docutils literal notranslate"><span class="pre">/etc/postgresql/15/main/</span></code>).</p>
+</section>
+<section id="przykladowe-kluczowe-parametry-postgresql-conf">
+<h3><span class="section-number">4.10.2. </span>10.2 Przykładowe kluczowe parametry <code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code><a class="headerlink" href="#przykladowe-kluczowe-parametry-postgresql-conf" title="Link to this heading">¶</a></h3>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Parametr</strong></p></th>
+<th class="head"><p><strong>Opis</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>shared_buffers</p></td>
+<td><p>Ilość pamięci RAM przeznaczona na bufor danych (rekomendacja: 25–40% RAM).</p></td>
+</tr>
+<tr class="row-odd"><td><p>work_mem</p></td>
+<td><p>Pamięć dla pojedynczej operacji zapytania (np. sortowania).</p></td>
+</tr>
+<tr class="row-even"><td><p>maintenance_work_mem</p></td>
+<td><p>Pamięć dla operacji administracyjnych (np. VACUUM, CREATE INDEX).</p></td>
+</tr>
+<tr class="row-odd"><td><p>effective_cache_size</p></td>
+<td><p>Szacunkowa ilość pamięci dostępnej na cache systemu operacyjnego.</p></td>
+</tr>
+<tr class="row-even"><td><p>max_connections</p></td>
+<td><p>Maksymalna liczba jednoczesnych połączeń z bazą danych.</p></td>
+</tr>
+<tr class="row-odd"><td><p>log_directory</p></td>
+<td><p>Katalog, w którym zapisywane są logi PostgreSQL.</p></td>
+</tr>
+<tr class="row-even"><td><p>autovacuum</p></td>
+<td><p>Włącza lub wyłącza automatyczne odświeżanie nieużywanych wierszy.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="sposoby-zmiany-konfiguracji">
+<h3><span class="section-number">4.10.3. </span>10.3 Sposoby zmiany konfiguracji<a class="headerlink" href="#sposoby-zmiany-konfiguracji" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>Edycja pliku</strong> <code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code></p>
+<p>Zmiany są trwałe, ale wymagają restartu serwera (w niektórych przypadkach wystarczy reload).</p>
+<p><strong>Przykład:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shared_buffers</span> <span class="o">=</span> <span class="mi">512</span><span class="n">MB</span>
+<span class="n">work_mem</span> <span class="o">=</span> <span class="mi">64</span><span class="n">MB</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Dynamiczna zmiana poprzez SQL</strong></p>
+<p><strong>Przykład:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ALTER</span> <span class="n">SYSTEM</span> <span class="n">SET</span> <span class="n">work_mem</span> <span class="o">=</span> <span class="s1">&#39;64MB&#39;</span><span class="p">;</span>
+<span class="n">SELECT</span> <span class="n">pg_reload_conf</span><span class="p">();</span>  <span class="c1"># ładowanie zmian bez restartu</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Tymczasowa zmiana dla jednej sesji</strong></p>
+<p><strong>Przykład:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SET</span> <span class="n">work_mem</span> <span class="o">=</span> <span class="s1">&#39;128MB&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="sprawdzanie-konfiguracji">
+<h3><span class="section-number">4.10.4. </span>10.4 Sprawdzanie konfiguracji<a class="headerlink" href="#sprawdzanie-konfiguracji" title="Link to this heading">¶</a></h3>
+<ul>
+<li><p>Aby sprawdzić aktualną wartość parametru:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SHOW</span> <span class="n">work_mem</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Pobranie szczegółowych informacji:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">name</span><span class="p">,</span> <span class="n">setting</span><span class="p">,</span> <span class="n">unit</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">source</span>
+<span class="n">FROM</span> <span class="n">pg_settings</span>
+<span class="n">WHERE</span> <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;work_mem&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+<li><p>Wylistowanie parametrów wymagających restartu serwera:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">name</span> <span class="n">FROM</span> <span class="n">pg_settings</span> <span class="n">WHERE</span> <span class="n">context</span> <span class="o">=</span> <span class="s1">&#39;postmaster&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="narzedzia-pomocnicze">
+<h3><span class="section-number">4.10.5. </span>10.5 Narzędzia pomocnicze<a class="headerlink" href="#narzedzia-pomocnicze" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>pg_ctl</strong> – narzędzie do zarządzania serwerem (start/stop/reload).</p></li>
+<li><p><strong>psql</strong> – klient terminalowy PostgreSQL do wykonywania zapytań oraz operacji administracyjnych.</p></li>
+<li><p><strong>pgAdmin</strong> – graficzne narzędzie do zarządzania bazą PostgreSQL (umożliwia edycję konfiguracji przez GUI).</p></li>
+</ul>
+</section>
+<section id="kontrola-dostepu-i-mechanizmy-uwierzytelniania">
+<h3><span class="section-number">4.10.6. </span>10.6 Kontrola dostępu i mechanizmy uwierzytelniania<a class="headerlink" href="#kontrola-dostepu-i-mechanizmy-uwierzytelniania" title="Link to this heading">¶</a></h3>
+<p>Konfiguracja umożliwia określenie, z jakich adresów i w jaki sposób można łączyć się z bazą:</p>
+<ul class="simple">
+<li><p><strong>Dostęp lokalny (localhost)</strong> – połączenia z tej samej maszyny.</p></li>
+<li><p><strong>Dostęp z podsieci</strong> – administrator może wskazać konkretne podsieci IP (np. <code class="docutils literal notranslate"><span class="pre">192.168.0.0/24</span></code>).</p></li>
+<li><p><strong>Mechanizmy uwierzytelniania</strong> – np. <code class="docutils literal notranslate"><span class="pre">md5</span></code>, <code class="docutils literal notranslate"><span class="pre">scram-sha-256</span></code>, <code class="docutils literal notranslate"><span class="pre">peer</span></code> (weryfikacja użytkownika systemowego) czy <code class="docutils literal notranslate"><span class="pre">trust</span></code>.</p></li>
+</ul>
+<p>Ważne, aby mechanizm <code class="docutils literal notranslate"><span class="pre">peer</span></code> był odpowiednio skonfigurowany, gdyż umożliwia automatyczną autoryzację, jeśli nazwa użytkownika systemowego i bazy zgadza się.</p>
+</section>
+</section>
+<section id="planowanie">
+<h2><span class="section-number">4.11. </span>11. Planowanie<a class="headerlink" href="#planowanie" title="Link to this heading">¶</a></h2>
+<p>Planowanie w kontekście PostgreSQL oznacza optymalizację wykonania zapytań oraz efektywne zarządzanie zasobami.</p>
+<section id="co-to-jest-planowanie-zapytan">
+<h3><span class="section-number">4.11.1. </span>11.1 Co to jest planowanie zapytań?<a class="headerlink" href="#co-to-jest-planowanie-zapytan" title="Link to this heading">¶</a></h3>
+<p>Proces planowania zapytań obejmuje:</p>
+<ul class="simple">
+<li><p>Analizę składni i struktury zapytania SQL.</p></li>
+<li><p>Przegląd dostępnych statystyk dotyczących tabel, indeksów i danych.</p></li>
+<li><p>Dobór sposobu dostępu do danych (pełny skan, indeks, join, sortowanie).</p></li>
+<li><p>Tworzenie planu wykonania, czyli sekwencji operacji potrzebnych do uzyskania wyniku.</p></li>
+</ul>
+<p>Administrator może również kontrolować częstotliwość aktualizacji statystyk (np. <code class="docutils literal notranslate"><span class="pre">default_statistics_target</span></code>, <code class="docutils literal notranslate"><span class="pre">autovacuum</span></code>).</p>
+</section>
+<section id="mechanizm-planowania-w-postgresql">
+<h3><span class="section-number">4.11.2. </span>11.2 Mechanizm planowania w PostgreSQL<a class="headerlink" href="#mechanizm-planowania-w-postgresql" title="Link to this heading">¶</a></h3>
+<p>PostgreSQL wykorzystuje kosztowy optymalizator; przy użyciu statystyk (liczby wierszy, rozkładu danych) szacuje „koszt” różnych metod wykonania zapytania, wybierając tę, która jest najtańsza pod względem czasu i zasobów.</p>
+</section>
+<section id="statystyki-i-ich-aktualizacja">
+<h3><span class="section-number">4.11.3. </span>11.3 Statystyki i ich aktualizacja<a class="headerlink" href="#statystyki-i-ich-aktualizacja" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Statystyki są tworzone przy pomocy polecenia <code class="docutils literal notranslate"><span class="pre">ANALYZE</span></code> – zbiera dane o rozkładzie wartości kolumn.</p></li>
+<li><p>Mechanizm autovacuum odświeża statystyki automatycznie.</p></li>
+</ul>
+<p><strong>Przykład:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ANALYZE</span> <span class="p">[</span><span class="n">nazwa_tabeli</span><span class="p">];</span>
+</pre></div>
+</div>
+<p>W systemach o dużym obciążeniu planowanie uwzględnia również równoległość (parallel query).</p>
+</section>
+<section id="typy-planow-wykonania">
+<h3><span class="section-number">4.11.4. </span>11.4 Typy planów wykonania<a class="headerlink" href="#typy-planow-wykonania" title="Link to this heading">¶</a></h3>
+<p>Przykładowe typy planów wykonania:</p>
+<ul class="simple">
+<li><p><strong>Seq Scan</strong> – pełny skan tabeli (gdy indeksy są niedostępne lub nieefektywne).</p></li>
+<li><p><strong>Index Scan</strong> – wykorzystanie indeksu.</p></li>
+<li><p><strong>Bitmap Index Scan</strong> – łączenie efektywności indeksów ze skanem sekwencyjnym.</p></li>
+<li><p><strong>Nested Loop Join</strong> – efektywny join dla małych zbiorów.</p></li>
+<li><p><strong>Hash Join</strong> – buduje tablicę hash dla dużych zbiorów.</p></li>
+<li><p><strong>Merge Join</strong> – stosowany, gdy dane są posortowane.</p></li>
+</ul>
+</section>
+<section id="jak-sprawdzic-plan-zapytania">
+<h3><span class="section-number">4.11.5. </span>11.5 Jak sprawdzić plan zapytania?<a class="headerlink" href="#jak-sprawdzic-plan-zapytania" title="Link to this heading">¶</a></h3>
+<p>Aby zobaczyć plan wybrany przez PostgreSQL, można użyć:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">EXPLAIN</span> <span class="n">ANALYZE</span> <span class="n">SELECT</span> <span class="o">*</span> <span class="n">FROM</span> <span class="n">tabela</span> <span class="n">WHERE</span> <span class="n">kolumna</span> <span class="o">=</span> <span class="s1">&#39;wartość&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">EXPLAIN</span></code> – wyświetla plan bez wykonania zapytania.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ANALYZE</span></code> – wykonuje zapytanie i podaje rzeczywiste czasy wykonania.</p></li>
+</ul>
+<p><strong>Przykładowy wynik:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Index</span> <span class="n">Scan</span> <span class="n">using</span> <span class="n">idx_kolumna</span> <span class="n">on</span> <span class="n">tabela</span> <span class="p">(</span><span class="n">cost</span><span class="o">=</span><span class="mf">0.29</span><span class="o">.</span><span class="mf">.8.56</span> <span class="n">rows</span><span class="o">=</span><span class="mi">3</span> <span class="n">width</span><span class="o">=</span><span class="mi">244</span><span class="p">)</span>
+<span class="n">Index</span> <span class="n">Cond</span><span class="p">:</span> <span class="p">(</span><span class="n">kolumna</span> <span class="o">=</span> <span class="s1">&#39;wartość&#39;</span><span class="p">::</span><span class="n">text</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="parametry-planowania-i-optymalizacji">
+<h3><span class="section-number">4.11.6. </span>11.6 Parametry planowania i optymalizacji<a class="headerlink" href="#parametry-planowania-i-optymalizacji" title="Link to this heading">¶</a></h3>
+<p>W pliku <code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code> można konfigurować m.in.:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">random_page_cost</span></code> – koszt odczytu strony z dysku SSD/HDD.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cpu_tuple_cost</span></code> – koszt przetwarzania pojedynczego wiersza.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">enable_seqscan</span></code>, <code class="docutils literal notranslate"><span class="pre">enable_indexscan</span></code>, <code class="docutils literal notranslate"><span class="pre">enable_bitmapscan</span></code> – włączanie/wyłączanie konkretnych typów skanów.</p></li>
+</ul>
+<p>Dostosowanie tych parametrów pozwala zoptymalizować planowanie zgodnie ze specyfiką sprzętu i obciążenia.</p>
+</section>
+</section>
+<section id="tabele-rozmiar-planowanie-i-monitorowanie">
+<h2><span class="section-number">4.12. </span>12. Tabele – rozmiar, planowanie i monitorowanie<a class="headerlink" href="#tabele-rozmiar-planowanie-i-monitorowanie" title="Link to this heading">¶</a></h2>
+<section id="rozmiar-tabeli">
+<h3><span class="section-number">4.12.1. </span>12.1 Rozmiar tabeli<a class="headerlink" href="#rozmiar-tabeli" title="Link to this heading">¶</a></h3>
+<p>Rozmiar tabeli w PostgreSQL obejmuje dane (wiersze), strukturę, indeksy, dane TOAST oraz pliki statystyk. Do monitorowania rozmiaru stosuje się funkcje:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_relation_size()</span></code> – rozmiar tabeli lub pojedynczego indeksu.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_total_relation_size()</span></code> – całkowity rozmiar tabeli wraz z indeksami i TOAST.</p></li>
+</ul>
+</section>
+<section id="planowanie-rozmiaru-i-jego-kontrola">
+<h3><span class="section-number">4.12.2. </span>12.2 Planowanie rozmiaru i jego kontrola<a class="headerlink" href="#planowanie-rozmiaru-i-jego-kontrola" title="Link to this heading">¶</a></h3>
+<p>Podczas projektowania bazy danych należy oszacować potencjalny rozmiar tabel, biorąc pod uwagę liczbę wierszy i rozmiar pojedynczego rekordu. PostgreSQL nie posiada sztywnego limitu (poza ograniczeniami systemu plików i 32-bitowym limitem liczby stron). Parametr <code class="docutils literal notranslate"><span class="pre">fillfactor</span></code> może być stosowany do optymalizacji częstotliwości operacji UPDATE i VACUUM.</p>
+</section>
+<section id="monitorowanie-rozmiaru-tabel">
+<h3><span class="section-number">4.12.3. </span>12.3 Monitorowanie rozmiaru tabel<a class="headerlink" href="#monitorowanie-rozmiaru-tabel" title="Link to this heading">¶</a></h3>
+<p><strong>Przykład zapytania:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="s1">&#39;nazwa_tabeli&#39;</span><span class="p">));</span>
+</pre></div>
+</div>
+<p>Inne funkcje:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_relation_size</span></code> – rozmiar samej tabeli.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_indexes_size</span></code> – rozmiar indeksów.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_table_size</span></code> – zwraca łączny rozmiar tabeli wraz z TOAST.</p></li>
+</ul>
+</section>
+<section id="planowanie-na-poziomie-tabel">
+<h3><span class="section-number">4.12.4. </span>12.4 Planowanie na poziomie tabel<a class="headerlink" href="#planowanie-na-poziomie-tabel" title="Link to this heading">¶</a></h3>
+<p>Administrator może wpływać na fizyczne rozmieszczenie danych poprzez:</p>
+<ul class="simple">
+<li><p><strong>Tablespaces</strong> – przenoszenie tabel lub indeksów na inne dyski/partycje.</p></li>
+<li><p><strong>Podział tabel (partitioning)</strong> – rozbijanie dużych tabel na mniejsze części.</p></li>
+</ul>
+</section>
+<section id="monitorowanie-stanu-tabel">
+<h3><span class="section-number">4.12.5. </span>12.5 Monitorowanie stanu tabel<a class="headerlink" href="#monitorowanie-stanu-tabel" title="Link to this heading">¶</a></h3>
+<p>Monitorowanie obejmuje:</p>
+<ul class="simple">
+<li><p>Śledzenie fragmentacji danych.</p></li>
+<li><p>Kontrolę wzrostu tabel i indeksów.</p></li>
+<li><p>Statystyki dotyczące operacji odczytów i zapisów.</p></li>
+</ul>
+<p>Narzędzia i widoki systemowe:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_stat_all_tables</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_stat_user_tables</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_stat_activity</span></code></p></li>
+</ul>
+</section>
+<section id="konserwacja-i-optymalizacja-tabel">
+<h3><span class="section-number">4.12.6. </span>12.6 Konserwacja i optymalizacja tabel<a class="headerlink" href="#konserwacja-i-optymalizacja-tabel" title="Link to this heading">¶</a></h3>
+<p>Regularne uruchamianie poleceń:</p>
+<ul class="simple">
+<li><p><strong>VACUUM</strong> – usuwa martwe wiersze, zapobiegając nadmiernej fragmentacji.</p></li>
+<li><p><strong>ANALYZE</strong> – aktualizuje statystyki, ułatwiając optymalizację zapytań.</p></li>
+</ul>
+<p>Dla bardzo dużych tabel można stosować <code class="docutils literal notranslate"><span class="pre">VACUUM</span> <span class="pre">FULL</span></code> lub reorganizację danych, aby odzyskać przestrzeń.</p>
+</section>
+</section>
+<section id="rozmiar-pojedynczych-tabel-rozmiar-wszystkich-tabel-indeksow-tabeli">
+<h2><span class="section-number">4.13. </span>13. Rozmiar pojedynczych tabel, rozmiar wszystkich tabel, indeksów tabeli<a class="headerlink" href="#rozmiar-pojedynczych-tabel-rozmiar-wszystkich-tabel-indeksow-tabeli" title="Link to this heading">¶</a></h2>
+<p>Efektywne zarządzanie rozmiarem tabel oraz ich indeksów ma kluczowe znaczenie dla wydajności systemu.</p>
+<section id="rozmiar-pojedynczej-tabeli">
+<h3><span class="section-number">4.13.1. </span>13.1 Rozmiar pojedynczej tabeli<a class="headerlink" href="#rozmiar-pojedynczej-tabeli" title="Link to this heading">¶</a></h3>
+<p>Do pozyskania informacji o rozmiarze konkretnej tabeli służą funkcje:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_relation_size('nazwa_tabeli')</span></code> – rozmiar danych tabeli (w bajtach).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_table_size('nazwa_tabeli')</span></code> – rozmiar danych tabeli wraz z danymi TOAST.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pg_total_relation_size('nazwa_tabeli')</span></code> – całkowity rozmiar tabeli wraz z indeksami i TOAST.</p></li>
+</ul>
+<p><strong>Przykład zapytania:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span>
+  <span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_relation_size</span><span class="p">(</span><span class="s1">&#39;nazwa_tabeli&#39;</span><span class="p">))</span> <span class="n">AS</span> <span class="n">data_size</span><span class="p">,</span>
+  <span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_indexes_size</span><span class="p">(</span><span class="s1">&#39;nazwa_tabeli&#39;</span><span class="p">))</span> <span class="n">AS</span> <span class="n">indexes_size</span><span class="p">,</span>
+  <span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="s1">&#39;nazwa_tabeli&#39;</span><span class="p">))</span> <span class="n">AS</span> <span class="n">total_size</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="rozmiar-wszystkich-tabel-w-bazie">
+<h3><span class="section-number">4.13.2. </span>13.2 Rozmiar wszystkich tabel w bazie<a class="headerlink" href="#rozmiar-wszystkich-tabel-w-bazie" title="Link to this heading">¶</a></h3>
+<p>Zapytanie pozwalające wylistować wszystkie tabele i ich rozmiary:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span>
+  <span class="n">schemaname</span><span class="p">,</span>
+  <span class="n">relname</span> <span class="n">AS</span> <span class="n">table_name</span><span class="p">,</span>
+  <span class="n">pg_size_pretty</span><span class="p">(</span><span class="n">pg_total_relation_size</span><span class="p">(</span><span class="n">relid</span><span class="p">))</span> <span class="n">AS</span> <span class="n">total_size</span>
+<span class="n">FROM</span>
+  <span class="n">pg_catalog</span><span class="o">.</span><span class="n">pg_statio_user_tables</span>
+<span class="n">ORDER</span> <span class="n">BY</span>
+  <span class="n">pg_total_relation_size</span><span class="p">(</span><span class="n">relid</span><span class="p">)</span> <span class="n">DESC</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="rozmiar-indeksow-tabeli">
+<h3><span class="section-number">4.13.3. </span>13.3 Rozmiar indeksów tabeli<a class="headerlink" href="#rozmiar-indeksow-tabeli" title="Link to this heading">¶</a></h3>
+<p>Funkcja:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pg_indexes_size</span><span class="p">(</span><span class="s1">&#39;nazwa_tabeli&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Pozwala sprawdzić rozmiar wszystkich indeksów przypisanych do danej tabeli. Monitorowanie indeksów pomaga w podejmowaniu decyzji o ich przebudowie lub usunięciu.</p>
+</section>
+<section id="znaczenie-rozmiarow">
+<h3><span class="section-number">4.13.4. </span>13.4 Znaczenie rozmiarów<a class="headerlink" href="#znaczenie-rozmiarow" title="Link to this heading">¶</a></h3>
+<p>Duże tabele i indeksy mogą powodować:</p>
+<ul class="simple">
+<li><p>Wolniejsze operacje zapisu i odczytu.</p></li>
+<li><p>Wydłużony czas tworzenia kopii zapasowych.</p></li>
+<li><p>Większe wymagania przestrzeni dyskowej.</p></li>
+</ul>
+<p>Regularne monitorowanie rozmiaru umożliwia planowanie działań optymalizacyjnych i konserwacyjnych.</p>
+</section>
+</section>
+<section id="rozmiar">
+<h2><span class="section-number">4.14. </span>14. Rozmiar<a class="headerlink" href="#rozmiar" title="Link to this heading">¶</a></h2>
+<p>Pojęcie „rozmiar” odnosi się do przestrzeni dyskowej zajmowanej przez elementy bazy danych – tabele, indeksy, pliki TOAST, a także całe bazy danych lub schematy.</p>
+<section id="rodzaje-rozmiarow-w-postgresql">
+<h3><span class="section-number">4.14.1. </span>14.1 Rodzaje rozmiarów w PostgreSQL<a class="headerlink" href="#rodzaje-rozmiarow-w-postgresql" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Rozmiar pojedynczego obiektu</strong> (tabeli, indeksu):
+Funkcje takie jak <code class="docutils literal notranslate"><span class="pre">pg_relation_size()</span></code>, <code class="docutils literal notranslate"><span class="pre">pg_table_size()</span></code>, <code class="docutils literal notranslate"><span class="pre">pg_indexes_size()</span></code> oraz <code class="docutils literal notranslate"><span class="pre">pg_total_relation_size()</span></code>.</p></li>
+<li><p><strong>Rozmiar schematu lub bazy danych</strong>:
+Funkcje <code class="docutils literal notranslate"><span class="pre">pg_namespace_size('nazwa_schematu')</span></code> oraz <code class="docutils literal notranslate"><span class="pre">pg_database_size('nazwa_bazy')</span></code>.</p></li>
+<li><p><strong>Rozmiar plików TOAST</strong>:
+Duże wartości (np. teksty, obrazy) są przenoszone do struktur TOAST, których rozmiar wliczany jest do rozmiaru tabeli, choć można go analizować osobno.</p></li>
+</ul>
+</section>
+<section id="monitorowanie-i-kontrola-rozmiaru">
+<h3><span class="section-number">4.14.2. </span>14.2 Monitorowanie i kontrola rozmiaru<a class="headerlink" href="#monitorowanie-i-kontrola-rozmiaru" title="Link to this heading">¶</a></h3>
+<p>Administratorzy baz danych powinni regularnie monitorować rozmiar baz danych i jej obiektów, aby:</p>
+<ul class="simple">
+<li><p>Zapobiegać przekroczeniu limitów przestrzeni dyskowej.</p></li>
+<li><p>Wcześniej wykrywać problemy z fragmentacją.</p></li>
+<li><p>Planować archiwizację lub czyszczenie danych.</p></li>
+</ul>
+<p>Do monitoringu można wykorzystać zapytania SQL lub narzędzia zewnętrzne (np. pgAdmin, pgBadger).</p>
+</section>
+<section id="optymalizacja-rozmiaru">
+<h3><span class="section-number">4.14.3. </span>14.3 Optymalizacja rozmiaru<a class="headerlink" href="#optymalizacja-rozmiaru" title="Link to this heading">¶</a></h3>
+<p>Działania optymalizacyjne obejmują:</p>
+<ul class="simple">
+<li><p><strong>Reorganizację i VACUUM</strong>: odzyskiwanie przestrzeni po usuniętych lub zaktualizowanych rekordach oraz poprawa statystyk.</p></li>
+<li><p><strong>Partycjonowanie tabel</strong>: dzielenie dużych tabel na mniejsze, co ułatwia zarządzanie.</p></li>
+<li><p><strong>Ograniczenia i typy danych</strong>: odpowiedni dobór typów danych (np. <code class="docutils literal notranslate"><span class="pre">varchar(n)</span></code> zamiast <code class="docutils literal notranslate"><span class="pre">text</span></code>) oraz stosowanie ograniczeń (np. CHECK) zmniejsza rozmiar danych.</p></li>
+</ul>
+</section>
+<section id="znaczenie-zarzadzania-rozmiarem">
+<h3><span class="section-number">4.14.4. </span>14.4 Znaczenie zarządzania rozmiarem<a class="headerlink" href="#znaczenie-zarzadzania-rozmiarem" title="Link to this heading">¶</a></h3>
+<p>Niewłaściwe zarządzanie przestrzenią dyskową może prowadzić do:</p>
+<ul class="simple">
+<li><p>Spowolnienia działania bazy.</p></li>
+<li><p>Problemów z backupem i odtwarzaniem.</p></li>
+<li><p>Wzrostu kosztów utrzymania infrastruktury.</p></li>
+</ul>
+</section>
+</section>
+<section id="podsumowanie">
+<h2><span class="section-number">4.15. </span>Podsumowanie<a class="headerlink" href="#podsumowanie" title="Link to this heading">¶</a></h2>
+<p>Zarządzanie konfiguracją bazy danych PostgreSQL, optymalizacja zapytań oraz monitorowanie i konserwacja tabel stanowią fundament skutecznego zarządzania systemem bazodanowym. Prawidłowe podejście do tych elementów zapewnia wysoką wydajność, niezawodność i skalowalność systemu.</p>
+<p>—</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">BazyDanych</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Spis Treści</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_1.html">1. Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Wydajnosc-Skalowanie-i-Replikacja/index.html">2. Wydajność, skalowanie i replikacja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html">3. Sprzęt dla baz danych</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#konfiguracja-bazy-danych">4.1. 1. Konfiguracja bazy danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lokalizacja-i-struktura-katalogow">4.2. 2. Lokalizacja i struktura katalogów</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#katalog-danych">4.3. 3. Katalog danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podzial-konfiguracji-na-podpliki">4.4. 4. Podział konfiguracji na podpliki</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#katalog-konfiguracyjny">4.5. 5. Katalog Konfiguracyjny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#katalog-logow-i-struktura-katalogow-w-postgresql">4.6. 6. Katalog logów i struktura katalogów w PostgreSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#przechowywanie-i-lokalizacja-plikow-konfiguracyjnych">4.7. 7. Przechowywanie i lokalizacja plików konfiguracyjnych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podstawowe-parametry-konfiguracyjne">4.8. 8. Podstawowe parametry konfiguracyjne</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wstep-teoretyczny">4.9. 9. Wstęp teoretyczny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zarzadzanie-konfiguracja-w-postgresql">4.10. 10. Zarządzanie konfiguracją w PostgreSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#planowanie">4.11. 11. Planowanie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tabele-rozmiar-planowanie-i-monitorowanie">4.12. 12. Tabele – rozmiar, planowanie i monitorowanie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rozmiar-pojedynczych-tabel-rozmiar-wszystkich-tabel-indeksow-tabeli">4.13. 13. Rozmiar pojedynczych tabel, rozmiar wszystkich tabel, indeksów tabeli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rozmiar">4.14. 14. Rozmiar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podsumowanie">4.15. Podsumowanie</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Bezpieczenstwo/index.html">5. Bezpieczeństwo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html">6. Kontrola i konserwacja baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html">7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_4.html">8. Analiza i Implementacja Bazy Danych</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html" title="poprzedni rozdział"><span class="section-number">3. </span>Sprzęt dla baz danych</a></li>
+      <li>Next: <a href="../Bezpieczenstwo/index.html" title="następny rozdział"><span class="section-number">5. </span>Bezpieczeństwo</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bartosz Potoczny.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Konfiguracja_baz_danych/Konfiguracja_baz_danych.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,18 @@
+[submodule "source/Wydajnosc-Skalowanie-i-Replikacja"]
+	path = source/Wydajnosc-Skalowanie-i-Replikacja
+	url = https://github.com/Broksonn/Wydajnosc_Skalowanie_i_Replikacja.git
+[submodule "source/Sprzet-dla-bazy-danych"]
+	path = source/Sprzet-dla-bazy-danych
+	url = https://github.com/oszczeda/Sprzet-dla-bazy-danych.git
+[submodule "source/Konfiguracja_baz_danych"]
+	path = source/Konfiguracja_baz_danych
+	url = https://github.com/Chaiolites/Konfiguracja_baz_danych.git
+[submodule "source/Bezpieczenstwo"]
+	path = source/Bezpieczenstwo
+	url = https://github.com/BlazejUl/bezpieczenstwo.git
+[submodule "source/Kontrola_i_konserwacja"]
+	path = source/Kontrola_i_konserwacja
+	url = https://github.com/Pi0trM/Kontrola_i_konserwacja.git
+[submodule "source/Kopie_zapasowe_i_odzyskiwanie_danych"]
+	path = source/Kopie_zapasowe_i_odzyskiwanie_danych
+	url = https://github.com/m-smieja/Kopie_zapasowe_i_odzyskiwanie_danych.git

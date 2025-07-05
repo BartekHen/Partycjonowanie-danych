@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="./">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>8. Projekt i Implementacja Bazy Danych &#8212; BazyDanych 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css?v=27fed22d" />
+    <script src="_static/documentation_options.js?v=331e28ce"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="genindex.html" />
+    <link rel="search" title="Szukaj" href="search.html" />
+    <link rel="next" title="9. Analiza i Implementacja Bazy Danych" href="rozdzial_4.html" />
+    <link rel="prev" title="7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL" href="Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="projekt-i-implementacja-bazy-danych">
+<span id="rozdzial-3"></span><h1><span class="section-number">8. </span>Projekt i Implementacja Bazy Danych<a class="headerlink" href="#projekt-i-implementacja-bazy-danych" title="Link to this heading">¶</a></h1>
+<p>W niniejszym rozdziale przedstawiono kompletny projekt bazy danych „Sklep”. Proces został podzielony na trzy kluczowe etapy: od ogólnego modelu koncepcyjnego, przez szczegółowy model logiczny, aż po model fizyczny w postaci schematu SQL i kodu generatora.</p>
+<section id="model-koncepcyjny">
+<h2><span class="section-number">8.1. </span>Model Koncepcyjny<a class="headerlink" href="#model-koncepcyjny" title="Link to this heading">¶</a></h2>
+<p>Model koncepcyjny definiuje kluczowe byty biznesowe oraz fundamentalne relacje między nimi. Stanowi on wysokopoziomową mapę systemu, która identyfikuje główne obiekty i ich wzajemne powiązania.</p>
+<figure class="align-center" id="id1">
+<a class="reference internal image-reference" href="_static/model-koncepcyjny.png"><img alt="Diagram koncepcyjny bazy danych." src="_static/model-koncepcyjny.png" style="width: 90%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Rysunek 1: Model koncepcyjny.</strong> Widoczne są główne encje: Klient, Zamówienie, Produkt, Kategoria, Dostawca oraz Pozycje Zamówienia, a także powiązania między nimi, takie jak „składa”, „zawiera” czy „dostarcza”.</span><a class="headerlink" href="#id1" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="model-logiczny">
+<h2><span class="section-number">8.2. </span>Model Logiczny<a class="headerlink" href="#model-logiczny" title="Link to this heading">¶</a></h2>
+<p>Model logiczny jest uszczegółowieniem modelu koncepcyjnego. Definiuje on strukturę tabel, atrybuty (kolumny) dla każdej z nich oraz klucze główne (PK) i obce (FK), które zapewniają integralność relacyjną. Jest on niezależny od konkretnego systemu zarządzania bazą danych.</p>
+<figure class="align-center" id="id2">
+<a class="reference internal image-reference" href="_static/model-fizyczny.png"><img alt="Diagram logiczny bazy danych." src="_static/model-fizyczny.png" style="width: 100%;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><strong>Rysunek 2: Model logiczny.</strong> Szczegółowo przedstawia strukturę każdej tabeli, w tym nazwy pól, ich typy generyczne oraz powiązania zrealizowane za pomocą kluczy obcych.</span><a class="headerlink" href="#id2" title="Link to this image">¶</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="model-fizyczny-schemat-sql">
+<h2><span class="section-number">8.3. </span>Model Fizyczny (Schemat SQL)<a class="headerlink" href="#model-fizyczny-schemat-sql" title="Link to this heading">¶</a></h2>
+<p>Model fizyczny to konkretna implementacja modelu logicznego w wybranym systemie DBMS (w tym przypadku PostgreSQL i SQLite). Definiuje on precyzyjne typy danych (np. <cite>VARCHAR(100)</cite>, <cite>NUMERIC(10,2)</cite>), indeksy i inne elementy specyficzne dla danej technologii. Poniżej przedstawiono schemat dla bazy PostgreSQL.</p>
+<div class="literal-block-wrapper docutils container" id="schema-postgres-sql">
+<div class="code-block-caption"><span class="caption-text">Fizyczny schemat bazy danych dla PostgreSQL</span><a class="headerlink" href="#schema-postgres-sql" title="Link to this code">¶</a></div>
+<div class="highlight-sql notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">Kategorie</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 2</span><span class="w">     </span><span class="n">kategoria_id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="linenos"> 3</span><span class="w">     </span><span class="n">nazwa_kategorii</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos"> 4</span><span class="w">     </span><span class="n">opis</span><span class="w"> </span><span class="nb">TEXT</span>
+<span class="linenos"> 5</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos"> 6</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">Dostawcy</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos"> 7</span><span class="w">     </span><span class="n">dostawca_id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="linenos"> 8</span><span class="w">     </span><span class="n">nazwa_firmy</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos"> 9</span><span class="w">     </span><span class="n">telefon</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+<span class="linenos">10</span><span class="w">     </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span>
+<span class="linenos">11</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">12</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">Klienci</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos">13</span><span class="w">     </span><span class="n">klient_id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="linenos">14</span><span class="w">     </span><span class="n">imie</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos">15</span><span class="w">     </span><span class="n">nazwisko</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos">16</span><span class="w">     </span><span class="n">email</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">UNIQUE</span>
+<span class="linenos">17</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">18</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">Produkty</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos">19</span><span class="w">     </span><span class="n">produkt_id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="linenos">20</span><span class="w">     </span><span class="n">nazwa_produktu</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">255</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos">21</span><span class="w">     </span><span class="n">cena</span><span class="w"> </span><span class="nb">NUMERIC</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos">22</span><span class="w">     </span><span class="n">stan_magazynowy</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos">23</span><span class="w">     </span><span class="n">kategoria_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">Kategorie</span><span class="p">(</span><span class="n">kategoria_id</span><span class="p">),</span>
+<span class="linenos">24</span><span class="w">     </span><span class="n">dostawca_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">Dostawcy</span><span class="p">(</span><span class="n">dostawca_id</span><span class="p">)</span>
+<span class="linenos">25</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">26</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">Zamowienia</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos">27</span><span class="w">     </span><span class="n">zamowienie_id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="linenos">28</span><span class="w">     </span><span class="n">klient_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">Klienci</span><span class="p">(</span><span class="n">klient_id</span><span class="p">),</span>
+<span class="linenos">29</span><span class="w">     </span><span class="n">data_zamowienia</span><span class="w"> </span><span class="k">TIMESTAMP</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos">30</span><span class="w">     </span><span class="n">status</span><span class="w"> </span><span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="linenos">31</span><span class="w"> </span><span class="p">);</span>
+<span class="linenos">32</span><span class="w"> </span><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">PozycjeZamowienia</span><span class="w"> </span><span class="p">(</span>
+<span class="linenos">33</span><span class="w">     </span><span class="n">pozycja_id</span><span class="w"> </span><span class="nb">SERIAL</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="linenos">34</span><span class="w">     </span><span class="n">zamowienie_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">Zamowienia</span><span class="p">(</span><span class="n">zamowienie_id</span><span class="p">),</span>
+<span class="linenos">35</span><span class="w">     </span><span class="n">produkt_id</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">REFERENCES</span><span class="w"> </span><span class="n">Produkty</span><span class="p">(</span><span class="n">produkt_id</span><span class="p">),</span>
+<span class="linenos">36</span><span class="w">     </span><span class="n">ilosc</span><span class="w"> </span><span class="nb">INT</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span><span class="p">,</span>
+<span class="linenos">37</span><span class="w">     </span><span class="n">cena</span><span class="w"> </span><span class="nb">DECIMAL</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">NULL</span>
+<span class="linenos">38</span><span class="w"> </span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="opis-tabel">
+<h2><span class="section-number">8.4. </span>Opis Tabel<a class="headerlink" href="#opis-tabel" title="Link to this heading">¶</a></h2>
+<p>Poniżej znajduje się szczegółowy opis przeznaczenia każdej z tabel.</p>
+<section id="klienci">
+<h3><span class="section-number">8.4.1. </span>Klienci<a class="headerlink" href="#klienci" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>Przechowuje informacje o klientach sklepu.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">klient_id</span></code> (PK): Unikalny identyfikator klienta.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">imie</span></code>, <code class="docutils literal notranslate"><span class="pre">nazwisko</span></code>: Dane osobowe.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">email</span></code> (UNIQUE): Unikalny adres email służący do kontaktu i logowania.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="kategorie">
+<h3><span class="section-number">8.4.2. </span>Kategorie<a class="headerlink" href="#kategorie" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>Słownik kategorii, do których przypisane są produkty.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">kategoria_id</span></code> (PK): Unikalny identyfikator kategorii.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nazwa_kategorii</span></code>: Nazwa, np. „Nabiał”, „Pieczywo”.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">opis</span></code>: Dodatkowy opis kategorii.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="dostawcy">
+<h3><span class="section-number">8.4.3. </span>Dostawcy<a class="headerlink" href="#dostawcy" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>Tabela przechowująca dane o dostawcach towaru.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dostawca_id</span></code> (PK): Unikalny identyfikator dostawcy.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nazwa_firmy</span></code>, <code class="docutils literal notranslate"><span class="pre">telefon</span></code>, <code class="docutils literal notranslate"><span class="pre">email</span></code>: Dane kontaktowe dostawcy.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="produkty">
+<h3><span class="section-number">8.4.4. </span>Produkty<a class="headerlink" href="#produkty" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>Główna tabela z informacjami o wszystkich produktach dostępnych w sklepie.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">produkt_id</span></code> (PK): Unikalny identyfikator produktu.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nazwa_produktu</span></code>, <code class="docutils literal notranslate"><span class="pre">cena</span></code>: Podstawowe informacje o produkcie.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">stan_magazynowy</span></code>: Liczba dostępnych sztuk.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">kategoria_id</span></code> (FK): Klucz obcy łączący z tabelą <code class="docutils literal notranslate"><span class="pre">Kategorie</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dostawca_id</span></code> (FK): Klucz obcy łączący z tabelą <code class="docutils literal notranslate"><span class="pre">Dostawcy</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="zamowienia">
+<h3><span class="section-number">8.4.5. </span>Zamowienia<a class="headerlink" href="#zamowienia" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>Przechowuje informacje o zamówieniach złożonych przez klientów.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">zamowienie_id</span></code> (PK): Unikalny identyfikator zamówienia.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">klient_id</span></code> (FK): Klucz obcy wskazujący, który klient złożył zamówienie.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">data_zamowienia</span></code>: Data i godzina złożenia zamówienia.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code>: Aktualny status, np. „Złożone”, „Wysłane”, „Anulowane”.</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="pozycjezamowienia">
+<h3><span class="section-number">8.4.6. </span>PozycjeZamowienia<a class="headerlink" href="#pozycjezamowienia" title="Link to this heading">¶</a></h3>
+<dl class="simple">
+<dt>Tabela asocjacyjna (łącząca) zamówienia z produktami. Określa, jakie produkty i w jakiej ilości znalazły się w danym zamówieniu.</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pozycja_id</span></code> (PK): Unikalny identyfikator pozycji.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">zamowienie_id</span></code> (FK): Klucz obcy łączący z tabelą <code class="docutils literal notranslate"><span class="pre">Zamowienia</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">produkt_id</span></code> (FK): Klucz obcy łączący z tabelą <code class="docutils literal notranslate"><span class="pre">Produkty</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ilosc</span></code>: Liczba sztuk danego produktu w zamówieniu.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cena</span></code>: Cena produktu w momencie zakupu (zapisana, aby uniknąć problemów przy zmianie ceny produktu w przyszłości).</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+<section id="kod-zrodlowy-generatora-bazy-danych">
+<h2><span class="section-number">8.5. </span>Kod Źródłowy Generatora Bazy Danych<a class="headerlink" href="#kod-zrodlowy-generatora-bazy-danych" title="Link to this heading">¶</a></h2>
+<p>Pełna implementacja, wraz z logiką do generowania danych testowych, znajduje się w poniższym skrypcie. Został on użyty do automatycznego stworzenia schematów dla SQLite i PostgreSQL oraz wypełnienia ich danymi.</p>
+<div class="literal-block-wrapper docutils container" id="generator-bazy-danych-py">
+<div class="code-block-caption"><span class="caption-text">generator_bazy_danych.py</span><a class="headerlink" href="#generator-bazy-danych-py" title="Link to this code">¶</a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">  2</span><span class="sd">Generator Bazy Danych &quot;Sklep&quot;</span>
+<span class="linenos">  3</span>
+<span class="linenos">  4</span><span class="sd">Moduł ten dostarcza kompletne rozwiązanie do automatycznego tworzenia</span>
+<span class="linenos">  5</span><span class="sd">i wypełniania danymi testowymi bazy danych dla dwóch różnych systemów:</span>
+<span class="linenos">  6</span><span class="sd">SQLite oraz PostgreSQL.</span>
+<span class="linenos">  7</span>
+<span class="linenos">  8</span><span class="sd">Został zaprojektowany z myślą o braku zewnętrznych zależności, co gwarantuje</span>
+<span class="linenos">  9</span><span class="sd">jego działanie w każdym standardowym środowisku Python 3.</span>
+<span class="linenos"> 10</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos"> 11</span><span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
+<span class="linenos"> 12</span><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
+<span class="linenos"> 13</span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="linenos"> 14</span><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="linenos"> 15</span>
+<span class="linenos"> 16</span><span class="c1"># --- Konfiguracja parametrów skryptu ---</span>
+<span class="linenos"> 17</span><span class="n">DB_NAME_SQLITE</span> <span class="o">=</span> <span class="s2">&quot;sklep.db&quot;</span>
+<span class="linenos"> 18</span><span class="n">OUTPUT_SQL_POSTGRES</span> <span class="o">=</span> <span class="s2">&quot;sklep_postgres.sql&quot;</span>
+<span class="linenos"> 19</span>
+<span class="linenos"> 20</span><span class="c1"># Liczba rekordów do wygenerowania</span>
+<span class="linenos"> 21</span><span class="n">NUM_KLIENCI</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="linenos"> 22</span><span class="n">NUM_PRODUKTY</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="linenos"> 23</span><span class="n">NUM_ZAMOWIENIA</span> <span class="o">=</span> <span class="mi">150</span>
+<span class="linenos"> 24</span>
+<span class="linenos"> 25</span><span class="c1"># --- Statyczne dane jako źródło dla generatora ---</span>
+<span class="linenos"> 26</span><span class="n">IMIONA_M</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Jan&#39;</span><span class="p">,</span> <span class="s1">&#39;Piotr&#39;</span><span class="p">,</span> <span class="s1">&#39;Krzysztof&#39;</span><span class="p">,</span> <span class="s1">&#39;Andrzej&#39;</span><span class="p">,</span> <span class="s1">&#39;Tomasz&#39;</span><span class="p">,</span> <span class="s1">&#39;Paweł&#39;</span><span class="p">,</span> <span class="s1">&#39;Marcin&#39;</span><span class="p">,</span> <span class="s1">&#39;Michał&#39;</span><span class="p">]</span>
+<span class="linenos"> 27</span><span class="n">IMIONA_K</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Anna&#39;</span><span class="p">,</span> <span class="s1">&#39;Katarzyna&#39;</span><span class="p">,</span> <span class="s1">&#39;Maria&#39;</span><span class="p">,</span> <span class="s1">&#39;Małgorzata&#39;</span><span class="p">,</span> <span class="s1">&#39;Agnieszka&#39;</span><span class="p">,</span> <span class="s1">&#39;Barbara&#39;</span><span class="p">,</span> <span class="s1">&#39;Ewa&#39;</span><span class="p">,</span> <span class="s1">&#39;Elżbieta&#39;</span><span class="p">]</span>
+<span class="linenos"> 28</span><span class="n">NAZWISKA</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Nowak&#39;</span><span class="p">,</span> <span class="s1">&#39;Kowalski&#39;</span><span class="p">,</span> <span class="s1">&#39;Wiśniewski&#39;</span><span class="p">,</span> <span class="s1">&#39;Wójcik&#39;</span><span class="p">,</span> <span class="s1">&#39;Kowalczyk&#39;</span><span class="p">,</span> <span class="s1">&#39;Kamiński&#39;</span><span class="p">,</span> <span class="s1">&#39;Lewandowski&#39;</span><span class="p">,</span> <span class="s1">&#39;Zieliński&#39;</span><span class="p">]</span>
+<span class="linenos"> 29</span><span class="n">CZESCI_PRODUKTU_1</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Chleb&#39;</span><span class="p">,</span> <span class="s1">&#39;Ser&#39;</span><span class="p">,</span> <span class="s1">&#39;Mleko&#39;</span><span class="p">,</span> <span class="s1">&#39;Jogurt&#39;</span><span class="p">,</span> <span class="s1">&#39;Szynka&#39;</span><span class="p">,</span> <span class="s1">&#39;Sok&#39;</span><span class="p">,</span> <span class="s1">&#39;Woda&#39;</span><span class="p">,</span> <span class="s1">&#39;Masło&#39;</span><span class="p">,</span> <span class="s1">&#39;Jajka&#39;</span><span class="p">,</span> <span class="s1">&#39;Makaron&#39;</span><span class="p">]</span>
+<span class="linenos"> 30</span><span class="n">CZESCI_PRODUKTU_2</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;wiejski&#39;</span><span class="p">,</span> <span class="s1">&#39;naturalny&#39;</span><span class="p">,</span> <span class="s1">&#39;świeży&#39;</span><span class="p">,</span> <span class="s1">&#39;tradycyjny&#39;</span><span class="p">,</span> <span class="s1">&#39;ekologiczny&#39;</span><span class="p">,</span> <span class="s1">&#39;pełnoziarnisty&#39;</span><span class="p">,</span> <span class="s1">&#39;owocowy&#39;</span><span class="p">,</span> <span class="s1">&#39;gazowana&#39;</span><span class="p">]</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="n">KATEGORIE</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos"> 33</span>    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Pieczywo&#39;</span><span class="p">,</span> <span class="s1">&#39;Świeże chleby, bułki i wyroby cukiernicze.&#39;</span><span class="p">),</span>
+<span class="linenos"> 34</span>    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Nabiał&#39;</span><span class="p">,</span> <span class="s1">&#39;Mleko, sery, jogurty i inne produkty mleczne.&#39;</span><span class="p">),</span>
+<span class="linenos"> 35</span>    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Napoje&#39;</span><span class="p">,</span> <span class="s1">&#39;Soki, wody mineralne i napoje gazowane.&#39;</span><span class="p">),</span>
+<span class="linenos"> 36</span>    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Produkty sypkie&#39;</span><span class="p">,</span> <span class="s1">&#39;Mąka, cukier, ryż, makarony.&#39;</span><span class="p">)</span>
+<span class="linenos"> 37</span><span class="p">]</span>
+<span class="linenos"> 38</span><span class="n">DOSTAWCY</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos"> 39</span>    <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;Piekarnia &quot;Złoty Kłos&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;111-222-333&#39;</span><span class="p">,</span> <span class="s1">&#39;kontakt@zlotyklos.pl&#39;</span><span class="p">),</span>
+<span class="linenos"> 40</span>    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;Mleczarnia &quot;Łąka&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;444-555-666&#39;</span><span class="p">,</span> <span class="s1">&#39;biuro@mleczarnia-laka.com&#39;</span><span class="p">),</span>
+<span class="linenos"> 41</span>    <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;Hurtownia &quot;Napojex&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;777-888-999&#39;</span><span class="p">,</span> <span class="s1">&#39;zamowienia@napojex.pl&#39;</span><span class="p">),</span>
+<span class="linenos"> 42</span>    <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;Rolnik &quot;EkoZbiory&quot;&#39;</span><span class="p">,</span> <span class="s1">&#39;123-456-789&#39;</span><span class="p">,</span> <span class="s1">&#39;rolnik@ekozbiory.pl&#39;</span><span class="p">)</span>
+<span class="linenos"> 43</span><span class="p">]</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span><span class="c1"># --- Definicje schematów SQL ---</span>
+<span class="linenos"> 46</span><span class="n">SCHEMA_SQLITE</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos"> 47</span><span class="s2">CREATE TABLE Kategorie (</span>
+<span class="linenos"> 48</span><span class="s2">    kategoria_id INTEGER PRIMARY KEY,</span>
+<span class="linenos"> 49</span><span class="s2">    nazwa_kategorii TEXT NOT NULL,</span>
+<span class="linenos"> 50</span><span class="s2">    opis TEXT</span>
+<span class="linenos"> 51</span><span class="s2">);</span>
+<span class="linenos"> 52</span><span class="s2">CREATE TABLE Dostawcy (</span>
+<span class="linenos"> 53</span><span class="s2">    dostawca_id INTEGER PRIMARY KEY,</span>
+<span class="linenos"> 54</span><span class="s2">    nazwa_firmy TEXT NOT NULL,</span>
+<span class="linenos"> 55</span><span class="s2">    telefon TEXT,</span>
+<span class="linenos"> 56</span><span class="s2">    email TEXT</span>
+<span class="linenos"> 57</span><span class="s2">);</span>
+<span class="linenos"> 58</span><span class="s2">CREATE TABLE Klienci (</span>
+<span class="linenos"> 59</span><span class="s2">    klient_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="linenos"> 60</span><span class="s2">    imie TEXT NOT NULL,</span>
+<span class="linenos"> 61</span><span class="s2">    nazwisko TEXT NOT NULL,</span>
+<span class="linenos"> 62</span><span class="s2">    email TEXT NOT NULL UNIQUE</span>
+<span class="linenos"> 63</span><span class="s2">);</span>
+<span class="linenos"> 64</span><span class="s2">CREATE TABLE Produkty (</span>
+<span class="linenos"> 65</span><span class="s2">    produkt_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="linenos"> 66</span><span class="s2">    nazwa_produktu TEXT NOT NULL,</span>
+<span class="linenos"> 67</span><span class="s2">    cena REAL NOT NULL,</span>
+<span class="linenos"> 68</span><span class="s2">    stan_magazynowy INTEGER NOT NULL,</span>
+<span class="linenos"> 69</span><span class="s2">    kategoria_id INTEGER,</span>
+<span class="linenos"> 70</span><span class="s2">    dostawca_id INTEGER,</span>
+<span class="linenos"> 71</span><span class="s2">    FOREIGN KEY (kategoria_id) REFERENCES Kategorie(kategoria_id),</span>
+<span class="linenos"> 72</span><span class="s2">    FOREIGN KEY (dostawca_id) REFERENCES Dostawcy(dostawca_id)</span>
+<span class="linenos"> 73</span><span class="s2">);</span>
+<span class="linenos"> 74</span><span class="s2">CREATE TABLE Zamowienia (</span>
+<span class="linenos"> 75</span><span class="s2">    zamowienie_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="linenos"> 76</span><span class="s2">    klient_id INTEGER NOT NULL,</span>
+<span class="linenos"> 77</span><span class="s2">    data_zamowienia DATETIME NOT NULL,</span>
+<span class="linenos"> 78</span><span class="s2">    status TEXT NOT NULL,</span>
+<span class="linenos"> 79</span><span class="s2">    FOREIGN KEY (klient_id) REFERENCES Klienci(klient_id)</span>
+<span class="linenos"> 80</span><span class="s2">);</span>
+<span class="linenos"> 81</span><span class="s2">CREATE TABLE PozycjeZamowienia (</span>
+<span class="linenos"> 82</span><span class="s2">    pozycja_id INTEGER PRIMARY KEY AUTOINCREMENT,</span>
+<span class="linenos"> 83</span><span class="s2">    zamowienie_id INTEGER NOT NULL,</span>
+<span class="linenos"> 84</span><span class="s2">    produkt_id INTEGER NOT NULL,</span>
+<span class="linenos"> 85</span><span class="s2">    ilosc INTEGER NOT NULL,</span>
+<span class="linenos"> 86</span><span class="s2">    cena REAL NOT NULL,</span>
+<span class="linenos"> 87</span><span class="s2">    FOREIGN KEY (zamowienie_id) REFERENCES Zamowienia(zamowienie_id),</span>
+<span class="linenos"> 88</span><span class="s2">    FOREIGN KEY (produkt_id) REFERENCES Produkty(produkt_id)</span>
+<span class="linenos"> 89</span><span class="s2">);</span>
+<span class="linenos"> 90</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos"> 91</span>
+<span class="linenos"> 92</span><span class="n">SCHEMA_POSTGRES</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos"> 93</span><span class="s2">DROP TABLE IF EXISTS PozycjeZamowienia, Zamowienia, Produkty, Klienci, Dostawcy, Kategorie CASCADE;</span>
+<span class="linenos"> 94</span><span class="s2">CREATE TABLE Kategorie (</span>
+<span class="linenos"> 95</span><span class="s2">    kategoria_id SERIAL PRIMARY KEY,</span>
+<span class="linenos"> 96</span><span class="s2">    nazwa_kategorii VARCHAR(100) NOT NULL,</span>
+<span class="linenos"> 97</span><span class="s2">    opis TEXT</span>
+<span class="linenos"> 98</span><span class="s2">);</span>
+<span class="linenos"> 99</span><span class="s2">CREATE TABLE Dostawcy (</span>
+<span class="linenos">100</span><span class="s2">    dostawca_id SERIAL PRIMARY KEY,</span>
+<span class="linenos">101</span><span class="s2">    nazwa_firmy VARCHAR(255) NOT NULL,</span>
+<span class="linenos">102</span><span class="s2">    telefon VARCHAR(20),</span>
+<span class="linenos">103</span><span class="s2">    email VARCHAR(255)</span>
+<span class="linenos">104</span><span class="s2">);</span>
+<span class="linenos">105</span><span class="s2">CREATE TABLE Klienci (</span>
+<span class="linenos">106</span><span class="s2">    klient_id SERIAL PRIMARY KEY,</span>
+<span class="linenos">107</span><span class="s2">    imie VARCHAR(100) NOT NULL,</span>
+<span class="linenos">108</span><span class="s2">    nazwisko VARCHAR(100) NOT NULL,</span>
+<span class="linenos">109</span><span class="s2">    email VARCHAR(255) NOT NULL UNIQUE</span>
+<span class="linenos">110</span><span class="s2">);</span>
+<span class="linenos">111</span><span class="s2">CREATE TABLE Produkty (</span>
+<span class="linenos">112</span><span class="s2">    produkt_id SERIAL PRIMARY KEY,</span>
+<span class="linenos">113</span><span class="s2">    nazwa_produktu VARCHAR(255) NOT NULL,</span>
+<span class="linenos">114</span><span class="s2">    cena NUMERIC(10, 2) NOT NULL,</span>
+<span class="linenos">115</span><span class="s2">    stan_magazynowy INT NOT NULL,</span>
+<span class="linenos">116</span><span class="s2">    kategoria_id INT REFERENCES Kategorie(kategoria_id),</span>
+<span class="linenos">117</span><span class="s2">    dostawca_id INT REFERENCES Dostawcy(dostawca_id)</span>
+<span class="linenos">118</span><span class="s2">);</span>
+<span class="linenos">119</span><span class="s2">CREATE TABLE Zamowienia (</span>
+<span class="linenos">120</span><span class="s2">    zamowienie_id SERIAL PRIMARY KEY,</span>
+<span class="linenos">121</span><span class="s2">    klient_id INT NOT NULL REFERENCES Klienci(klient_id),</span>
+<span class="linenos">122</span><span class="s2">    data_zamowienia TIMESTAMP NOT NULL,</span>
+<span class="linenos">123</span><span class="s2">    status VARCHAR(50) NOT NULL</span>
+<span class="linenos">124</span><span class="s2">);</span>
+<span class="linenos">125</span><span class="s2">CREATE TABLE PozycjeZamowienia (</span>
+<span class="linenos">126</span><span class="s2">    pozycja_id SERIAL PRIMARY KEY,</span>
+<span class="linenos">127</span><span class="s2">    zamowienie_id INT REFERENCES Zamowienia(zamowienie_id),</span>
+<span class="linenos">128</span><span class="s2">    produkt_id INT REFERENCES Produkty(produkt_id),</span>
+<span class="linenos">129</span><span class="s2">    ilosc INT NOT NULL,</span>
+<span class="linenos">130</span><span class="s2">    cena DECIMAL(10, 2) NOT NULL</span>
+<span class="linenos">131</span><span class="s2">);</span>
+<span class="linenos">132</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos">133</span>
+<span class="linenos">134</span><span class="k">def</span><span class="w"> </span><span class="nf">generuj_dane</span><span class="p">():</span>
+<span class="linenos">135</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">136</span><span class="sd">    Przygotowuje w pamięci kompletny zestaw danych testowych.</span>
+<span class="linenos">137</span>
+<span class="linenos">138</span><span class="sd">    Funkcja tworzy spójny zestaw list z danymi dla klientów, produktów,</span>
+<span class="linenos">139</span><span class="sd">    zamówień oraz pozycji zamówień. Respektuje przy tym zdefiniowane</span>
+<span class="linenos">140</span><span class="sd">    relacje i losowo generuje powiązania.</span>
+<span class="linenos">141</span>
+<span class="linenos">142</span><span class="sd">    :returns: Słownik zawierający listy krotek dla każdej tabeli.</span>
+<span class="linenos">143</span><span class="sd">              Klucze: &#39;klienci&#39;, &#39;produkty&#39;, &#39;zamowienia&#39;, &#39;pozycje_zamowien&#39;.</span>
+<span class="linenos">144</span><span class="sd">    :rtype: dict</span>
+<span class="linenos">145</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">146</span>    <span class="n">klienci</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">147</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_KLIENCI</span><span class="p">):</span>
+<span class="linenos">148</span>        <span class="n">imie</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">IMIONA_M</span> <span class="o">+</span> <span class="n">IMIONA_K</span><span class="p">)</span>
+<span class="linenos">149</span>        <span class="n">nazwisko</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">NAZWISKA</span><span class="p">)</span>
+<span class="linenos">150</span>        <span class="n">email</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">imie</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">nazwisko</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">i</span><span class="si">}</span><span class="s2">@example.com&quot;</span>
+<span class="linenos">151</span>        <span class="n">klienci</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">imie</span><span class="p">,</span> <span class="n">nazwisko</span><span class="p">,</span> <span class="n">email</span><span class="p">))</span>
+<span class="linenos">152</span>
+<span class="linenos">153</span>    <span class="n">produkty</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">154</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_PRODUKTY</span><span class="p">):</span>
+<span class="linenos">155</span>        <span class="n">nazwa</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">CZESCI_PRODUKTU_1</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">CZESCI_PRODUKTU_2</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="linenos">156</span>        <span class="n">cena</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span> <span class="mf">50.0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+<span class="linenos">157</span>        <span class="n">stan</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="linenos">158</span>        <span class="n">kat_id</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">KATEGORIE</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">159</span>        <span class="n">dos_id</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">DOSTAWCY</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">160</span>        <span class="n">produkty</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">nazwa</span><span class="p">,</span> <span class="n">cena</span><span class="p">,</span> <span class="n">stan</span><span class="p">,</span> <span class="n">kat_id</span><span class="p">,</span> <span class="n">dos_id</span><span class="p">))</span>
+<span class="linenos">161</span>
+<span class="linenos">162</span>    <span class="n">zamowienia</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">163</span>    <span class="n">statusy</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Złożone&#39;</span><span class="p">,</span> <span class="s1">&#39;Wysłane&#39;</span><span class="p">,</span> <span class="s1">&#39;Dostarczone&#39;</span><span class="p">,</span> <span class="s1">&#39;Anulowane&#39;</span><span class="p">]</span>
+<span class="linenos">164</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_ZAMOWIENIA</span><span class="p">):</span>
+<span class="linenos">165</span>        <span class="n">klient_id</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">NUM_KLIENCI</span><span class="p">)</span>
+<span class="linenos">166</span>        <span class="n">data</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">365</span><span class="p">))</span>
+<span class="linenos">167</span>        <span class="n">status</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">statusy</span><span class="p">)</span>
+<span class="linenos">168</span>        <span class="n">zamowienia</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">klient_id</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">status</span><span class="p">))</span>
+<span class="linenos">169</span>
+<span class="linenos">170</span>    <span class="n">pozycje_zamowien</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos">171</span>    <span class="n">pozycja_id_counter</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="linenos">172</span>    <span class="k">for</span> <span class="n">zamowienie</span> <span class="ow">in</span> <span class="n">zamowienia</span><span class="p">:</span>
+<span class="linenos">173</span>        <span class="n">zamowienie_id</span> <span class="o">=</span> <span class="n">zamowienie</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">174</span>        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">)):</span>
+<span class="linenos">175</span>            <span class="n">produkt</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="n">produkty</span><span class="p">)</span>
+<span class="linenos">176</span>            <span class="n">produkt_id</span> <span class="o">=</span> <span class="n">produkt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos">177</span>            <span class="n">cena_w_chwili_zakupu</span> <span class="o">=</span> <span class="n">produkt</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="linenos">178</span>            <span class="n">ilosc</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="linenos">179</span>            <span class="n">pozycje_zamowien</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pozycja_id_counter</span><span class="p">,</span> <span class="n">zamowienie_id</span><span class="p">,</span> <span class="n">produkt_id</span><span class="p">,</span> <span class="n">ilosc</span><span class="p">,</span> <span class="n">cena_w_chwili_zakupu</span><span class="p">))</span>
+<span class="linenos">180</span>            <span class="n">pozycja_id_counter</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="linenos">181</span>
+<span class="linenos">182</span>    <span class="k">return</span> <span class="p">{</span>
+<span class="linenos">183</span>        <span class="s1">&#39;klienci&#39;</span><span class="p">:</span> <span class="n">klienci</span><span class="p">,</span>
+<span class="linenos">184</span>        <span class="s1">&#39;produkty&#39;</span><span class="p">:</span> <span class="n">produkty</span><span class="p">,</span>
+<span class="linenos">185</span>        <span class="s1">&#39;zamowienia&#39;</span><span class="p">:</span> <span class="n">zamowienia</span><span class="p">,</span>
+<span class="linenos">186</span>        <span class="s1">&#39;pozycje_zamowien&#39;</span><span class="p">:</span> <span class="n">pozycje_zamowien</span>
+<span class="linenos">187</span>    <span class="p">}</span>
+<span class="linenos">188</span>
+<span class="linenos">189</span><span class="k">def</span><span class="w"> </span><span class="nf">stworz_baze_sqlite</span><span class="p">(</span><span class="n">dane</span><span class="p">):</span>
+<span class="linenos">190</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">191</span><span class="sd">    Tworzy i wypełnia bazę danych SQLite na podstawie dostarczonych danych.</span>
+<span class="linenos">192</span>
+<span class="linenos">193</span><span class="sd">    Funkcja usuwa istniejący plik bazy, tworzy nową strukturę</span>
+<span class="linenos">194</span><span class="sd">    zgodnie ze schematem i wstawia dane za pomocą operacji masowych.</span>
+<span class="linenos">195</span>
+<span class="linenos">196</span><span class="sd">    :param dict dane: Słownik z danymi, wynik działania funkcji :func:`generuj_dane`.</span>
+<span class="linenos">197</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">198</span>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">DB_NAME_SQLITE</span><span class="p">):</span>
+<span class="linenos">199</span>        <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">DB_NAME_SQLITE</span><span class="p">)</span>
+<span class="linenos">200</span>
+<span class="linenos">201</span>    <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">DB_NAME_SQLITE</span><span class="p">)</span>
+<span class="linenos">202</span>    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+<span class="linenos">203</span>
+<span class="linenos">204</span>    <span class="n">cursor</span><span class="o">.</span><span class="n">executescript</span><span class="p">(</span><span class="n">SCHEMA_SQLITE</span><span class="p">)</span>
+<span class="linenos">205</span>    <span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO Kategorie VALUES (?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">KATEGORIE</span><span class="p">)</span>
+<span class="linenos">206</span>    <span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO Dostawcy VALUES (?, ?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">DOSTAWCY</span><span class="p">)</span>
+<span class="linenos">207</span>    <span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO Klienci (klient_id, imie, nazwisko, email) VALUES (?, ?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;klienci&#39;</span><span class="p">])</span>
+<span class="linenos">208</span>    <span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO Produkty (produkt_id, nazwa_produktu, cena, stan_magazynowy, kategoria_id, dostawca_id) VALUES (?, ?, ?, ?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;produkty&#39;</span><span class="p">])</span>
+<span class="linenos">209</span>    <span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO Zamowienia (zamowienie_id, klient_id, data_zamowienia, status) VALUES (?, ?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;zamowienia&#39;</span><span class="p">])</span>
+<span class="linenos">210</span>    <span class="n">cursor</span><span class="o">.</span><span class="n">executemany</span><span class="p">(</span><span class="s2">&quot;INSERT INTO PozycjeZamowienia (pozycja_id, zamowienie_id, produkt_id, ilosc, cena) VALUES (?, ?, ?, ?, ?)&quot;</span><span class="p">,</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;pozycje_zamowien&#39;</span><span class="p">])</span>
+<span class="linenos">211</span>
+<span class="linenos">212</span>    <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+<span class="linenos">213</span>    <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="linenos">214</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Baza SQLite &#39;</span><span class="si">{</span><span class="n">DB_NAME_SQLITE</span><span class="si">}</span><span class="s2">&#39; została utworzona pomyślnie.&quot;</span><span class="p">)</span>
+<span class="linenos">215</span>
+<span class="linenos">216</span><span class="k">def</span><span class="w"> </span><span class="nf">stworz_skrypt_postgres</span><span class="p">(</span><span class="n">dane</span><span class="p">):</span>
+<span class="linenos">217</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">218</span><span class="sd">    Generuje kompletny plik .sql dla bazy PostgreSQL.</span>
+<span class="linenos">219</span>
+<span class="linenos">220</span><span class="sd">    Funkcja tworzy plik .sql, który może być wykonany na serwerze</span>
+<span class="linenos">221</span><span class="sd">    PostgreSQL w celu odtworzenia identycznej struktury i zawartości</span>
+<span class="linenos">222</span><span class="sd">    bazy danych. Automatycznie formatuje wartości i aktualizuje sekwencje.</span>
+<span class="linenos">223</span>
+<span class="linenos">224</span><span class="sd">    :param dict dane: Słownik z danymi, wynik działania funkcji :func:`generuj_dane`.</span>
+<span class="linenos">225</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">226</span>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">OUTPUT_SQL_POSTGRES</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="linenos">227</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;-- Wygenerowany skrypt SQL dla PostgreSQL</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">228</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">SCHEMA_POSTGRES</span><span class="p">)</span>
+<span class="linenos">229</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">-- Wstawianie danych</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">230</span>
+<span class="linenos">231</span>        <span class="k">def</span><span class="w"> </span><span class="nf">format_sql</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
+<span class="linenos">232</span>            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<span class="linenos">233</span>                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">val</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;&#39;&#39;&quot;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<span class="linenos">234</span>            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">datetime</span><span class="p">):</span>
+<span class="linenos">235</span>                <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">val</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
+<span class="linenos">236</span>            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+<span class="linenos">237</span>
+<span class="linenos">238</span>        <span class="k">for</span> <span class="n">kat</span> <span class="ow">in</span> <span class="n">KATEGORIE</span><span class="p">:</span>
+<span class="linenos">239</span>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INSERT INTO Kategorie VALUES (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">format_sql</span><span class="p">,</span><span class="w"> </span><span class="n">kat</span><span class="p">))</span><span class="si">}</span><span class="s2">);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">240</span>        <span class="k">for</span> <span class="n">dos</span> <span class="ow">in</span> <span class="n">DOSTAWCY</span><span class="p">:</span>
+<span class="linenos">241</span>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INSERT INTO Dostawcy VALUES (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">format_sql</span><span class="p">,</span><span class="w"> </span><span class="n">dos</span><span class="p">))</span><span class="si">}</span><span class="s2">);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">242</span>        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;klienci&#39;</span><span class="p">]:</span>
+<span class="linenos">243</span>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INSERT INTO Klienci (klient_id, imie, nazwisko, email) VALUES (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">format_sql</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">))</span><span class="si">}</span><span class="s2">);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">244</span>        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;produkty&#39;</span><span class="p">]:</span>
+<span class="linenos">245</span>             <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INSERT INTO Produkty (produkt_id, nazwa_produktu, cena, stan_magazynowy, kategoria_id, dostawca_id) VALUES (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">format_sql</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">))</span><span class="si">}</span><span class="s2">);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">246</span>        <span class="k">for</span> <span class="n">z</span> <span class="ow">in</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;zamowienia&#39;</span><span class="p">]:</span>
+<span class="linenos">247</span>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INSERT INTO Zamowienia (zamowienie_id, klient_id, data_zamowienia, status) VALUES (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">format_sql</span><span class="p">,</span><span class="w"> </span><span class="n">z</span><span class="p">))</span><span class="si">}</span><span class="s2">);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">248</span>        <span class="k">for</span> <span class="n">pz</span> <span class="ow">in</span> <span class="n">dane</span><span class="p">[</span><span class="s1">&#39;pozycje_zamowien&#39;</span><span class="p">]:</span>
+<span class="linenos">249</span>            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;INSERT INTO PozycjeZamowienia (pozycja_id, zamowienie_id, produkt_id, ilosc, cena) VALUES (</span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">format_sql</span><span class="p">,</span><span class="w"> </span><span class="n">pz</span><span class="p">))</span><span class="si">}</span><span class="s2">);</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">250</span>
+<span class="linenos">251</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">-- Aktualizacja sekwencji kluczy głównych</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">252</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SELECT setval(&#39;kategorie_kategoria_id_seq&#39;, (SELECT MAX(kategoria_id) FROM Kategorie));</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">253</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SELECT setval(&#39;dostawcy_dostawca_id_seq&#39;, (SELECT MAX(dostawca_id) FROM Dostawcy));</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">254</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SELECT setval(&#39;klienci_klient_id_seq&#39;, (SELECT MAX(klient_id) FROM Klienci));</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">255</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SELECT setval(&#39;produkty_produkt_id_seq&#39;, (SELECT MAX(produkt_id) FROM Produkty));</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">256</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SELECT setval(&#39;zamowienia_zamowienie_id_seq&#39;, (SELECT MAX(zamowienie_id) FROM Zamowienia));</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">257</span>        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;SELECT setval(&#39;pozycjezamowienia_pozycja_id_seq&#39;, (SELECT MAX(pozycja_id) FROM PozycjeZamowienia));</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos">258</span>
+<span class="linenos">259</span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skrypt dla PostgreSQL &#39;</span><span class="si">{</span><span class="n">OUTPUT_SQL_POSTGRES</span><span class="si">}</span><span class="s2">&#39; został wygenerowany pomyślnie.&quot;</span><span class="p">)</span>
+<span class="linenos">260</span>
+<span class="linenos">261</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">262</span><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="linenos">263</span><span class="sd">    Główny blok wykonawczy skryptu.</span>
+<span class="linenos">264</span>
+<span class="linenos">265</span><span class="sd">    Jego zadaniem jest orkiestracja całego procesu: wygenerowanie danych,</span>
+<span class="linenos">266</span><span class="sd">    stworzenie bazy SQLite oraz wygenerowanie skryptu dla PostgreSQL.</span>
+<span class="linenos">267</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">268</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Rozpoczynam generowanie baz danych.&quot;</span><span class="p">)</span>
+<span class="linenos">269</span>    <span class="n">dane_wygenerowane</span> <span class="o">=</span> <span class="n">generuj_dane</span><span class="p">()</span>
+<span class="linenos">270</span>    <span class="n">stworz_baze_sqlite</span><span class="p">(</span><span class="n">dane_wygenerowane</span><span class="p">)</span>
+<span class="linenos">271</span>    <span class="n">stworz_skrypt_postgres</span><span class="p">(</span><span class="n">dane_wygenerowane</span><span class="p">)</span>
+<span class="linenos">272</span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Zakończono. Utworzono plik bazy SQLite i plik .sql dla PostgreSQL.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">BazyDanych</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Spis Treści</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="rozdzial_1.html">1. Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Wydajnosc-Skalowanie-i-Replikacja/index.html">2. Wydajność, skalowanie i replikacja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html">3. Sprzęt dla baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Konfiguracja_baz_danych/Konfiguracja_baz_danych.html">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Bezpieczenstwo/index.html">5. Bezpieczeństwo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kontrola_i_konserwacja/kontrola_i_konserwacja.html">6. Kontrola i konserwacja baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html">7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">8. Projekt i Implementacja Bazy Danych</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#model-koncepcyjny">8.1. Model Koncepcyjny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-logiczny">8.2. Model Logiczny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#model-fizyczny-schemat-sql">8.3. Model Fizyczny (Schemat SQL)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#opis-tabel">8.4. Opis Tabel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#kod-zrodlowy-generatora-bazy-danych">8.5. Kod Źródłowy Generatora Bazy Danych</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="rozdzial_4.html">9. Analiza i Implementacja Bazy Danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rozdzial_5.html">10. Struktura Repozytoriów Projektowych</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html" title="poprzedni rozdział"><span class="section-number">7. </span>Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+      <li>Next: <a href="rozdzial_4.html" title="następny rozdział"><span class="section-number">9. </span>Analiza i Implementacja Bazy Danych</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bartosz Potoczny.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="_sources/rozdzial_3.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

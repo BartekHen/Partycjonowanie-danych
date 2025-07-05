@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Konfiguracja baz danych &#8212; BazyDanych 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="konfiguracja-baz-danych">
+<h1>Konfiguracja baz danych<a class="headerlink" href="#konfiguracja-baz-danych" title="Link to this heading">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="Konfiguracja_baz_danych.html">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#konfiguracja-bazy-danych">4.1. 1. Konfiguracja bazy danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#lokalizacja-i-struktura-katalogow">4.2. 2. Lokalizacja i struktura katalogów</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#katalog-danych">4.3. 3. Katalog danych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#podzial-konfiguracji-na-podpliki">4.4. 4. Podział konfiguracji na podpliki</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#katalog-konfiguracyjny">4.5. 5. Katalog Konfiguracyjny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#katalog-logow-i-struktura-katalogow-w-postgresql">4.6. 6. Katalog logów i struktura katalogów w PostgreSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#przechowywanie-i-lokalizacja-plikow-konfiguracyjnych">4.7. 7. Przechowywanie i lokalizacja plików konfiguracyjnych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#podstawowe-parametry-konfiguracyjne">4.8. 8. Podstawowe parametry konfiguracyjne</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#wstep-teoretyczny">4.9. 9. Wstęp teoretyczny</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#zarzadzanie-konfiguracja-w-postgresql">4.10. 10. Zarządzanie konfiguracją w PostgreSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#planowanie">4.11. 11. Planowanie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#tabele-rozmiar-planowanie-i-monitorowanie">4.12. 12. Tabele – rozmiar, planowanie i monitorowanie</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#rozmiar-pojedynczych-tabel-rozmiar-wszystkich-tabel-indeksow-tabeli">4.13. 13. Rozmiar pojedynczych tabel, rozmiar wszystkich tabel, indeksów tabeli</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#rozmiar">4.14. 14. Rozmiar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Konfiguracja_baz_danych.html#podsumowanie">4.15. Podsumowanie</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">BazyDanych</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Spis Treści</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_1.html">1. Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Wydajnosc-Skalowanie-i-Replikacja/index.html">2. Wydajność, skalowanie i replikacja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html">3. Sprzęt dla baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Konfiguracja_baz_danych.html">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Bezpieczenstwo/index.html">5. Bezpieczeństwo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html">6. Kontrola i konserwacja baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html">7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_4.html">8. Analiza i Implementacja Bazy Danych</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bartosz Potoczny.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Konfiguracja_baz_danych/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

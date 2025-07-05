@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. Bezpieczeństwo &#8212; BazyDanych 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="../genindex.html" />
+    <link rel="search" title="Szukaj" href="../search.html" />
+    <link rel="next" title="6. Kontrola i konserwacja baz danych" href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html" />
+    <link rel="prev" title="4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych" href="../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="bezpieczenstwo">
+<h1><span class="section-number">5. </span>Bezpieczeństwo<a class="headerlink" href="#bezpieczenstwo" title="Link to this heading">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Autorzy<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p>Katarzyna Tarasek</p></li>
+<li><p>Błażej Uliasz</p></li>
+</ul>
+</dd>
+</dl>
+<section id="pg-hba-conf-opis-pliku-konfiguracyjnego-postgresql">
+<h2><span class="section-number">5.1. </span>1. pg_hba.conf — opis pliku konfiguracyjnego PostgreSQL<a class="headerlink" href="#pg-hba-conf-opis-pliku-konfiguracyjnego-postgresql" title="Link to this heading">¶</a></h2>
+<p>Plik <code class="docutils literal notranslate"><span class="pre">pg_hba.conf</span></code> (skrót od <em>PostgreSQL Host-Based Authentication</em>) kontroluje, kto może się połączyć z bazą danych PostgreSQL, skąd, i w jaki sposób ma zostać uwierzytelniony.</p>
+<section id="format-pliku">
+<h3><span class="section-number">5.1.1. </span>Format pliku<a class="headerlink" href="#format-pliku" title="Link to this heading">¶</a></h3>
+<p>Każdy wiersz odpowiada jednej regule dostępu:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">typ</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">baza</span> <span class="n">danych</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">użytkownik</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">adres</span><span class="o">&gt;</span>  <span class="o">&lt;</span><span class="n">metoda</span><span class="o">&gt;</span>  <span class="p">[</span><span class="n">opcje</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Opis elementów:</p>
+</section>
+<section id="znaczenie-elementow">
+<h3><span class="section-number">5.1.2. </span>Znaczenie Elementów<a class="headerlink" href="#znaczenie-elementow" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;typ&gt;</span></code> — Typ połączenia – np. <code class="docutils literal notranslate"><span class="pre">local</span></code>, <code class="docutils literal notranslate"><span class="pre">host</span></code>, <code class="docutils literal notranslate"><span class="pre">hostssl</span></code>, <code class="docutils literal notranslate"><span class="pre">hostnossl</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;baza&gt;</span></code> — Nazwa bazy danych, do której ma być dostęp – konkretna lub <code class="docutils literal notranslate"><span class="pre">all</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;użytkownik&gt;</span></code> — Nazwa użytkownika PostgreSQL lub <code class="docutils literal notranslate"><span class="pre">all</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;adres&gt;</span></code> — Adres IP lub zakres CIDR klienta (np. <code class="docutils literal notranslate"><span class="pre">192.168.1.0/24</span></code>); pomijany dla <code class="docutils literal notranslate"><span class="pre">local</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&lt;metoda&gt;</span></code> — Metoda uwierzytelnienia – np. <code class="docutils literal notranslate"><span class="pre">md5</span></code>, <code class="docutils literal notranslate"><span class="pre">trust</span></code>, <code class="docutils literal notranslate"><span class="pre">scram-sha-256</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[opcje]</span></code> — Opcjonalne dodatkowe parametry (np. <code class="docutils literal notranslate"><span class="pre">clientcert=1</span></code>)</p></li>
+</ul>
+</section>
+<section id="typy-polaczen">
+<h3><span class="section-number">5.1.3. </span>Typy połączeń<a class="headerlink" href="#typy-polaczen" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">local</span></code> — Umożliwia połączenia <strong>lokalne przez Unix socket</strong> (pliki specjalne w systemie plików, np. <code class="docutils literal notranslate"><span class="pre">/var/run/postgresql/.s.PGSQL.5432</span></code>).
+Ten tryb jest dostępny <strong>tylko na systemach Unix/Linux</strong> i ignoruje pole <code class="docutils literal notranslate"><span class="pre">&lt;adres&gt;</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">host</span></code> — Oznacza połączenia <strong>przez TCP/IP</strong>, niezależnie od tego, czy klient znajduje się na tym samym hoście, czy w sieci.
+Wymaga podania adresu IP lub zakresu IP (w polu <code class="docutils literal notranslate"><span class="pre">&lt;adres&gt;</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hostssl</span></code> — Jak <code class="docutils literal notranslate"><span class="pre">host</span></code>, ale <strong>wymusza użycie SSL/TLS</strong>. Połączenia bez szyfrowania będą odrzucone.
+Wymaga, aby serwer PostgreSQL był poprawnie skonfigurowany do obsługi SSL (np. pliki <code class="docutils literal notranslate"><span class="pre">server.crt</span></code>, <code class="docutils literal notranslate"><span class="pre">server.key</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hostnossl</span></code> — Jak <code class="docutils literal notranslate"><span class="pre">host</span></code>, ale <strong>odrzuca połączenia przez SSL/TLS</strong>. Działa tylko dla połączeń nieszyfrowanych.
+Może być używane do rozróżnienia reguł dla klientów z/do SSL i bez SSL.</p></li>
+</ul>
+</section>
+<section id="metody-uwierzytelniania">
+<h3><span class="section-number">5.1.4. </span>Metody uwierzytelniania<a class="headerlink" href="#metody-uwierzytelniania" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">trust</span></code> — brak uwierzytelnienia (niezalecane!)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">md5</span></code> — Klient musi podać hasło, które jest przesyłane jako skrót MD5.
+To popularna metoda w starszych wersjach PostgreSQL, ale obecnie uznawana za przestarzałą (choć nadal obsługiwana).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">scram-sha-256</span></code> — Nowoczesna, bezpieczna metoda uwierzytelniania oparta na protokole SCRAM i algorytmie SHA-256.
+Zalecana w produkcji od PostgreSQL 10 wzwyż. Wymaga, aby hasła w systemie były zapisane jako SCRAM, a nie MD5.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">peer</span></code> — Tylko dla połączeń <code class="docutils literal notranslate"><span class="pre">local</span></code>. Sprawdza, czy nazwa użytkownika systemowego (OS) pasuje do użytkownika PostgreSQL.
+Stosowane w systemach Unix/Linux.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ident</span></code> — Tylko dla połączeń TCP/IP. Wymaga usługi ident (lub pliku mapowania ident), aby ustalić, kto próbuje się połączyć.
+Bardziej złożona i rzadziej używana niż <code class="docutils literal notranslate"><span class="pre">peer</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reject</span></code> — Zawsze odrzuca połączenie. Może być użyte do celowego blokowania określonych adresów lub użytkowników.</p></li>
+</ul>
+</section>
+<section id="przykladowy-wpis">
+<h3><span class="section-number">5.1.5. </span>Przykładowy wpis<a class="headerlink" href="#przykladowy-wpis" title="Link to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1. Lokalny dostęp bez hasła</span>
+<span class="n">local</span>   <span class="nb">all</span>             <span class="n">postgres</span>                                <span class="n">peer</span>
+</pre></div>
+</div>
+</section>
+<section id="zmiany-i-przeladowanie">
+<h3><span class="section-number">5.1.6. </span>Zmiany i przeładowanie<a class="headerlink" href="#zmiany-i-przeladowanie" title="Link to this heading">¶</a></h3>
+<p>Po zmianach w pliku należy przeładować konfigurację PostgreSQL:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pg_ctl</span> <span class="n">reload</span>
+<span class="o">--</span> <span class="n">lub</span><span class="p">:</span>
+<span class="n">SELECT</span> <span class="n">pg_reload_conf</span><span class="p">();</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="uprawnienia-uzytkownika">
+<h2><span class="section-number">5.2. </span>2. Uprawnienia użytkownika<a class="headerlink" href="#uprawnienia-uzytkownika" title="Link to this heading">¶</a></h2>
+<p>PostgreSQL pozwala na bardzo precyzyjne zarządzanie uprawnieniami użytkowników lub roli poprzez wiele poziomów dostępu — od globalnych uprawnień systemowych, przez bazy danych, aż po pojedyncze kolumny w tabelach.</p>
+<section id="poziom-systemowy">
+<h3><span class="section-number">5.2.1. </span>Poziom systemowy<a class="headerlink" href="#poziom-systemowy" title="Link to this heading">¶</a></h3>
+<p>To najwyższy poziom uprawnień, nadawany roli jako atrybut. Dotyczy całego klastra PostgreSQL:</p>
+<ul class="simple">
+<li><p><cite>SUPERUSER</cite> — Pełna kontrola nad serwerem, obejmuje wszystkie uprawnienia</p></li>
+<li><p><cite>CREATEDB</cite> — Możliwość tworzenia nowych baz danych</p></li>
+<li><p><cite>CREATEROLE</cite> — Tworzenie i zarządzanie rolami/użytkownikami</p></li>
+<li><p><cite>REPLICATION</cite> — Umożliwia replikację danych (logiczna/strumieniowa)</p></li>
+<li><p><cite>BYPASSRLS</cite> — Omija polityki RLS (Row-Level Security)</p></li>
+</ul>
+</section>
+<section id="poziom-bazy-danych">
+<h3><span class="section-number">5.2.2. </span>Poziom bazy danych<a class="headerlink" href="#poziom-bazy-danych" title="Link to this heading">¶</a></h3>
+<p>Uprawnienia do konkretnej bazy danych:</p>
+<ul class="simple">
+<li><p><cite>CONNECT</cite> — Pozwala na połączenie z bazą danych</p></li>
+<li><p><cite>CREATE</cite> — Pozwala na tworzenie schematów w tej bazie</p></li>
+<li><p><cite>TEMP</cite> — Możliwość tworzenia tymczasowych tabel</p></li>
+</ul>
+</section>
+<section id="poziom-schematu">
+<h3><span class="section-number">5.2.3. </span>Poziom schematu<a class="headerlink" href="#poziom-schematu" title="Link to this heading">¶</a></h3>
+<p>Schemat (np. <cite>public</cite>) to kontener na tabele, funkcje, typy. Uprawnienia:</p>
+<ul class="simple">
+<li><p><cite>USAGE</cite> — Umożliwia dostęp do schematu (bez tego SELECT/INSERT nie zadziała)</p></li>
+<li><p><cite>CREATE</cite> — Pozwala tworzyć obiekty (np. tabele) w schemacie</p></li>
+</ul>
+</section>
+<section id="poziom-tabeli">
+<h3><span class="section-number">5.2.4. </span>Poziom tabeli<a class="headerlink" href="#poziom-tabeli" title="Link to this heading">¶</a></h3>
+<p>Uprawnienia do całej tabeli :</p>
+<ul class="simple">
+<li><p><cite>SELECT</cite> — Odczyt danych</p></li>
+<li><p><cite>INSERT</cite> — Wstawianie danych</p></li>
+<li><p><cite>UPDATE</cite> — Modyfikacja danych</p></li>
+<li><p><cite>DELETE</cite> — Usuwanie danych</p></li>
+</ul>
+</section>
+<section id="przyklad">
+<h3><span class="section-number">5.2.5. </span>Przykład<a class="headerlink" href="#przyklad" title="Link to this heading">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GRANT</span> <span class="n">SELECT</span><span class="p">,</span> <span class="n">UPDATE</span> <span class="n">ON</span> <span class="n">employees</span> <span class="n">TO</span> <span class="n">hr_team</span><span class="p">;</span>
+<span class="n">REVOKE</span> <span class="n">DELETE</span> <span class="n">ON</span> <span class="n">employees</span> <span class="n">FROM</span> <span class="n">kontraktorzy</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="zarzadzanie-uzytkownikami-a-dane-wprowadzone">
+<h2><span class="section-number">5.3. </span>3. Zarządzanie użytkownikami a dane wprowadzone<a class="headerlink" href="#zarzadzanie-uzytkownikami-a-dane-wprowadzone" title="Link to this heading">¶</a></h2>
+<p>Zarządzanie użytkownikami w PostgreSQL dotyczy tworzenia, usuwania i modyfikowania użytkowników. Sytuacja na którą trzeba tutaj zwrócić uwagę jest usuwanie użytkonika ale pozostawienie danych, które wprowadził.</p>
+<section id="tworzenie-i-modyfikacja-uzytkownikow">
+<h3><span class="section-number">5.3.1. </span>Tworzenie i modyfikacja użytkowników<a class="headerlink" href="#tworzenie-i-modyfikacja-uzytkownikow" title="Link to this heading">¶</a></h3>
+<p>Do tworzenia nowych użytkowników używamy polecenia <code class="docutils literal notranslate"><span class="pre">CREATE</span> <span class="pre">USER</span></code>. Do modyfikowania użytkowników, którzy już istnieją, używamy polecenia <code class="docutils literal notranslate"><span class="pre">ALETER</span> <span class="pre">USER</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CREATE</span> <span class="n">USER</span> <span class="n">username</span> <span class="n">WITH</span> <span class="n">PASSWORD</span> <span class="s1">&#39;password&#39;</span><span class="p">;</span>
+<span class="n">ALTER</span> <span class="n">USER</span> <span class="n">username</span> <span class="n">WITH</span> <span class="n">PASSWORD</span> <span class="s1">&#39;new_password&#39;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="usuwanie-uzytkownikow">
+<h3><span class="section-number">5.3.2. </span>Usuwanie użytkowników<a class="headerlink" href="#usuwanie-uzytkownikow" title="Link to this heading">¶</a></h3>
+<p>Do usuwania użytkowników, używamy polecenia <a href="#id1"><span class="problematic" id="id2">``</span></a>DROP USER`:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DROP</span> <span class="n">USER</span> <span class="n">username</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Dane wprowadzone przez uśytkownika np. za pomocą polecenia <code class="docutils literal notranslate"><span class="pre">INSERT</span></code> pozostają, nawet jeśli jego konto zostało usunięte.</p>
+</section>
+<section id="usuniecie-uzytkownika-a-dane-ktore-posiadal">
+<h3><span class="section-number">5.3.3. </span>Usunięcie użytkownika, a dane które posiadał<a class="headerlink" href="#usuniecie-uzytkownika-a-dane-ktore-posiadal" title="Link to this heading">¶</a></h3>
+<p>Po usunięciu używtkonika dane, które posiadał nie są automatycznie usuwane. Dane te pozostają w bazie danych ale stają się „niedostępne” dla tego użytkownika. Aby się ich pozbyć, musi to zrobić użytkownik który ma do nich uprawnienia, korzystając z plecenia <code class="docutils literal notranslate"><span class="pre">DROP</span></code>.</p>
+</section>
+<section id="usuniecie-uzytkownikow-a-obietky">
+<h3><span class="section-number">5.3.4. </span>Usunięcie użytkowników, a obietky<a class="headerlink" href="#usuniecie-uzytkownikow-a-obietky" title="Link to this heading">¶</a></h3>
+<p>Usuniecie użytkownika, który jest właścicielem obiektów, wygląda inaczej niż przy wcześniejszych danych. Jeżeli użytkownik jest właścicielem jakiegoś obiektu, to jego usunięcie skutkuje błędem:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ERROR</span><span class="p">:</span> <span class="n">role</span> <span class="s2">&quot;username&quot;</span> <span class="n">cannot</span> <span class="n">be</span> <span class="n">droped</span> <span class="n">becouse</span> <span class="n">some</span> <span class="n">objects</span> <span class="n">depend</span> <span class="n">on</span> <span class="n">it</span>
+</pre></div>
+</div>
+<p>Aby zapobiec takim błędom stosujemy poniższe rozwiazanie:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">REASSIGN</span> <span class="n">OWNED</span> <span class="n">BY</span> <span class="n">username</span> <span class="n">TO</span> <span class="n">nowa_rola</span><span class="p">;</span>
+<span class="n">DROP</span> <span class="n">OWNER</span> <span class="n">BY</span> <span class="n">username</span><span class="p">;</span>
+<span class="n">DROP</span> <span class="n">ROLE</span> <span class="n">username</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="zabezpieczenie-polaczenia-przez-ssl-tls">
+<h2><span class="section-number">5.4. </span>4. Zabezpieczenie połączenia przez SSL/TLS<a class="headerlink" href="#zabezpieczenie-polaczenia-przez-ssl-tls" title="Link to this heading">¶</a></h2>
+<p>TLS (Transport Layer Security) i jego poprzednik SSL (Secure Sockets Layer) to kryptograficzne protokoły służące do zabezpieczania połączeń sieciowych. W PostgreSQL służą one do szyfrowania transmisji danych pomiędzy klientem a serwerem, uniemożliwiając podsłuch, modyfikację lub podszywanie się pod jedną ze stron.</p>
+<section id="konfiguracja-ssl-tls-w-postgresql">
+<h3><span class="section-number">5.4.1. </span>Konfiguracja SSL/TLS w PostgreSQL<a class="headerlink" href="#konfiguracja-ssl-tls-w-postgresql" title="Link to this heading">¶</a></h3>
+<p>Konfiguracja serwera: musimy edytować dwa pliki i zrestartować serwer PostgreSQL. Plik <code class="docutils literal notranslate"><span class="pre">postgresql.conf</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ssl</span> <span class="o">=</span> <span class="n">on</span>
+<span class="n">ssl_cert_file</span> <span class="o">=</span> <span class="s1">&#39;server.crt&#39;</span>
+<span class="n">ssl_key_file</span> <span class="o">=</span> <span class="s1">&#39;server.key&#39;</span>
+<span class="n">ssl_ca_file</span> <span class="o">=</span> <span class="s1">&#39;root.crt&#39;</span>
+<span class="n">ssl_min_protocol_version</span> <span class="o">=</span> <span class="s1">&#39;TLSv1.3&#39;</span>
+</pre></div>
+</div>
+<p>oraz «»pg_hba.conf»»:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">hostssl</span> <span class="nb">all</span> <span class="nb">all</span> <span class="mf">0.0.0.0</span><span class="o">/</span><span class="mi">0</span> <span class="n">cert</span>
+</pre></div>
+</div>
+<p>Generowanie certyfikatów: jeśli nie używamy komercyjnego CA, możemy sami go wygerenować, a pomocą poniższych komend:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">genrsa</span> <span class="o">-</span><span class="n">out</span> <span class="n">server</span><span class="o">.</span><span class="n">key</span> <span class="mi">2048</span>
+<span class="n">openssl</span> <span class="n">req</span> <span class="o">-</span><span class="n">new</span> <span class="o">-</span><span class="n">key</span> <span class="n">server</span><span class="o">.</span><span class="n">key</span> <span class="o">-</span><span class="n">out</span> <span class="n">server</span><span class="o">.</span><span class="n">csr</span>
+<span class="n">openssl</span> <span class="n">x509</span> <span class="o">-</span><span class="n">req</span> <span class="o">-</span><span class="n">days</span> <span class="mi">365</span> <span class="o">-</span><span class="ow">in</span> <span class="n">server</span><span class="o">.</span><span class="n">csr</span> <span class="o">-</span><span class="n">signkey</span> <span class="n">server</span><span class="o">.</span><span class="n">key</span> <span class="o">-</span><span class="n">out</span> <span class="n">server</span><span class="o">.</span><span class="n">crt</span>
+</pre></div>
+</div>
+<p>Konfiguracja klienta: parametry SSL, których możemy użyć.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sslmode</span></code> - kontroluje wymuszanie i weryfikację SSL (<code class="docutils literal notranslate"><span class="pre">require</span></code>, <code class="docutils literal notranslate"><span class="pre">verify-ca</span></code>, <code class="docutils literal notranslate"><span class="pre">verify-full</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sslcert</span></code> - ścieżka do certyfikatu klienta (jeśli wymagane uwierzytelnienie certyfikatem)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sslkey</span></code> -  klucz prywatny klienta</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sslrootcert</span></code> - certyfikat CA do weryfikacji certyfikatu serwera</p></li>
+</ul>
+</section>
+<section id="monitorowanie-i-testowanie-ssl-tls">
+<h3><span class="section-number">5.4.2. </span>Monitorowanie i testowanie SSL/TLS<a class="headerlink" href="#monitorowanie-i-testowanie-ssl-tls" title="Link to this heading">¶</a></h3>
+<p>Sprawdzenie czy połączenie jest szyfrowanie w PostgreSQL wystarczy użyć prostego polecenia <code class="docutils literal notranslate"><span class="pre">SELECT</span> <span class="pre">ssl_is_used();</span></code>. Jeśli jednak chcemy dostać więcej informacji, musimy wpisać poniższe polecenia:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">datname</span><span class="p">,</span> <span class="n">usename</span><span class="p">,</span> <span class="n">ssl</span><span class="p">,</span> <span class="n">client_addr</span><span class="p">,</span> <span class="n">application_name</span><span class="p">,</span> <span class="n">backend_type</span>
+<span class="n">FROM</span> <span class="n">pg_stat_ssl</span>
+<span class="n">JOIN</span> <span class="n">pg_stat_activity</span> <span class="n">ON</span> <span class="n">pg_stat_ssl</span><span class="o">.</span><span class="n">pid</span> <span class="o">=</span> <span class="n">pg_stat_activity</span><span class="o">.</span><span class="n">pid</span>
+<span class="n">ORDER</span> <span class="n">BY</span> <span class="n">ssl</span><span class="p">;</span>
+</pre></div>
+</div>
+<p>Testowanie z poziomu terminala pozwala podejrzeć szczegóły TLS takie jak certyfikaty, wesję protokołu czy użyty szyft. Wpisujemy poniższą komendę:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">openssl</span> <span class="n">s_client</span> <span class="o">-</span><span class="n">starttls</span> <span class="n">postgres</span> <span class="o">-</span><span class="n">connect</span> <span class="n">example</span><span class="o">.</span><span class="n">com</span><span class="p">:</span><span class="mi">5432</span> <span class="o">-</span><span class="n">showcerts</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="szyfrowanie-danych">
+<h2><span class="section-number">5.5. </span>5. Szyfrowanie danych<a class="headerlink" href="#szyfrowanie-danych" title="Link to this heading">¶</a></h2>
+<p>Szyfrowanie danych w PostgreSQL odgrywa kluczową rolę w zapewnianiu poufności, integralności i ochrony danych przed nieautoryzowanym dostępem. Można je realizować na różnych poziomach: transmisji (in-transit), przechowywania (at-rest) oraz aplikacyjnym.</p>
+<section id="szyfrowanie-transmisji">
+<h3><span class="section-number">5.5.1. </span>Szyfrowanie transmisji<a class="headerlink" href="#szyfrowanie-transmisji" title="Link to this heading">¶</a></h3>
+<p>Korzystając z technologi SSL/TLS chroni dane przesyłane pomiędzy klientem, a serwerem przed podsłuchiwaniem lub modyfikacją. Wymaga konfiguracji serwera PostgreSQL do obsługi SSL oraz klienci muszą łączyć się przez SSL.</p>
+</section>
+<section id="szyfrowanie-calego-dysku">
+<h3><span class="section-number">5.5.2. </span>Szyfrowanie całego dysku<a class="headerlink" href="#szyfrowanie-calego-dysku" title="Link to this heading">¶</a></h3>
+<p>Dane są szyfrowane na poziomie systemu operacyjnego lub warstwy przechowywania. Stosowanymi roziazaniami jest LUKS, BitLocker, szyfrowanie oferowane przez chmury. Zaletami tego szyfrowania jest transparentność dla PostgrSQL i łatwość w implementacji. Wadami za to jest brak selektywnego szyfrowania oraz fakt, że jeśli system jest aktywny to dane są odszyfrowane i dostępne.</p>
+</section>
+<section id="szyfrowanie-na-poziomie-kolumn-z-uzyciem-pgcrypto">
+<h3><span class="section-number">5.5.3. </span>Szyfrowanie na poziomie kolumn z użyciem pgcrypto<a class="headerlink" href="#szyfrowanie-na-poziomie-kolumn-z-uzyciem-pgcrypto" title="Link to this heading">¶</a></h3>
+<p>Pozwala na szyfrowanie konkretnych kolumn danych. Rozszerzenie to <code class="docutils literal notranslate"><span class="pre">pgcrypto</span></code>. Funkcje takiego szyfrowania to:</p>
+<ul class="simple">
+<li><p>symetryczne szyfrowanie</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">pgp_sym_encrypt</span><span class="p">(</span><span class="s1">&#39;tajne dane&#39;</span><span class="p">,</span> <span class="s1">&#39;haslo&#39;</span><span class="p">);</span>
+<span class="n">SELECT</span> <span class="n">pgp_sym_decrypt</span><span class="p">(</span><span class="n">kolumna</span><span class="p">::</span><span class="n">bytea</span><span class="p">,</span> <span class="s1">&#39;haslo&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>asymetryczne szyfrowanie (z uśyciem kluczy publicznych/prywatnych)</p></li>
+<li><p>haszowanie</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SELECT</span> <span class="n">digest</span><span class="p">(</span><span class="s1">&#39;haslo&#39;</span><span class="p">,</span> <span class="s1">&#39;sha256&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>Zaletami tego szyfrowania jest duża elastyczność i selektywne szyfrowanie. Wadami zaś wydajność i konieczność zarządzania kluczami w aplikacji.</p>
+</section>
+<section id="szyfrowanie-na-poziomie-aplikacji">
+<h3><span class="section-number">5.5.4. </span>Szyfrowanie na poziomie aplikacji<a class="headerlink" href="#szyfrowanie-na-poziomie-aplikacji" title="Link to this heading">¶</a></h3>
+<p>Dane są szyfrowane przed zapisaniem do bazy danych i odszyfrowywane po odczycie. Używane biblioteki:</p>
+<ul class="simple">
+<li><p>Python – cryptography, pycryptodome,</p></li>
+<li><p>Java – javax.crypto, Bouncy Castle,</p></li>
+<li><p>JavaScript – crypto, sjcl.</p></li>
+</ul>
+<p>Zaletami jest pełna kontrola nad szyfrowaniem oraz fakt, że dane są chronione nawet w razie włamania do bazy. Wadami zaś trudniejsze wyszukiwanie i indeksowanie, konieczność przeniesienia odpowiedzialności za bezpieczeństwo do aplikacji oraz problemy ze zgodnością przy migracjach danych.</p>
+</section>
+<section id="zarzadzanie-kluczami-szyfrujacymi">
+<h3><span class="section-number">5.5.5. </span>Zarządzanie kluczami szyfrującymi<a class="headerlink" href="#zarzadzanie-kluczami-szyfrujacymi" title="Link to this heading">¶</a></h3>
+<p>Niezależnie od rodzaju szyfrowania, bezpieczne zarządzanie kluczami jest kluczowe dla ochrony danych. Klucze powinny być generowane, przechowywane, dystrybuowane i niszczone w sposób bezpieczny. Potrzebne są do tego odpowiednie narzędzia. Rekomendowanymi narzędziami do bezpiecznego zarządzania kluczami są:</p>
+<ul class="simple">
+<li><p>Sprzętowe moduły bezpieczeństwa (HSM) - Urządzenia te oferują bezpieczne środowisko do generowania, przechowywania i zarządzania kluczami. HSM-y są odporne na fizyczne ataki i zapewniają wysoki poziom bezpieczeństwa.</p></li>
+<li><p>Systemy zarządzania kluczami (KMS) - KMS to oprogramowanie, które centralizuje zarządzanie kluczami, umożliwiając ich bezpieczne przechowywanie, rotację i dystrybucję.</p></li>
+<li><p>Narzędzia do bezpiecznej komunikacji - Narzędzia takie jak Signal czy WhatsApp oferują szyfrowanie end-to-end, które chroni komunikację przed nieautoryzowanym dostępem.</p></li>
+<li><p>Narzędzia do szyfrowania dysków - Takie jak BitLocker czy FileVault, które pozwalają na zaszyfrowanie całego dysku twardego lub jego partycji.</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">BazyDanych</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Spis Treści</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_1.html">1. Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Wydajnosc-Skalowanie-i-Replikacja/index.html">2. Wydajność, skalowanie i replikacja</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.html">3. Sprzęt dla baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Bezpieczeństwo</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pg-hba-conf-opis-pliku-konfiguracyjnego-postgresql">5.1. 1. pg_hba.conf — opis pliku konfiguracyjnego PostgreSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#uprawnienia-uzytkownika">5.2. 2. Uprawnienia użytkownika</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zarzadzanie-uzytkownikami-a-dane-wprowadzone">5.3. 3. Zarządzanie użytkownikami a dane wprowadzone</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zabezpieczenie-polaczenia-przez-ssl-tls">5.4. 4. Zabezpieczenie połączenia przez SSL/TLS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#szyfrowanie-danych">5.5. 5. Szyfrowanie danych</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html">6. Kontrola i konserwacja baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html">7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../rozdzial_4.html">8. Analiza i Implementacja Bazy Danych</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html" title="poprzedni rozdział"><span class="section-number">4. </span>Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+      <li>Next: <a href="../Kontrola_i_konserwacja/kontrola_i_konserwacja.html" title="następny rozdział"><span class="section-number">6. </span>Kontrola i konserwacja baz danych</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bartosz Potoczny.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/Bezpieczenstwo/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="pl" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Sprzęt dla baz danych &#8212; BazyDanych 1.0 - dokumentacja</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../_static/documentation_options.js?v=331e28ce"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=2827c288"></script>
+    <link rel="index" title="Indeks" href="../../genindex.html" />
+    <link rel="search" title="Szukaj" href="../../search.html" />
+    <link rel="next" title="4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych" href="../../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html" />
+    <link rel="prev" title="2. Wydajność, skalowanie i replikacja" href="../../Wydajnosc-Skalowanie-i-Replikacja/index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="sprzet-dla-baz-danych">
+<h1><span class="section-number">3. </span>Sprzęt dla baz danych<a class="headerlink" href="#sprzet-dla-baz-danych" title="Link to this heading">¶</a></h1>
+<section id="wstep">
+<h2><span class="section-number">3.1. </span>Wstęp<a class="headerlink" href="#wstep" title="Link to this heading">¶</a></h2>
+<p>Systemy zarządzania bazami danych (DBMS) są fundamentem współczesnych aplikacji i usług – od rozbudowanych systemów transakcyjnych, przez aplikacje internetowe, aż po urządzenia mobilne czy systemy wbudowane. W zależności od zastosowania i skali projektu, wybór odpowiedniego silnika bazodanowego oraz towarzyszącej mu infrastruktury sprzętowej ma kluczowe znaczenie dla zapewnienia wydajności, stabilności i niezawodności systemu</p>
+</section>
+<section id="sprzet-dla-bazy-danych-postgresql">
+<h2><span class="section-number">3.2. </span>Sprzęt dla bazy danych PostgreSQL<a class="headerlink" href="#sprzet-dla-bazy-danych-postgresql" title="Link to this heading">¶</a></h2>
+<p>PostgreSQL to potężny system RDBMS, ceniony za swoją skalowalność, wsparcie dla zaawansowanych zapytań i dużą elastyczność. Jego efektywne działanie zależy w dużej mierze od odpowiednio dobranej infrastruktury sprzętowej.</p>
+<section id="procesor">
+<h3><span class="section-number">3.2.1. </span>Procesor<a class="headerlink" href="#procesor" title="Link to this heading">¶</a></h3>
+<p>PostgreSQL obsługuje wiele wątków, jednak pojedyncze zapytania zazwyczaj są wykonywane jednordzeniowo. Z tego względu optymalny procesor powinien cechować się zarówno wysokim taktowaniem jak i odpowiednią liczbą rdzeni do równoczesnej obsługi wielu zapytań. W środowiskach produkcyjnych najczęściej wykorzystuje się procesory serwerowe takie jak Intel Xeon czy AMD EPYC, które oferują zarówno wydajność, jak i niezawodność.</p>
+</section>
+<section id="pamiec-operacyjna">
+<h3><span class="section-number">3.2.2. </span>Pamięć operacyjna<a class="headerlink" href="#pamiec-operacyjna" title="Link to this heading">¶</a></h3>
+<p>RAM odgrywa istotną rolę w przetwarzaniu danych, co znacząco wpływa na wydajność operacji. PostgreSQL efektywnie wykorzystuje dostępne zasoby pamięci do cache’owania, dlatego im więcej pamięci RAM tym lepiej. W praktyce, minimalne pojemności dla mniejszych baz to około 16–32 GB, natomiast w środowiskach produkcyjnych i analitycznych często stosuje się od 64 GB do nawet kilkuset.</p>
+</section>
+<section id="przestrzen-dyskowa">
+<h3><span class="section-number">3.2.3. </span>Przestrzeń dyskowa<a class="headerlink" href="#przestrzen-dyskowa" title="Link to this heading">¶</a></h3>
+<p>Dyski twarde to krytyczny element wpływający na szybkość działania bazy. Zdecydowanie zaleca się korzystanie z dysków SSD (najlepiej NVMe), które zapewniają wysoką przepustowość i niskie opóźnienia. Warto zastosować konfigurację RAID 10, która łączy szybkość z redundancją.</p>
+</section>
+<section id="siec-internetowa">
+<h3><span class="section-number">3.2.4. </span>Sieć internetowa<a class="headerlink" href="#siec-internetowa" title="Link to this heading">¶</a></h3>
+<p>W przypadku PostgreSQL działającego w klastrach, środowiskach chmurowych lub przy replikacji danych, wydajne połączenie sieciowe ma kluczowe znaczenie. Standardem są interfejsy 1 Gb/s, lecz w dużych bazach danych stosuje się nawet 10 Gb/s i więcej. Liczy się nie tylko przepustowość, ale też niskie opóźnienia i niezawodność.</p>
+</section>
+<section id="zasilanie">
+<h3><span class="section-number">3.2.5. </span>Zasilanie<a class="headerlink" href="#zasilanie" title="Link to this heading">¶</a></h3>
+<p>Niezawodność zasilania to jeden z filarów bezpieczeństwa danych. Zaleca się stosowanie zasilaczy redundantnych oraz zasilania awaryjnego UPS, które umożliwia bezpieczne wyłączenie systemu w przypadku awarii. Można użyć własnych generatorów prądu.</p>
+</section>
+<section id="chlodzenie">
+<h3><span class="section-number">3.2.6. </span>Chłodzenie<a class="headerlink" href="#chlodzenie" title="Link to this heading">¶</a></h3>
+<p>Intensywna praca serwera PostgreSQL generuje duże ilości ciepła. Wydajne chłodzenie powietrzne, a często nawet cieczowe jest potrzebne by utrzymać stabilność systemu i przedłużyć żywotność komponentów. W profesjonalnych serwerowniach stosuje się zaawansowane systemy klimatyzacji i kontroli termicznej.</p>
+</section>
+</section>
+<section id="sprzet-dla-bazy-danych-sqlite">
+<h2><span class="section-number">3.3. </span>Sprzęt dla bazy danych SQLite<a class="headerlink" href="#sprzet-dla-bazy-danych-sqlite" title="Link to this heading">¶</a></h2>
+<p>SQLite to lekki, samodzielny silnik bazodanowy, nie wymagający uruchamiania oddzielnego serwera. Znajduje zastosowanie m.in. w aplikacjach mobilnych, przeglądarkach internetowych, systemach IoT czy oprogramowaniu wbudowanym.</p>
+<section id="id1">
+<h3><span class="section-number">3.3.1. </span>Procesor<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<p>SQLite działa lokalnie na urządzeniu użytkownika. Dla prostych operacji wystarczy procesor z jednym, albo dwoma rdzeniami. W bardziej wymagających zastosowaniach (np. filtrowanie dużych zbiorów danych) przyda się szybszy CPU. Wielowątkowość nie daje istotnych korzyści.</p>
+</section>
+<section id="id2">
+<h3><span class="section-number">3.3.2. </span>Pamięć operacyjna<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<p>SQLite potrzebuje niewielkiej ilości pamięci RAM w wielu przypadkach wystarcza 256MB do 1GB. Jednak dla komfortowej pracy z większymi zbiorami danych warto zapewnić nieco więcej pamięci, czyli 2 GB lub więcej, szczególnie w aplikacjach desktopowych lub mobilnych.</p>
+</section>
+<section id="id3">
+<h3><span class="section-number">3.3.3. </span>Przestrzeń dyskowa<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p>Dane w SQLite zapisywane są w jednym pliku. Wydajność operacji zapisu/odczytu zależy od nośnika. Dyski SSD lub szybkie karty pamięci są preferowane. W przypadku urządzeń wbudowanych, kluczowe znaczenie ma trwałość nośnika, zwłaszcza przy częstym zapisie danych.</p>
+</section>
+<section id="id4">
+<h3><span class="section-number">3.3.4. </span>Sieć internetowa<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<p>SQLite nie wymaga połączeń sieciowych – działa lokalnie. W sytuacjach, gdzie dane są synchronizowane z serwerem lub przenoszone przez sieć (np. w aplikacjach mobilnych), znaczenie ma jakość połączenia (Wi-Fi, LTE), choć wpływa to bardziej na komfort użytkowania aplikacji niż na samą bazę.</p>
+</section>
+<section id="id5">
+<h3><span class="section-number">3.3.5. </span>Zasilanie<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p>W systemach mobilnych i IoT efektywne zarządzanie energią jest kluczowe. Aplikacje powinny ograniczać zbędne operacje odczytu i zapisu, by niepotrzebnie nie obciążać procesora i nie zużywać baterii. W zastosowaniach stacjonarnych problem ten zazwyczaj nie występuje.</p>
+</section>
+<section id="id6">
+<h3><span class="section-number">3.3.6. </span>Chłodzenie<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<p>SQLite nie generuje dużego obciążenia cieplnego. W większości przypadków wystarczy pasywne chłodzenie w zamkniętych obudowach, lecz warto zadbać o minimalny przepływ powietrza.</p>
+</section>
+</section>
+<section id="podsumowanie">
+<h2><span class="section-number">3.4. </span>Podsumowanie<a class="headerlink" href="#podsumowanie" title="Link to this heading">¶</a></h2>
+<p>Zarówno PostgreSQL, jak i SQLite pełnią istotne role w ekosystemie baz danych, lecz ich wymagania sprzętowe są diametralnie różne. PostgreSQL, jako system serwerowy, wymaga zaawansowanego i wydajnego sprzętu: mocnych procesorów, dużej ilości RAM, szybkich dysków, niezawodnej sieci, zasilania i chłodzenia.
+Z kolei SQLite działa doskonale na skromniejszych zasobach, stawiając na lekkość i prostotę implementacyjną.
+Dostosowanie sprzętu do konkretnego silnika DBMS i charakterystyki aplikacji pozwala nie tylko na osiągnięcie optymalnej wydajności, ale też gwarantuje stabilność i bezpieczeństwo działania całego systemu.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">BazyDanych</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Szukaj" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Nawigacja</h3>
+<p class="caption" role="heading"><span class="caption-text">Spis Treści</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../rozdzial_1.html">1. Partycjonowanie danych w PostgreSQL – analiza, typy, zastosowania i dobre praktyki</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Wydajnosc-Skalowanie-i-Replikacja/index.html">2. Wydajność, skalowanie i replikacja</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Sprzęt dla baz danych</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wstep">3.1. Wstęp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sprzet-dla-bazy-danych-postgresql">3.2. Sprzęt dla bazy danych PostgreSQL</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sprzet-dla-bazy-danych-sqlite">3.3. Sprzęt dla bazy danych SQLite</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#podsumowanie">3.4. Podsumowanie</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html">4. Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Bezpieczenstwo/index.html">5. Bezpieczeństwo</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Kontrola_i_konserwacja/kontrola_i_konserwacja.html">6. Kontrola i konserwacja baz danych</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych.html">7. Kopie zapasowe i odzyskiwanie danych w PostgreSQL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../rozdzial_4.html">8. Analiza i Implementacja Bazy Danych</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../../Wydajnosc-Skalowanie-i-Replikacja/index.html" title="poprzedni rozdział"><span class="section-number">2. </span>Wydajność, skalowanie i replikacja</a></li>
+      <li>Next: <a href="../../Konfiguracja_baz_danych/Konfiguracja_baz_danych.html" title="następny rozdział"><span class="section-number">4. </span>Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Bartosz Potoczny.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.2.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../../_sources/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
